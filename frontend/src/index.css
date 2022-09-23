@@ -1,0 +1,8 @@
+@import url(//fonts.googleapis.com/earlyaccess/nanumgothic.css);
+.nanumgothic * {
+font-family: 'Nanum Gothic', sans-serif;
+}
+
+#app {
+  font-family: Nanum Gothic, Helvetica, Arial, sans-serif;
+}
