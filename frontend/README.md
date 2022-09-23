@@ -1,6 +1,5 @@
 # WELCOME TO ARMY Front End
 ## 기술 스택: Vue3 + Vite
-
 ## 기능 명세 - 사용자(훈련병) 페이지
 - 로그인
 - 대대별 일정 (주간, 일간)
