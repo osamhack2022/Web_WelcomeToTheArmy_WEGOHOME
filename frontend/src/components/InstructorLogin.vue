@@ -1,7 +1,8 @@
 <template>
     <div class="background">
     <section class="login-card">
-        <h1>LOGO</h1>
+        <h1>WELCOME TO ARMY</h1>
+        <h4>admin page</h4>
         <form action="">
             <div class="input-area">
                 <input type="text" name="id" id="id" 
@@ -14,12 +15,9 @@
                 <label for="pw">비밀번호</label>
             </div>
             <div class="button-area">
-                <button type="submit">LOGIN</button>
+                <router-link to="/insmain"><button type="submit">LOGIN</button></router-link>
             </div>
         </form>
-        <div class="caption">
-            <router-link to="/recovery" />
-        </div>
     </section>
     </div>
 </template>
@@ -59,6 +57,12 @@ export default {
 h1 {
     font-size: 32px; color: #FFFFFF;
     text-align: center;
+    font-weight: bold;
+}
+h4 {
+    font-size: 16px;
+    color: #FFFFFF;
+    text-align: center;
 }
 .input-area {
     width: 400px; position: relative;
@@ -85,6 +89,20 @@ h1 {
 .input-area input:valid + label {
     top: -2px;
     font-size: 13px; color: #166cea;
+}
+
+button {
+    background-color: #3574d1;
+    color: white;
+    border-radius: 8px;
+    width: 100%;
+    padding: 5px 0px;
+    margin-top: 15px;
+    border: none;
+}
+
+button:hover {
+    background-color: #275292;
 }
 
 </style>
