@@ -41,7 +41,7 @@ export default {
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background: url("via.placeholder.com/1280") no-repeat center;
+    background: url("@/assets/images/insloginBG.jpg") no-repeat center;
     background-size: cover;
 }
 .background::before {
@@ -49,7 +49,7 @@ export default {
     position: absolute;
     z-index: 1;
     top: 0; right: 0; bottom: 0; left: 0;
-    background-color: rgba(0,0,0,.8)
+    background-color: rgba(0,0,0,.45)
 }
 
 .login-card {position: relative; z-index: 2;}
@@ -76,13 +76,13 @@ h4 {
     padding: 20px 10px 10px;
     background-color: transparent;
     border: none;
-    border-bottom: 1px solid #999;
+    border-bottom: 1px solid #999999;
     font-size: 18px; color: #fff;
     outline: none;
 }
 .input-area label {
     position: absolute; left: 10px; top: 15px;
-    font-size: 18px; color: #999;
+    font-size: 18px; color: #999999;
     transition: top .5s ease;
 }
 .input-area input:focus + label,

@@ -6,7 +6,7 @@ import InstructorView from "@components/InstructorView.vue";
 const router = createRouter({
     history : createWebHistory(),
     routes : [
-        {path: "/", redirect: "/instructor"},
+        {path: "/", redirect: "/inslogin"},
         {path: "/inslogin", component: InstructorLogin},
         {path: "/insmain", component: InstructorView},
 
