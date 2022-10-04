@@ -42,8 +42,8 @@ $ yarn start or npm run start
 <tr>
 	<td>이동규</td>
 	<td>Back-end Development</td>
-	<td></td>
-	<td></td>
+	<td>lsdong1003@naver.com</td>
+	<td>leedongkyu2019</td>
 </tr>
 </table>
 
