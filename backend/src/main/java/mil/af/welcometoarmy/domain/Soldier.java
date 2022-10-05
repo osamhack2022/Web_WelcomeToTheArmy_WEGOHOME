@@ -68,7 +68,18 @@ public class Soldier {
     )
     private List<SoldierImage> imgFiles = new ArrayList<>();
 
+    @OneToMany(
+            mappedBy = "soldier",
+            fetch = FetchType.LAZY,
+            orphanRemoval = true
+    )
+    private List<Qna> qnaList = new ArrayList<>();
+
     public void setImgFiles(List<SoldierImage> imgFiles) {
         this.imgFiles = imgFiles;
+    }
+
+    public void setQnaList(List<Qna> qnaList) {
+        this.qnaList = qnaList;
     }
 }
