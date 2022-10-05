@@ -35,18 +35,18 @@ WELCOME TO ARMY는 **훈련병에게는 쉽고 스마트한 훈련과정을, 훈
 <table align="center">
 	<tr>
 		<td>
-			<img style="width:450px;" src="/docs/wireframe/instructor/Login Page.png">
+			<img style="width:450px;" src="/docs/wireframe/instructor/Trainee List Page.png">
 		</td>
 		<td>
-			<img style="width:450px;" src="/docs/wireframe/instructor/Trainee List Page.png">
+			<img style="width:450px;" src="/docs/wireframe/instructor/Survey Create Page.png">
 		</td>
 	</tr>
 	<tr>
 		<td align="center">
-			<b>훈육관 로그인 페이지</b>
+			<b>훈육관 훈련병 관리 페이지</b>
 		</td>
 		<td align="center">
-			<b>훈육관 훈련병 관리 페이지</b>
+			<b>훈육관 조사전달 작성 페이지</b>
 		</td>
 	</tr>
 </table>
