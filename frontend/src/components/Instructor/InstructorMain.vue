@@ -1,12 +1,17 @@
 <template>
     <div class="background">
-        <router-link to="">설문관리</router-link><br>
-        <router-link to="">병사관리</router-link>
+        <Nav />
     </div>
 </template>
 
 <script>
-export default {}
+import Nav from "@components/Instructor/InstructorNav.vue";
+
+export default {
+    components: {
+        Nav,
+    }
+}
 </script>
 
 <style scoped>

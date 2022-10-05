@@ -1,7 +1,7 @@
 import { createWebHistory, createRouter } from "vue-router";
 import PageNotFound from "@components/PageNotFound.vue";
-import InstructorLogin from "@components/InstructorLogin.vue";
-import InstructorView from "@components/InstructorView.vue";
+import InstructorLogin from "@components/Instructor/InstructorLogin.vue";
+import InstructorView from "@components/Instructor/InstructorMain.vue";
 
 const router = createRouter({
     history : createWebHistory(),
