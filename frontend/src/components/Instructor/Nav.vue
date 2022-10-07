@@ -52,7 +52,7 @@ nav {
 
 .navbar-brand {
     margin: 0; padding: 0;
-    font-family: "ROKAF Slab";
+    font-family: "ROKAF Sans";
     font-size: 24px;
     font-weight: bold;
 }
