@@ -1,9 +1,7 @@
 <template>
-    <div class="background">
-        <Nav />
-        <div class="container">
-            <router-view />
-        </div>
+    <Nav />
+    <div class="container">
+        <router-view />
     </div>
 </template>
 
@@ -18,7 +16,4 @@ export default {
 </script>
 
 <style scoped>
-    .background {
-        
-    }
 </style>

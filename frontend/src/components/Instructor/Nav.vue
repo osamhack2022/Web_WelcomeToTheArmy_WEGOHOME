@@ -2,7 +2,7 @@
     <nav class="navbar sticky-top">
         <div class="nav-top">
             <div class="nav-left">
-                <a class="navbar-brand" href="/insmain">WELCOME TO ARMY</a>
+                <a class="navbar-brand" href="/instructor">WELCOME TO ARMY</a>
             </div>
             <div class="nav-right">
                 <div class="profile">
@@ -52,6 +52,7 @@ nav {
 
 .navbar-brand {
     margin: 0; padding: 0;
+    font-family: "ROKAF Slab";
     font-size: 24px;
     font-weight: bold;
 }
