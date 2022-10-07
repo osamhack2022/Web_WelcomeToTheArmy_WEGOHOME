@@ -89,7 +89,7 @@ $ npm run dev
 <tr>
 	<td>이동규</td>
 	<td>Back-end Development</td>
-	<td>leedongkyu7286@gmail.com</td>
+	<td>lsdong1003@naver.com</td>
 	<td><a href="https://github.com/leedongkyu2019">leedongkyu2019</a></td>
 </tr>
 </table>

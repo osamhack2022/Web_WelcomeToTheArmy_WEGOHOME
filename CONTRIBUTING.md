@@ -8,6 +8,7 @@
 <type>(<scope>): <subject>          -- 헤더
 
 <body>                              -- 본문
+
 ```
 
 이때, `type`은 다음과 같습니다.
