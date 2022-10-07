@@ -15,7 +15,7 @@
                 <label for="pw">비밀번호</label>
             </div>
             <div class="button-area">
-                <router-link to="/insmain"><button type="submit">LOGIN</button></router-link>
+                <router-link to="/instructor"><button type="submit">LOGIN</button></router-link>
             </div>
         </form>
     </section>

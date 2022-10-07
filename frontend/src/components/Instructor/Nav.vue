@@ -14,12 +14,12 @@
         </div>
         <div class="nav-bottom">
             <!-- 병사관리 훈련일정 조사전달 병사상담 훈련사진 공지사항 -->
-            <router-link to="" class="nav-link">병사관리</router-link>
-            <router-link to="" class="nav-link">훈련일정</router-link>
-            <router-link to="" class="nav-link">조사전달</router-link>
-            <router-link to="" class="nav-link">병사상담</router-link>
-            <router-link to="" class="nav-link">훈련사진</router-link>
-            <router-link to="" class="nav-link">공지사항</router-link>
+            <router-link to="/instructor/trainee" class="nav-link">병사관리</router-link>
+            <router-link to="/instructor/calendar" class="nav-link">훈련일정</router-link>
+            <router-link to="/instructor/survey" class="nav-link">조사전달</router-link>
+            <router-link to="#" class="nav-link">병사상담</router-link>
+            <router-link to="#" class="nav-link">훈련사진</router-link>
+            <router-link to="#" class="nav-link">공지사항</router-link>
         </div>
     </nav>
 </template>
