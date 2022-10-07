@@ -1,7 +1,8 @@
 <template>
     <div class="background">
     <section class="login-card">
-        <h1>LOGO</h1>
+        <h1>WELCOME TO ARMY</h1>
+        <h4>admin page</h4>
         <form action="">
             <div class="input-area">
                 <input type="text" name="id" id="id" 
@@ -14,12 +15,9 @@
                 <label for="pw">비밀번호</label>
             </div>
             <div class="button-area">
-                <button type="submit">LOGIN</button>
+                <router-link to="/instructor"><button type="submit">LOGIN</button></router-link>
             </div>
         </form>
-        <div class="caption">
-            <router-link to="/recovery" />
-        </div>
     </section>
     </div>
 </template>
@@ -43,7 +41,7 @@ export default {
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background: url("via.placeholder.com/1280") no-repeat center;
+    background: url("@/assets/images/insloginBG.jpg") no-repeat center;
     background-size: cover;
 }
 .background::before {
@@ -51,13 +49,19 @@ export default {
     position: absolute;
     z-index: 1;
     top: 0; right: 0; bottom: 0; left: 0;
-    background-color: rgba(0,0,0,.8)
+    background-color: rgba(0,0,0,.45)
 }
 
 .login-card {position: relative; z-index: 2;}
 
 h1 {
     font-size: 32px; color: #FFFFFF;
+    text-align: center;
+    font-weight: bold;
+}
+h4 {
+    font-size: 16px;
+    color: #FFFFFF;
     text-align: center;
 }
 .input-area {
@@ -72,19 +76,33 @@ h1 {
     padding: 20px 10px 10px;
     background-color: transparent;
     border: none;
-    border-bottom: 1px solid #999;
+    border-bottom: 1px solid #999999;
     font-size: 18px; color: #fff;
     outline: none;
 }
 .input-area label {
     position: absolute; left: 10px; top: 15px;
-    font-size: 18px; color: #999;
+    font-size: 18px; color: #999999;
     transition: top .5s ease;
 }
 .input-area input:focus + label,
 .input-area input:valid + label {
     top: -2px;
     font-size: 13px; color: #166cea;
+}
+
+button {
+    background-color: #3574d1;
+    color: white;
+    border-radius: 8px;
+    width: 100%;
+    padding: 5px 0px;
+    margin-top: 15px;
+    border: none;
+}
+
+button:hover {
+    background-color: #275292;
 }
 
 </style>
