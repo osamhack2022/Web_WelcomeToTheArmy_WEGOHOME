@@ -119,7 +119,7 @@
 
 .trainee-image {width: 45px; height: 45px; margin-left: 10px; object-fit: cover;}
 .trainee-profile {margin-left: 3px;}
-.trainee-name {font-size: 20px; font-weight: bold; font-family: "ROKAF Slab";}
+.trainee-name {font-size: 20px; font-weight: bold; }
 .trainee-position {font-size: 15px;}
 
 .head-right {
