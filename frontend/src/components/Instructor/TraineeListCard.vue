@@ -12,57 +12,79 @@
                 <p class="flag">⚠</p>
             </div>
         </section>
-        <section class="body">
-            <div class="data-area">
-                <div class="data-field">
-                    <p class="data-label">이름</p>
-                    <input class="data-input data-text" type="text">
-                </div>
-                <div class="data-field">
-                    <p class="data-label">다른</p>
-                    <input class="data-input data-text" type="text">
-                </div>
-                <div class="data-field">
-                    <p class="data-label">정보</p>
-                    <input class="data-input data-text" type="text">
-                </div>
-                <div class="data-field">
-                    <p class="data-label">소대번호</p>
-                    <input class="data-input data-text" type="text">
-                </div>
-                <div class="data-field">
-                    <p class="data-label">전화번호</p>
-                    <input class="data-input data-text" type="text">
-                </div>
-                <div class="data-field">
-                    <p class="data-label">보호자 연락처</p>
-                    <input class="data-input data-text" type="text">
-                </div>
-                <div class="data-field">
-                    <p class="data-label">관심병사</p>
-                    <div class="data-input">
-                        <label class="switch">
-                            <input type="checkbox">
-                            <span class="slider round"></span>
-                        </label>
+        <form class="form-c">
+            <section class="body">
+                <div class="data-area">
+                    <div class="data-field">
+                        <p class="data-label">이름</p>
+                        <input class="data-input data-text" type="text" required>
+                    </div>
+                    <div class="data-field">
+                        <p class="data-label">기수</p>
+                        <input class="data-input data-text" type="number" required>
+                    </div>
+                    <div class="data-field">
+                        <p class="data-label">소대번호</p>
+                        <input class="data-input data-text" type="number" required>
+                    </div>
+                    <div class="data-field">
+                        <p class="data-label">생년월일</p>
+                        <input class="data-input data-text" type="date" required>
+                    </div>
+                    <div class="data-field">
+                        <p class="data-label">연락처 (010-XXXX-XXXX)</p>
+                        <input class="data-input data-text" type="tel" pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" required>
+                    </div>
+                    <div class="data-field">
+                        <p class="data-label">보호자 연락처 (010-XXXX-XXXX)</p>
+                        <input class="data-input data-text" type="text" pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" required>
+                    </div>
+                    <div class="data-field">
+                        <p class="data-label">특이사항</p>
+                        <input class="data-input data-text" type="text">
+                    </div>
+                    <div class="data-field">
+                        <p class="data-label">주의정도</p>
+                        <select class="data-input">
+                            <option>해당없음</option>
+                            <option>주의병사</option>
+                            <option>관심병사</option>
+                        </select>
+                    </div>
+                    <div class="data-field">
+                        <p class="data-label">질병</p>
+                        <input class="data-input data-text" type="text">
+                    </div>
+                    <div class="data-field">
+                        <p class="data-label">현재 점수</p>
+                        <input class="data-input data-text" type="number">
+                    </div>
+                    <div class="data-field">
+                        <p class="data-label">비건여부</p>
+                        <div class="data-input">
+                            <label class="switch">
+                                <input type="checkbox">
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="data-field">
+                        <p class="data-label">알러지 여부</p>
+                        <div class="data-input">
+                            <label class="switch">
+                                <input type="checkbox">
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
                     </div>
                 </div>
-                <div class="data-field">
-                    <p class="data-label">관심병사</p>
-                    <div class="data-input">
-                        <label class="switch">
-                            <input type="checkbox">
-                            <span class="slider round"></span>
-                        </label>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <section class="button-area">
-            <button class="btn btn-primary">수정</button> 
-            <button class="btn btn-danger">삭제</button>
-            <button class="btn btn-outline-dark">취소</button>
-        </section>
+            </section>
+            <section class="button-area">
+                <button class="btn btn-primary">수정</button> 
+                <button class="btn btn-danger" type="button">삭제</button>
+                <button class="btn btn-outline-dark" @click="cancelChange($event)" type="button">취소</button>
+            </section>
+        </form>
     </div>
 </template>
 
@@ -71,8 +93,8 @@
         methods: {
             toggleBody(event) {
                 const card = event.currentTarget.parentNode;
-                const body = card.childNodes[1];
-                const buttons = card.childNodes[2];
+                const body = card.childNodes[1].firstChild;
+                const buttons = card.childNodes[1].childNodes[1];
                 if (body.style.display === "none") {
                     card.style.height = "auto";
                     body.style.display = "block";
@@ -83,6 +105,14 @@
                     body.style.display = "none";
                     buttons.style.display = "none";
                 }
+            },
+            cancelChange(event) {
+                const card = event.currentTarget.parentNode.parentNode.parentNode;
+                const body = card.childNodes[1].firstChild;
+                const buttons = card.childNodes[1].childNodes[1];
+                card.style.height = "60px";
+                body.style.display = "none";
+                buttons.style.display = "none";
             }
         }
     }
@@ -140,8 +170,8 @@
 .data-area { width: 100%; }
 .data-field { display: inline-block; width: 40%; margin: 3px 5%;}
 .data-label { float: left; font-size: 15px; font-weight:bold; }
-.data-input { float: right; width: 150px; text-align: center;}
-.data-text {background: #D9D9D9; border: solid 1px;}
+.data-input { float: right; width: 150px;}
+.data-text {background: #F9F9F9; border: solid 1px;}.data-text:invalid {border-color: red;}
 
 .button-area { padding-right: 10px; display: none; width: 100%; margin-bottom: 10px; }
 .btn {
