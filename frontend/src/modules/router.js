@@ -1,11 +1,11 @@
-import { createWebHistory, createRouter } from "vue-router";
-import PageNotFound from "@components/PageNotFound.vue";
+import { createWebHistory, createRouter } from "vue-router"
+import PageNotFound from "@components/PageNotFound.vue"
 
 // Instructor Pages
-import InstructorLogin from "@components/Instructor/Login.vue";
-import InstructorView from "@components/Instructor/Main.vue";
-import InstructorTraineeList from "@components/Instructor/TraineeList.vue";
-import InstructorCalendar from "@components/Instructor/Calendar.vue";
+import InstructorLogin from "@components/Instructor/Login.vue"
+import InstructorView from "@components/Instructor/Main.vue"
+import InstructorTraineeList from "@components/Instructor/TraineeList.vue"
+import InstructorCalendar from "@components/Instructor/Calendar.vue"
 import InstructorSurveyList from "@components/Instructor/SurveyList.vue"
 
 const router = createRouter({
@@ -29,4 +29,4 @@ const router = createRouter({
     ]
 });
 
-export default router;
+export default router
