@@ -13,7 +13,7 @@
             </div>
         </section>
         <form class="form-c">
-            <section class="body">
+            <section class="body" style="display:none;">
                 <div class="data-area">
                     <div class="data-field">
                         <p class="data-label">이름</p>
@@ -32,12 +32,12 @@
                         <input class="data-input data-text" type="date" required>
                     </div>
                     <div class="data-field">
-                        <p class="data-label">연락처 (010-XXXX-XXXX)</p>
-                        <input class="data-input data-text" type="tel" pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" required>
+                        <p class="data-label">연락처</p>
+                        <input class="data-input data-text" type="tel" pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" placeholder="010-1234-5678" required>
                     </div>
                     <div class="data-field">
-                        <p class="data-label">보호자 연락처 (010-XXXX-XXXX)</p>
-                        <input class="data-input data-text" type="text" pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" required>
+                        <p class="data-label">보호자 연락처</p>
+                        <input class="data-input data-text" type="text" pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" placeholder="010-1234-5678" required>
                     </div>
                     <div class="data-field">
                         <p class="data-label">특이사항</p>
@@ -47,8 +47,8 @@
                         <p class="data-label">주의정도</p>
                         <select class="data-input">
                             <option>해당없음</option>
-                            <option>주의병사</option>
-                            <option>관심병사</option>
+                            <option>배려병사</option>
+                            <option>도움병사</option>
                         </select>
                     </div>
                     <div class="data-field">
@@ -164,10 +164,9 @@
 .body {
     width: 100%;
     padding: 10px 0px;
-    display: none;
 }
 
-.data-area { width: 100%; }
+.data-area { width: 100%; align-items: center; text-align: center;}
 .data-field { display: inline-block; width: 40%; margin: 3px 5%;}
 .data-label { float: left; font-size: 15px; font-weight:bold; }
 .data-input { float: right; width: 150px;}
