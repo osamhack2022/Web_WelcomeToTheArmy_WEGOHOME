@@ -22,11 +22,15 @@ export default function () {
             if (resp.status === 200 && resp.data.rsp === 'ok') {
                 if (onSuccess) {
                     onSuccess(resp.data)
-                } else {
-                    if (onFailed) {
-                        onFailed(resp.data)
-                    }
                 }
+            } else {
+                if (onFailed) {
+                    onFailed(resp.data)
+                }
+            }
+        }).catch(err =>{
+            if (onFailed) {
+                onFailed(err)
             }
         })
     }

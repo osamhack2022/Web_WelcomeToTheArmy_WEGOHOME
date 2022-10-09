@@ -7,35 +7,35 @@
             <div class="data-area">
                 <div class="data-field">
                     <p class="data-label">이름</p>
-                    <input class="data-input data-text" type="text" required>
+                    <input class="data-input data-text" type="text" v-model="trainee.name" required>
                 </div>
                 <div class="data-field">
                     <p class="data-label">기수</p>
-                    <input class="data-input data-text" type="number" required>
+                    <input class="data-input data-text" type="number" v-model="trainee.generation" required>
                 </div>
                 <div class="data-field">
                     <p class="data-label">소대번호</p>
-                    <input class="data-input data-text" type="number" required>
+                    <input class="data-input data-text" type="number" v-model="trainee.platoon_num" required>
                 </div>
                 <div class="data-field">
                     <p class="data-label">생년월일</p>
-                    <input class="data-input data-text" type="date" required>
+                    <input class="data-input data-text" type="date" v-model="trainee.birthday" required>
                 </div>
                 <div class="data-field">
                     <p class="data-label">연락처</p>
-                    <input class="data-input data-text" type="tel" pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" placeholder="010-1234-5678" required>
+                    <input class="data-input data-text" type="tel" v-model="trainee.phone_number" pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" placeholder="010-1234-5678" required>
                 </div>
                 <div class="data-field">
                     <p class="data-label">보호자 연락처</p>
-                    <input class="data-input data-text" type="text" pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" placeholder="010-1234-5678" required>
+                    <input class="data-input data-text" type="text" v-model="trainee.home_tel" pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" placeholder="010-1234-5678" required>
                 </div>
                 <div class="data-field">
                     <p class="data-label">특이사항</p>
-                    <input class="data-input data-text" type="text">
+                    <input class="data-input data-text" type="text" v-model="trainee.uniqueness">
                 </div>
                 <div class="data-field">
                     <p class="data-label">주의정도</p>
-                    <select class="data-input">
+                    <select class="data-input" v-model="trainee.caution_level">
                         <option>해당없음</option>
                         <option>배려병사</option>
                         <option>도움병사</option>
@@ -43,17 +43,17 @@
                 </div>
                 <div class="data-field">
                     <p class="data-label">질병</p>
-                    <input class="data-input data-text" type="text">
+                    <input class="data-input data-text" type="text" v-model="trainee.disease">
                 </div>
                 <div class="data-field">
                     <p class="data-label">현재 점수</p>
-                    <input class="data-input data-text" type="number">
+                    <input class="data-input data-text" type="number" v-model="trainee.point">
                 </div>
                 <div class="data-field">
                     <p class="data-label">비건여부</p>
                     <div class="data-input">
                         <label class="switch">
-                            <input type="checkbox">
+                            <input type="checkbox" v-model="trainee.is_vegan">
                             <span class="slider round"></span>
                         </label>
                     </div>
@@ -62,7 +62,7 @@
                     <p class="data-label">알러지 여부</p>
                     <div class="data-input">
                         <label class="switch">
-                            <input type="checkbox">
+                            <input type="checkbox" v-model="trainee.has_allrgy">
                             <span class="slider round"></span>
                         </label>
                     </div>
@@ -78,8 +78,30 @@
 </template>
 
 <script>
+import useAxios from "@app_modules/axios.js"
+
+const { axiosPost } = useAxios()
+
 export default {
-    name: 'my-modal',
+    name: 'TraineeCreateModal',
+    data() {
+        return {
+            trainee:  {
+                platoon_num: null,
+                birthday: null,
+                generation: null,
+                name: "",
+                caution_level: "해당없음",
+                disease: "",
+                phone_number: "",
+                home_tel: "",
+                uniqueness: "",
+                is_vegan: false,
+                has_allrgy: false,
+                point: 0,
+            }
+        }
+    },
     props: {
         visible: {
             type: Boolean,
@@ -96,7 +118,13 @@ export default {
             this.$emit('update', false)
         },
         createTrainee(){
-            alert("Create!")
+            const onSuccess = (data) => {
+                alert(this.trainee.name + "훈련병이 성공적으로 추가되었습니다!")
+            }
+            const onFailed = (data) => {
+                alert("훈련병을 추가하는데 실패하였습니다.")
+            }
+            axiosPost("/createTrainee", this.trainee, onSuccess, onFailed)
         },
     }
 }
