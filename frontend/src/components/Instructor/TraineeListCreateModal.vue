@@ -108,10 +108,6 @@ export default {
             require: true,
             default: false
         },
-        title: {
-            type: String,
-            require: false
-        }
     },
     methods: {
         handlebackgroundClick(){
