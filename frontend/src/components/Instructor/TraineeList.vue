@@ -1,10 +1,12 @@
 <template>
+    <TraineeCreateModal :visible="createModalVisible" @update="updateCreateModalVisibility" />
+    <TraineeExcelUploadModal :visible="excelUploadModalVisible" @update="updateExcelUploadModalVisibility" />
     <section class="search-menu">
         <h3>훈련병 검색하기</h3>
     </section>
     <section class="button-area">
-        <button class="btn btn-outline-dark">엑셀 업로드</button>
-        <button class="btn btn-outline-dark">훈련병 추가</button> 
+        <button @click="toggleExcelUploadModal" class="btn btn-outline-dark">엑셀 업로드</button>
+        <button @click="toggleCreateModal" class="btn btn-outline-dark">훈련병 추가</button> 
     </section>
     <section class="notice-area">
         <p>훈련병을 클릭하면 자세한 정보를 볼 수 있습니다.</p>
@@ -20,12 +22,37 @@
 <script>
 import Nav from "@components/Instructor/Nav.vue";
 import TraineeListCard from "./TraineeListCard.vue";
+import TraineeCreateModal from "./TraineeListCreateModal.vue"
+import TraineeExcelUploadModal from "./TraineeListExcelUploadModal.vue"
 
 export default {
+    data() {
+        return {
+            createModalVisible: false,
+            excelUploadModalVisible: false,
+        }
+    },
     components: {
-    Nav,
-    TraineeListCard,
-}
+        Nav,
+        TraineeListCard,
+        TraineeCreateModal,
+        TraineeExcelUploadModal,
+    },
+    methods: {
+        toggleCreateModal() {
+            this.createModalVisible = !this.createModalVisible
+        },
+        updateCreateModalVisibility(v) {
+            this.createModalVisible = v
+        },
+        toggleExcelUploadModal() {
+            this.excelUploadModalVisible = !this.excelUploadModalVisible
+        },
+        updateExcelUploadModalVisibility(v) {
+            this.excelUploadModalVisible = v
+        },
+
+    }
 }
 </script>
 

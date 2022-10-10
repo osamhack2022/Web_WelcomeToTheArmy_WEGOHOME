@@ -9,7 +9,7 @@
                     <p class="user-name">상사 김훈련</p>
                     <p class="user-position">신병4대대 3중대 1소대장</p>
                 </div>
-                <img class="user-image rounded-circle" src="https://via.placeholder.com/45" alt="user profile image" />
+                <img class="user-image rounded-circle" src="@/assets/images/instructor_profile_example.jpg" alt="user profile image" />
             </div>
         </div>
         <div class="nav-bottom">
@@ -20,6 +20,7 @@
             <router-link to="#" class="nav-link">병사상담</router-link>
             <router-link to="#" class="nav-link">훈련사진</router-link>
             <router-link to="#" class="nav-link">공지사항</router-link>
+            <router-link to="/instructor/admin" class="nav-link">훈육관관리</router-link>
         </div>
     </nav>
 </template>
@@ -67,7 +68,7 @@ nav {
 
 .user-name {font-size: 24px; font-weight: bold;}
 .user-position {font-size: 12px;}
-.user-image {width: 45px; height: 45px; margin-left: 10px;}
+.user-image {width: 45px; height: 45px; margin-left: 10px; object-fit: cover;}
 
 .nav-bottom {
     width: 100%; height: 25px;

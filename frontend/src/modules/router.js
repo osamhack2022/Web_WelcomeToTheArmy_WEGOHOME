@@ -7,6 +7,7 @@ import InstructorView from "@components/Instructor/Main.vue"
 import InstructorTraineeList from "@components/Instructor/TraineeList.vue"
 import InstructorCalendar from "@components/Instructor/Calendar.vue"
 import InstructorSurveyList from "@components/Instructor/SurveyList.vue"
+import InstructorList from "@components/Instructor/InstructorList.vue"
 
 const router = createRouter({
     history : createWebHistory(),
@@ -15,6 +16,7 @@ const router = createRouter({
 
         {path: "/inslogin", component: InstructorLogin},
         {path: "/instructor", component: InstructorView, redirect: "/instructor/trainee", children: [
+            {path: "admin", component: InstructorList},
             {path: "trainee", component: InstructorTraineeList},
             {path: "calendar", component: InstructorCalendar},
             {path: "survey", component: InstructorSurveyList},
