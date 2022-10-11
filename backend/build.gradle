@@ -23,10 +23,21 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	implementation group: 'commons-fileupload', name: 'commons-fileupload', version: '1.4'
+	runtimeOnly 'com.h2database:h2'
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
+	// Swagger
+	implementation group: 'io.springfox', name: 'springfox-boot-starter', version: '3.0.0'
+
+	// PostgreSQL
+	implementation group: 'org.postgresql', name: 'postgresql', version: '42.5.0'
+
+	// 엑셀
+	implementation group: 'org.apache.poi', name: 'poi-ooxml', version: '5.1.0'
+	implementation group: 'commons-io', name: 'commons-io', version: '2.11.0'
 }
 
 tasks.named('test') {
