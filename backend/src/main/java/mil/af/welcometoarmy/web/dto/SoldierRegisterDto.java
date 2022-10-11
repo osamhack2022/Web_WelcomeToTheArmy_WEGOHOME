@@ -3,6 +3,8 @@ package mil.af.welcometoarmy.web.dto;
 import lombok.*;
 import lombok.extern.jackson.Jacksonized;
 import mil.af.welcometoarmy.domain.Soldier;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDate;
 
@@ -29,6 +31,7 @@ public class SoldierRegisterDto {
     private LocalDate birthday;
 
     public Soldier toEntity() {
+
         return Soldier.builder()
                 .generation(generation)
                 .battalion(battalion)
@@ -37,7 +40,6 @@ public class SoldierRegisterDto {
                 .platoonNum(platoonNum)
                 .name(name)
                 .birthday(birthday)
-                .password(platoonNum)
                 .build();
     }
 }

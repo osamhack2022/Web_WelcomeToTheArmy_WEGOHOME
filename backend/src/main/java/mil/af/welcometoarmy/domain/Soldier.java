@@ -75,6 +75,10 @@ public class Soldier {
     )
     private List<Qna> qnaList = new ArrayList<>();
 
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public void setImgFiles(List<SoldierImage> imgFiles) {
         this.imgFiles = imgFiles;
     }
