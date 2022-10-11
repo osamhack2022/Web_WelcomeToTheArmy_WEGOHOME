@@ -2,8 +2,7 @@
     <div class="modal-background" v-if="visible" @click.self="handlebackgroundClick">
         <div class="modal-window">
             <h1 class="title">훈육관 추가하기</h1>
-            <form target="dummy">
-                <iframe id="dummy" name="dummy" style="display: none;" />
+            <form>
                 <div class="data-area">
                     <div class="data-field">
                         <p class="data-label">이름</p>
@@ -31,7 +30,7 @@
                     </div>
                 </div>
                 <div class="button-area">
-                    <button class="btn btn-primary" @click="createInstructor" type="submit">생성</button>
+                    <button class="btn btn-primary" @click.prevent="createInstructor" type="submit">생성</button>
                     <button class="btn btn-danger" @click="$emit('update', !visible)">취소</button>
                 </div>
             </form>
@@ -72,14 +71,13 @@ export default {
             this.$emit('update', false)
         },
         createInstructor(){
-            alert("hey")
             const onSuccess = (data) => {
                 alert(this.instructor.name + "훈육관이 성공적으로 추가되었습니다!")
             }
             const onFailed = (data) => {
                 alert("훈육관을 추가하는데 실패하였습니다.")
             }
-            axiosPost("/createInstructor", this.instructor, onSuccess, onFailed)
+            axiosPost("/api/soldier/register", this.instructor, onSuccess, onFailed)
         },
     }
 }

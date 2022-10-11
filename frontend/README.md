@@ -1,4 +1,5 @@
 # WELCOME TO ARMY Front End
+- swagger : http://flask.giopaik.me:5000/swagger-ui/index.html
 ## 기술 스택: Vue3 + Vite
 ## 기능 명세 - 사용자(훈련병) 페이지
 - 로그인

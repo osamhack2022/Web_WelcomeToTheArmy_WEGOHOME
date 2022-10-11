@@ -2,8 +2,7 @@
 <div class="modal-background" v-if="visible" @click.self="handlebackgroundClick">
     <div class="modal-window">
         <h1 class="title">병사 추가하기</h1>
-        <form target="dummy">
-            <iframe id="dummy" name="dummy" style="display: none;" />
+        <form>
             <div class="data-area">
                 <div class="data-field">
                     <p class="data-label">이름</p>
@@ -69,7 +68,7 @@
                 </div>
             </div>
             <div class="button-area">
-                <button class="btn btn-primary" @click="createTrainee" type="submit">생성</button>
+                <button class="btn btn-primary" @click.prevent="createTrainee" type="submit">생성</button>
                 <button class="btn btn-danger" @click="$emit('update', !visible)">취소</button>
             </div>
         </form>
