@@ -12,7 +12,7 @@ import java.util.List;
 @Getter
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @NoArgsConstructor(access =  AccessLevel.PROTECTED)
-public class Manager {
+public class Manager extends BaseTimeEntity {
 
     @Id
     @GeneratedValue
@@ -39,6 +39,9 @@ public class Manager {
     private String company;
 
     private String platoon;
+
+    @NotNull
+    private String phoneNumber;
 
     @OneToMany(
             mappedBy = "manager",

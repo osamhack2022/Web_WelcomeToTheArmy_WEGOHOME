@@ -1,11 +1,10 @@
-package mil.af.welcometoarmy.web.dto;
+package mil.af.welcometoarmy.web.dto.soldier;
 
 import lombok.*;
 import lombok.extern.jackson.Jacksonized;
 import mil.af.welcometoarmy.domain.Soldier;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
+import javax.validation.constraints.NotBlank;
 import java.time.LocalDate;
 
 @Builder
@@ -14,20 +13,27 @@ import java.time.LocalDate;
 @Jacksonized
 @NoArgsConstructor
 @AllArgsConstructor
-public class SoldierRegisterDto {
+public class SoldierCreateDto {
 
+    @NotBlank(message = "기수를 입력해주세요.")
     private int generation;
 
+    @NotBlank(message = "대대를 입력해주세요.")
     private String battalion;
 
+    @NotBlank(message = "중대를 입력해주세요.")
     private String company;
 
+    @NotBlank(message = "소대를 입력해주세요.")
     private String platoon;
 
+    @NotBlank(message = "소대번호를 입력해주세요.")
     private String platoonNum;
 
+    @NotBlank(message = "이름을 입력해주세요.")
     private String name;
 
+    @NotBlank(message = "생년월일을 입력해주세요.")
     private LocalDate birthday;
 
     public Soldier toEntity() {

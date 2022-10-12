@@ -13,7 +13,7 @@ import java.util.List;
 @Getter
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @NoArgsConstructor(access =  AccessLevel.PROTECTED)
-public class Notice {
+public class Notice extends BaseTimeEntity {
 
     @Id
     @GeneratedValue

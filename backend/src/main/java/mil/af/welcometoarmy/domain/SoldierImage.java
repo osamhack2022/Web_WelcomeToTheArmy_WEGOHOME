@@ -12,7 +12,7 @@ import java.util.List;
 @Getter
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @NoArgsConstructor(access =  AccessLevel.PROTECTED)
-public class SoldierImage {
+public class SoldierImage extends BaseTimeEntity {
 
     @Id
     @GeneratedValue
