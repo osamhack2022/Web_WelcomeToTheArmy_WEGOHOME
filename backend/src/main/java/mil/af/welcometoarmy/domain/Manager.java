@@ -43,6 +43,9 @@ public class Manager extends BaseTimeEntity {
     @NotNull
     private String phoneNumber;
 
+    @NotNull
+    private int signInFailCnt;
+
     @OneToMany(
             mappedBy = "manager",
             fetch = FetchType.LAZY,

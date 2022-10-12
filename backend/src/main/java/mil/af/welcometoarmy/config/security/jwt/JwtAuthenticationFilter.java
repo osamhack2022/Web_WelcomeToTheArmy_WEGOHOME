@@ -24,6 +24,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtTokenProvider jwtTokenProvider;
 
+    private static final String REQUEST_NAME = "exception";
+
     @Autowired
     public JwtAuthenticationFilter(JwtTokenProvider jwtTokenProvider) {
         this.jwtTokenProvider = jwtTokenProvider;
@@ -37,21 +39,23 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String jwt = resolveToken(request);
         String requestURI = request.getRequestURI();
 
+        if (jwt == null) request.setAttribute(REQUEST_NAME, "토큰이 없습니다.");
+
         try {
             if (StringUtils.isNotEmpty(jwt) && jwtTokenProvider.validateToken(jwt)) {
                 Authentication authentication = jwtTokenProvider.getAuthentication(jwt);
                 SecurityContextHolder.getContext().setAuthentication(authentication);
                 logger.debug("Security Context에 '{}' 인증 정보를 저장했습니다, uri: {}", authentication.getName(), requestURI); }
         } catch (SecurityException | MalformedJwtException e) {
-            request.setAttribute("exception", "유효하지 않은 토큰입니다.");
+            request.setAttribute(REQUEST_NAME, "유효하지 않은 토큰입니다.");
         } catch (ExpiredJwtException e) {
-            request.setAttribute("exception", "만료된 토큰입니다.");
+            request.setAttribute(REQUEST_NAME, "만료된 토큰입니다.");
         } catch (UnsupportedJwtException e) {
-            request.setAttribute("exception", "지원되지 않는 토큰입니다.");
+            request.setAttribute(REQUEST_NAME, "지원되지 않는 토큰입니다.");
         } catch (SignatureException e) {
-            request.setAttribute("exception", "잘못된 토큰 서명입니다.");
+            request.setAttribute(REQUEST_NAME, "잘못된 토큰 서명입니다.");
         } catch (IllegalArgumentException e) {
-            request.setAttribute("exception", "토큰이 잘못되었습니다.");
+            request.setAttribute(REQUEST_NAME, "토큰이 잘못되었습니다.");
         } catch (Exception e) {
             logger.error("JwtFilter - doFilter() 오류발생");
             logger.error("token : {}", jwt);
@@ -59,7 +63,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             logger.error("Exception StackTrace : {");
             e.printStackTrace();
             logger.error("}");
-            request.setAttribute("exception", "알 수 없는 에러가 발생했습니다.");
+            request.setAttribute(REQUEST_NAME, "알 수 없는 에러가 발생했습니다.");
         }
 
         filterChain.doFilter(request, response);

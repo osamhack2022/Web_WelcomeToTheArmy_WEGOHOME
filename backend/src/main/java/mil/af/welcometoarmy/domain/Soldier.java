@@ -69,6 +69,9 @@ public class Soldier extends BaseTimeEntity {
     @NotNull
     private int point;
 
+    @NotNull
+    private int signInFailCnt;
+
     @OneToMany(
             mappedBy = "soldier",
             fetch = FetchType.LAZY,
@@ -103,6 +106,10 @@ public class Soldier extends BaseTimeEntity {
         this.authority = authority;
     }
 
+    public void setSignInFailCnt(int signInFailCnt) {
+        this.signInFailCnt = signInFailCnt;
+    }
+
     public void update(Soldier soldier) {
         platoonNum = soldier.getPlatoonNum();
         password = soldier.getPassword();
@@ -119,5 +126,6 @@ public class Soldier extends BaseTimeEntity {
         uniqueness = soldier.getUniqueness();
         isVegan = soldier.getIsVegan();
         hasAllergy = soldier.getHasAllergy();
+        signInFailCnt = 0;
     }
 }

@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import mil.af.welcometoarmy.service.SoldierService;
 import mil.af.welcometoarmy.web.dto.BasicResponse;
 import mil.af.welcometoarmy.web.dto.soldier.SoldierCreateDto;
+import mil.af.welcometoarmy.web.dto.soldier.SoldierSignInDto;
 import mil.af.welcometoarmy.web.dto.soldier.SoldierUpdateDto;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.http.HttpStatus;
@@ -77,6 +78,24 @@ public class SoldierApiController {
                 BasicResponse.builder()
                         .httpStatus(HttpStatus.OK)
                         .message("훈련병 정보 수정 완료")
+                        .build(), HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/signIn")
+    @ApiOperation(value = "훈련병 로그인")
+    public ResponseEntity<BasicResponse> signIn(@RequestBody @Valid SoldierSignInDto soldierSignInDto, BindingResult bindingResult) {
+
+        if(bindingResult.hasErrors()) {throw new
+                IllegalArgumentException(bindingResult.getAllErrors().get(0).getDefaultMessage());
+        }
+
+        String token = soldierService.singIn(soldierSignInDto);
+
+        return new ResponseEntity<>(
+                BasicResponse.builder()
+                        .httpStatus(HttpStatus.OK)
+                        .message("훈련병 로그인 완료")
+                        .data(token)
                         .build(), HttpStatus.OK);
     }
 }

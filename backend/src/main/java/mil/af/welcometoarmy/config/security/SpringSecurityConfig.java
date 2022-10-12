@@ -40,16 +40,14 @@ public class SpringSecurityConfig {
 
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
-        return web -> {
+        return web ->
             web.ignoring()
                     .antMatchers(
-                            "/swagger-ui/**",
-                            "/css/**",
-                            "/font/**",
-                            "/img/**",
-                            "/js/**"
+                            "/v2/api-docs", "/configuration/ui",
+                            "/swagger-resources", "/configuration/security",
+                            "/swagger-ui.html", "/webjars/**","/swagger/**",
+                            "/css/**", "/font/**", "/img/**", "/js/**"
                     );
-        };
     }
 
     @Bean
@@ -60,9 +58,9 @@ public class SpringSecurityConfig {
                 .csrf().disable()
 
                 .authorizeRequests()
-                .antMatchers("/signin").permitAll()
-                .anyRequest()
-                .authenticated()
+                .antMatchers("/api/soldier/signIn", "/api/soldier/create").permitAll()
+                .antMatchers("/swagger-resources/**", "/swagger-ui/**").permitAll() // Swagger
+                .anyRequest().authenticated()
 
                 .and()
                 .exceptionHandling()

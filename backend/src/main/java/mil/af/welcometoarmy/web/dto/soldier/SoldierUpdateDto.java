@@ -7,6 +7,7 @@ import mil.af.welcometoarmy.domain.enums.CautionLevel;
 import mil.af.welcometoarmy.domain.enums.IsVegan;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.regex.Pattern;
@@ -28,7 +29,7 @@ public class SoldierUpdateDto {
     @NotBlank(message = "생년월일을 입력해주세요.")
     private String birthday;
 
-    @NotBlank(message = "기수를 입력해주세요.")
+    @NotNull(message = "기수를 입력해주세요.")
     private int generation;
 
     @NotBlank(message = "대대를 입력해주세요.")
