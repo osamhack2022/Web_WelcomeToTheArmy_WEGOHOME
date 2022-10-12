@@ -11,7 +11,7 @@ import javax.validation.constraints.NotBlank;
 @Jacksonized
 @NoArgsConstructor
 @AllArgsConstructor
-public class SoldierSignInDto {
+public class SoldierLogInDto {
 
     @NotBlank(message = "아이디를 입력해주세요.")
     private String platoonNum;

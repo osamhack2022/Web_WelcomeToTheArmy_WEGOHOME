@@ -4,6 +4,7 @@ import lombok.*;
 import mil.af.welcometoarmy.domain.enums.Authority;
 import mil.af.welcometoarmy.domain.enums.CautionLevel;
 import mil.af.welcometoarmy.domain.enums.IsVegan;
+import mil.af.welcometoarmy.web.dto.soldier.SoldierResponseDto;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -70,7 +71,7 @@ public class Soldier extends BaseTimeEntity {
     private int point;
 
     @NotNull
-    private int signInFailCnt;
+    private int logInFailCnt;
 
     @OneToMany(
             mappedBy = "soldier",
@@ -106,8 +107,8 @@ public class Soldier extends BaseTimeEntity {
         this.authority = authority;
     }
 
-    public void setSignInFailCnt(int signInFailCnt) {
-        this.signInFailCnt = signInFailCnt;
+    public void setLogInFailCnt(int logInFailCnt) {
+        this.logInFailCnt = logInFailCnt;
     }
 
     public void update(Soldier soldier) {
@@ -126,6 +127,28 @@ public class Soldier extends BaseTimeEntity {
         uniqueness = soldier.getUniqueness();
         isVegan = soldier.getIsVegan();
         hasAllergy = soldier.getHasAllergy();
-        signInFailCnt = 0;
+        logInFailCnt = 0;
+    }
+
+    public SoldierResponseDto toDto() {
+        return SoldierResponseDto.builder()
+                .id(id)
+                .platoonNum(platoonNum)
+                .birthday(birthday)
+                .generation(generation)
+                .battalion(battalion)
+                .company(company)
+                .platoon(platoon)
+                .name(name)
+                .cautionLevel(cautionLevel == null ? null : cautionLevel.name())
+                .authority(authority == null ? null : authority.name())
+                .disease(disease)
+                .phoneNumber(phoneNumber)
+                .homeTel(homeTel)
+                .uniqueness(uniqueness)
+                .isVegan(isVegan == null ? null : isVegan.name())
+                .hasAllergy(hasAllergy)
+                .point(point)
+                .build();
     }
 }

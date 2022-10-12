@@ -1,15 +1,15 @@
 package mil.af.welcometoarmy.service;
 
 import lombok.RequiredArgsConstructor;
-import mil.af.welcometoarmy.config.security.jwt.JwtTokenProvider;
 import mil.af.welcometoarmy.domain.Soldier;
 import mil.af.welcometoarmy.domain.enums.Authority;
 import mil.af.welcometoarmy.exception.EntityNotFoundException;
 import mil.af.welcometoarmy.exception.ExceptionMessage;
 import mil.af.welcometoarmy.repository.SoldierRepository;
+import mil.af.welcometoarmy.util.AuthChecker;
 import mil.af.welcometoarmy.web.dto.soldier.SoldierCreateDto;
 import mil.af.welcometoarmy.web.dto.soldier.SoldierCreateMultipleDto;
-import mil.af.welcometoarmy.web.dto.soldier.SoldierSignInDto;
+import mil.af.welcometoarmy.web.dto.soldier.SoldierResponseDto;
 import mil.af.welcometoarmy.web.dto.soldier.SoldierUpdateDto;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -18,6 +18,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,7 +37,7 @@ public class SoldierService {
 
     private final SoldierRepository soldierRepository;
 
-    private final JwtTokenProvider jwtTokenProvider;
+    private final AuthChecker authChecker;
 
     @Transactional
     public void save(SoldierCreateDto soldierCreateDto) {
@@ -44,7 +45,7 @@ public class SoldierService {
         soldier.setPassword(passwordEncoder.encode(soldier.getPlatoonNum()));
         soldier.setPoint(0);
         soldier.setAuthority(Authority.ROLE_SOLDIER);
-        soldier.setSignInFailCnt(0);
+        soldier.setLogInFailCnt(0);
 
         if (checkDuplication(soldier.getPlatoonNum(), soldier))
             throw new IllegalArgumentException("이미 등록 된 소대번호입니다.");
@@ -86,7 +87,7 @@ public class SoldierService {
                     soldier.setPassword(passwordEncoder.encode(soldier.getPlatoonNum()));
                     soldier.setPoint(0);
                     soldier.setAuthority(Authority.ROLE_SOLDIER);
-                    soldier.setSignInFailCnt(0);
+                    soldier.setLogInFailCnt(0);
 
                     if (!checkDuplication(soldier.getPlatoonNum(), soldier)) soldierRepository.save(soldier);
                 }
@@ -95,21 +96,33 @@ public class SoldierService {
     }
 
     @Transactional
-    public void update(Long id, SoldierUpdateDto soldierUpdateDto) {
+    public void update(Long id, SoldierUpdateDto soldierUpdateDto, UserDetails userDetails) {
         Soldier soldier = soldierRepository.findById(id).orElseThrow(() ->
                 new EntityNotFoundException(ExceptionMessage.NONE_SOLDIER_MESSAGE));
 
-        if (soldierUpdateDto.getCurrentPw() == null) {
-            if (soldierUpdateDto.getPassword() == null)
-                soldierUpdateDto.setPassword(soldier.getPassword());
-            else throw new IllegalArgumentException("현재 비밀번호를 입력해주세요.");
-        } else {
-            if (soldierUpdateDto.getCurrentPw().equals(soldierUpdateDto.getPassword()))
-                throw new IllegalArgumentException("현재 비밀번호와 변경할 비밀번호가 동일합니다.");
-            if (!passwordEncoder.matches(soldierUpdateDto.getCurrentPw(), soldier.getPassword()))
-                throw new IllegalArgumentException("잘못된 현재비밀번호 입니다.");
-            soldierUpdateDto.validatePassword();
-            soldierUpdateDto.setPassword(passwordEncoder.encode(soldierUpdateDto.getPassword()));
+        authChecker.authCheck(id, userDetails, 1, "수정");
+
+        Authority authority = Authority.valueOf(userDetails.getAuthorities().iterator().next().getAuthority());
+
+        if (authority == Authority.ROLE_SOLDIER) {
+            if (soldierUpdateDto.getCurrentPw() == null) {
+                if (soldierUpdateDto.getPassword() == null)
+                    soldierUpdateDto.setPassword(soldier.getPassword());
+                else throw new IllegalArgumentException("현재 비밀번호를 입력해주세요.");
+            } else {
+                if (soldierUpdateDto.getCurrentPw().equals(soldierUpdateDto.getPassword()))
+                    throw new IllegalArgumentException("현재 비밀번호와 변경할 비밀번호가 동일합니다.");
+                if (!passwordEncoder.matches(soldierUpdateDto.getCurrentPw(), soldier.getPassword()))
+                    throw new IllegalArgumentException("잘못된 현재비밀번호 입니다.");
+                soldierUpdateDto.validatePassword();
+                soldierUpdateDto.setPassword(passwordEncoder.encode(soldierUpdateDto.getPassword()));
+            }
+        } else if (authority == Authority.ROLE_MANAGER || authority == Authority.ROLE_ADMINISTRATOR) {
+            if (soldierUpdateDto.getPassword() == null) soldierUpdateDto.setPassword(soldier.getPassword());
+            else {
+                soldierUpdateDto.validatePassword();
+                soldierUpdateDto.setPassword(passwordEncoder.encode(soldierUpdateDto.getPassword()));
+            }
         }
 
         if (checkDuplication(soldier.getPlatoonNum(), soldier))
@@ -117,20 +130,28 @@ public class SoldierService {
         soldier.update(soldierUpdateDto.toEntity());
     }
 
-    public String singIn(SoldierSignInDto soldierSignInDto) {
-        Soldier soldier = soldierRepository.findByPlatoonNum(soldierSignInDto.getPlatoonNum()).orElseThrow(() ->
+    public SoldierResponseDto getOne(Long id, UserDetails userDetails) {
+        Soldier soldier = soldierRepository.findById(id).orElseThrow(() ->
+                new EntityNotFoundException(ExceptionMessage.NONE_SOLDIER_MESSAGE));
+
+        authChecker.authCheck(id, userDetails, 1, "조회");
+
+        return soldier.toDto();
+    }
+
+    public Soldier getOneByPlatoonNum(String platoonNum) {
+        return soldierRepository.findByPlatoonNum(platoonNum).orElseThrow(() ->
                 new IllegalArgumentException(ExceptionMessage.SIGN_IN_FAIL_MESSAGE));
+    }
 
-        if (!passwordEncoder.matches(soldierSignInDto.getPassword(), soldier.getPassword())) {
-            signInFail(soldier);
-            failCountCheck(soldier);
-            throw new IllegalArgumentException(ExceptionMessage.SIGN_IN_FAIL_MESSAGE);
-        }
+    @Transactional
+    public void delete(Long id, UserDetails userDetails) {
+        Soldier soldier = soldierRepository.findById(id).orElseThrow(() ->
+                new EntityNotFoundException(ExceptionMessage.NONE_SOLDIER_MESSAGE));
 
-        failCountCheck(soldier);
-        soldier.setSignInFailCnt(0);
+        authChecker.authCheck(id, userDetails, 1, "삭제");
 
-        return jwtTokenProvider.createToken(soldier.getPlatoonNum(), soldier.getAuthority());
+        soldierRepository.delete(soldier);
     }
 
     private boolean checkDuplication(String platoonNum, Soldier soldier) {
@@ -140,13 +161,14 @@ public class SoldierService {
 
     //로그인 실패 카운트 추가
     @Transactional
-    public void signInFail(Soldier soldier) {
-        if (soldier.getSignInFailCnt() < 5)
-            soldier.setSignInFailCnt(soldier.getSignInFailCnt() + 1);
+    public void logInFail(Soldier soldier) {
+        if (soldier.getLogInFailCnt() < 5) {
+            soldier.setLogInFailCnt(soldier.getLogInFailCnt() + 1);
+        }
     }
 
-    private void failCountCheck(Soldier soldier) {
-        if (soldier.getSignInFailCnt() >= 5)
+    public void failCountCheck(Soldier soldier) {
+        if (soldier.getLogInFailCnt() >= 5)
             throw new IllegalArgumentException("5회 인증 실패로 계정 사용이 제한 됩니다.<br>" +
                     "패스워드 분실 시 관리자에게 문의해주세요.");
     }

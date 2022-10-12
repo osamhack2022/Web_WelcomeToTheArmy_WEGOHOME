@@ -58,7 +58,7 @@ public class SpringSecurityConfig {
                 .csrf().disable()
 
                 .authorizeRequests()
-                .antMatchers("/api/soldier/signIn", "/api/soldier/create").permitAll()
+                .antMatchers("/api/soldier/logIn", "/api/soldier/create").permitAll()
                 .antMatchers("/swagger-resources/**", "/swagger-ui/**").permitAll() // Swagger
                 .anyRequest().authenticated()
 
