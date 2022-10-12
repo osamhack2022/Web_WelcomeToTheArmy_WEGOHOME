@@ -16,13 +16,11 @@
 </template>
 
 <script>
-import Nav from "@components/Instructor/Nav.vue"
 import CalendarView from "@components/Instructor/CalendarView.vue"
 import CalendarCreateModal from "@components/Instructor/CalendarCreateModal.vue"
 
 export default {
     components: {
-        Nav,
         CalendarView,
         CalendarCreateModal,
     },
@@ -57,7 +55,6 @@ export default {
 .btn {
     float: right;
     padding: 5px;
-    margin-left: 5px;
     margin-top: 10px;
 
     font-size: 12px;
