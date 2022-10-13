@@ -29,12 +29,13 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
+	implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.12.0'
+	// JWT
+	implementation group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
 	// Swagger
 	implementation group: 'io.springfox', name: 'springfox-boot-starter', version: '3.0.0'
-
 	// PostgreSQL
 	implementation group: 'org.postgresql', name: 'postgresql', version: '42.5.0'
-
 	// 엑셀
 	implementation group: 'org.apache.poi', name: 'poi-ooxml', version: '5.1.0'
 	implementation group: 'commons-io', name: 'commons-io', version: '2.11.0'
