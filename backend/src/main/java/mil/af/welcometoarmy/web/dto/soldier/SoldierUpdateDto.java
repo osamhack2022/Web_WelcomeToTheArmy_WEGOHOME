@@ -64,6 +64,8 @@ public class SoldierUpdateDto {
 
     private String currentPw;
 
+    private String passwordCheck;
+
     public Soldier toEntity() {
         return Soldier.builder()
                 .platoonNum(platoonNum)
@@ -86,8 +88,12 @@ public class SoldierUpdateDto {
 
     public void validatePassword() {
         String pattern = "(?=.*\\d)(?=.*[a-zA-Z])(?=.*\\W)(?=\\S+$).{9,12}";
-        
+
+        if (password == null) throw new IllegalArgumentException("비밀번호를 입력해주세요.");
+        if (passwordCheck == null) throw new IllegalArgumentException("비밀번호 재확인을 입력해주세요.");
         if (!Pattern.matches(pattern, password))
             throw new IllegalArgumentException("비밀번호는 영문과 숫자, 특수기호가 적어도 1개 이상씩 포함된 9자 이상 12자 이하의 비밀번호여야 합니다.");
+        if (!password.equals(passwordCheck))
+            throw new IllegalArgumentException("비밀번호와 비밀번호 재확인이 일치하지 않습니다.");
     }
 }

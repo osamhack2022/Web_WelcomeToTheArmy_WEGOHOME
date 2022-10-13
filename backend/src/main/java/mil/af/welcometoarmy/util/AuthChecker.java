@@ -19,7 +19,7 @@ public class AuthChecker {
     private final ManagerRepository managerRepository;
 
     //Entity를 조회, 수정, 삭제 할 시 권한을 체크
-    public void authCheck(Long targetId, UserDetails userDetails, int targetLevel, String operation) {
+    public Authority authCheck(Long targetId, UserDetails userDetails, int targetLevel, String operation) {
 
         Authority authority = Authority.valueOf(userDetails.getAuthorities().iterator().next().getAuthority());
         boolean authorized = true;
@@ -40,5 +40,6 @@ public class AuthChecker {
 
         if (!authorized) throw new IllegalArgumentException(operation + " 권한이 없습니다.");
 
+        return authority;
     }
 }

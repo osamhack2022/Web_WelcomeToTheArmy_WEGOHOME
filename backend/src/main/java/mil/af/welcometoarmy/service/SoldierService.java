@@ -100,33 +100,26 @@ public class SoldierService {
         Soldier soldier = soldierRepository.findById(id).orElseThrow(() ->
                 new EntityNotFoundException(ExceptionMessage.NONE_SOLDIER_MESSAGE));
 
-        authChecker.authCheck(id, userDetails, 1, "수정");
+        Authority authority = authChecker.authCheck(id, userDetails, 1, "수정");
 
-        Authority authority = Authority.valueOf(userDetails.getAuthorities().iterator().next().getAuthority());
-
-        if (authority == Authority.ROLE_SOLDIER) {
-            if (soldierUpdateDto.getCurrentPw() == null) {
-                if (soldierUpdateDto.getPassword() == null)
-                    soldierUpdateDto.setPassword(soldier.getPassword());
-                else throw new IllegalArgumentException("현재 비밀번호를 입력해주세요.");
-            } else {
-                if (soldierUpdateDto.getCurrentPw().equals(soldierUpdateDto.getPassword()))
-                    throw new IllegalArgumentException("현재 비밀번호와 변경할 비밀번호가 동일합니다.");
-                if (!passwordEncoder.matches(soldierUpdateDto.getCurrentPw(), soldier.getPassword()))
-                    throw new IllegalArgumentException("잘못된 현재비밀번호 입니다.");
-                soldierUpdateDto.validatePassword();
-                soldierUpdateDto.setPassword(passwordEncoder.encode(soldierUpdateDto.getPassword()));
-            }
-        } else if (authority == Authority.ROLE_MANAGER || authority == Authority.ROLE_ADMINISTRATOR) {
-            if (soldierUpdateDto.getPassword() == null) soldierUpdateDto.setPassword(soldier.getPassword());
+        if (soldierUpdateDto.getCurrentPw() == null) {
+            if (soldierUpdateDto.getPassword() == null)
+                soldierUpdateDto.setPassword(soldier.getPassword());
+            else if (authority == Authority.ROLE_SOLDIER) throw new IllegalArgumentException("현재 비밀번호를 입력해주세요.");
             else {
                 soldierUpdateDto.validatePassword();
-                soldierUpdateDto.setPassword(passwordEncoder.encode(soldierUpdateDto.getPassword()));
-            }
+                soldierUpdateDto.setPassword(passwordEncoder.encode(soldierUpdateDto.getPassword()));}
+        } else {
+            if (soldierUpdateDto.getCurrentPw().equals(soldierUpdateDto.getPassword()))
+                throw new IllegalArgumentException("현재 비밀번호와 변경할 비밀번호가 동일합니다.");
+            if (!passwordEncoder.matches(soldierUpdateDto.getCurrentPw(), soldier.getPassword()))
+                throw new IllegalArgumentException("잘못된 현재비밀번호 입니다.");
+            soldierUpdateDto.validatePassword();
+            soldierUpdateDto.setPassword(passwordEncoder.encode(soldierUpdateDto.getPassword()));
         }
 
         if (checkDuplication(soldier.getPlatoonNum(), soldier))
-            throw new IllegalArgumentException("이미 등록 된 소대번호입니다.");
+            throw new IllegalArgumentException("이미 등록 된 아이디입니다.");
         soldier.update(soldierUpdateDto.toEntity());
     }
 
