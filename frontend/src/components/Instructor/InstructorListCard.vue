@@ -17,27 +17,27 @@
                 <div class="data-area">
                     <div class="data-field">
                         <p class="data-label">이름</p>
-                        <input class="data-input data-text" type="text" required>
+                        <input class="data-input form-control" type="text" required>
                     </div>
                     <div class="data-field">
                         <p class="data-label">계급</p>
-                        <input class="data-input data-text" type="text" required>
+                        <input class="data-input form-control" type="text" required>
                     </div>
                     <div class="data-field">
                         <p class="data-label">군번</p>
-                        <input class="data-input data-text" type="text" required>
+                        <input class="data-input form-control" type="text" required>
                     </div>
                     <div class="data-field">
                         <p class="data-label">직책</p>
-                        <input class="data-input data-text" type="text" required>
+                        <input class="data-input form-control" type="text" required>
                     </div>
                     <div class="data-field">
                         <p class="data-label">소속</p>
-                        <input class="data-input data-text" type="text" required>
+                        <input class="data-input form-control" type="text" required>
                     </div>
                     <div class="data-field">
                         <p class="data-label">연락처</p>
-                        <input class="data-input data-text" type="tel" pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" placeholder="010-1234-5678" required>
+                        <input class="data-input form-control" type="tel" pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" placeholder="010-1234-5678" required>
                     </div>
                 </div>
             </section>
@@ -132,7 +132,7 @@
 .data-field { display: inline-block; width: 40%; margin: 3px 5%;}
 .data-label { float: left; font-size: 15px; font-weight:bold; }
 .data-input { float: right; width: 150px;}
-.data-text {background: #F9F9F9; border: solid 1px;}.data-text:invalid {border-color: red;}
+.form-control:invalid {border-color: red;}
 
 .button-area { padding-right: 10px; display: none; width: 100%; margin-bottom: 10px; }
 .btn {

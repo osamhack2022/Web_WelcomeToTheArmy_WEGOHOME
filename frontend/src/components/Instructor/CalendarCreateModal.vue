@@ -6,7 +6,7 @@
                 <div class="data-area">
                     <div class="data-field">
                         <p class="data-label">일정명</p>
-                        <input class="data-input data-text" type="text" v-model="schedule.name" required>
+                        <input class="data-input form-control" type="text" v-model="schedule.name" required>
                     </div>
                     <div class="data-field">
                         <p class="data-label">일정 공개 범위</p>
@@ -17,11 +17,11 @@
                     </div>
                     <div class="data-field">
                         <p class="data-label">시작일자</p>
-                        <input class="data-input data-text" type="date" v-model="schedule.start_date" required>
+                        <input class="data-input form-control" type="date" v-model="schedule.start_date" required>
                     </div>
                     <div class="data-field">
                         <p class="data-label">종료일자</p>
-                        <input class="data-input data-text" type="date" v-model="schedule.end_date" required>
+                        <input class="data-input form-control" type="date" v-model="schedule.end_date" required>
                     </div>
                 </div>
                 <div class="button-area">
@@ -106,7 +106,7 @@ export default {
 .data-field { display: inline-block; width: 40%; margin: 3px 5%;}
 .data-label { float: left; font-size: 15px; font-weight:bold; }
 .data-input { float: right; width: 150px;}
-.data-text {background: #F9F9F9; border: solid 1px;}.data-text:invalid {border-color: red;}
+.form-control:invalid {border-color: red;}
 
 .btn {
     margin: 0px 3px;

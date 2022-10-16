@@ -61,4 +61,8 @@ export default {
     font-weight: bold;
 }
 
+.calendar-area {
+    margin-bottom: 100px;
+}
+
 </style>
