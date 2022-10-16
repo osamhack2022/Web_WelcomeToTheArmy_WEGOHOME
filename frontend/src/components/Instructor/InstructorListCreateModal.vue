@@ -77,7 +77,7 @@ export default {
             const onFailed = (data) => {
                 alert("훈육관을 추가하는데 실패하였습니다.")
             }
-            axiosPost("/api/soldier/register", this.instructor, onSuccess, onFailed)
+            axiosPost("/instructor", this.instructor, onSuccess, onFailed)
         },
     }
 }

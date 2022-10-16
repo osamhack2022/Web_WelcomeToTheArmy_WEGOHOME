@@ -3,7 +3,7 @@
         <h1 class="title">진행 중인 조사전달</h1>
     </section>
     <section class="button-area">
-        <router-link to="/instructor/survey/create"><button class="btn btn-outline-dark">일정추가</button></router-link>
+        <router-link to="/instructor/survey/create"><button class="btn btn-outline-dark">조사전달 추가</button></router-link>
     </section>
     <section class="list-area">
         <SurveyListCard />

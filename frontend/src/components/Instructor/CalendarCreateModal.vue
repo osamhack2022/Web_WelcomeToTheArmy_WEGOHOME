@@ -68,7 +68,7 @@ export default {
             const onFailed = (data) => {
                 alert("일정을 추가하는데 실패하였습니다.")
             }
-            axiosPost("/createSchedule", this.trainee, onSuccess, onFailed)
+            axiosPost("/schedule", this.schedule, onSuccess, onFailed)
         },
     }
 }
