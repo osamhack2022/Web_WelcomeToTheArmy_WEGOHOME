@@ -6,27 +6,27 @@
                 <div class="data-area">
                     <div class="data-field">
                         <p class="data-label">이름</p>
-                        <input class="data-input data-text" type="text" v-model="instructor.name" required>
+                        <input class="data-input form-control" type="text" v-model="instructor.name" required>
                     </div>
                     <div class="data-field">
                         <p class="data-label">계급</p>
-                        <input class="data-input data-text" type="text" v-model="instructor.rank" required>
+                        <input class="data-input form-control" type="text" v-model="instructor.rank" required>
                     </div>
                     <div class="data-field">
                         <p class="data-label">군번</p>
-                        <input class="data-input data-text" type="text" v-model="instructor.manager_id" required>
+                        <input class="data-input form-control" type="text" v-model="instructor.manager_id" required>
                     </div>
                     <div class="data-field">
                         <p class="data-label">직책</p>
-                        <input class="data-input data-text" type="text" v-model="instructor.position" required>
+                        <input class="data-input form-control" type="text" v-model="instructor.position" required>
                     </div>
                     <div class="data-field">
                         <p class="data-label">소속</p>
-                        <input class="data-input data-text" type="text" v-model="instructor.battalion" required>
+                        <input class="data-input form-control" type="text" v-model="instructor.battalion" required>
                     </div>
                     <div class="data-field">
                         <p class="data-label">연락처</p>
-                        <input class="data-input data-text" type="tel" v-model="instructor.tel" pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" placeholder="010-1234-5678" required>
+                        <input class="data-input form-control" type="tel" v-model="instructor.tel" pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" placeholder="010-1234-5678" required>
                     </div>
                 </div>
                 <div class="button-area">
@@ -77,7 +77,7 @@ export default {
             const onFailed = (data) => {
                 alert("훈육관을 추가하는데 실패하였습니다.")
             }
-            axiosPost("/api/soldier/register", this.instructor, onSuccess, onFailed)
+            axiosPost("/instructor", this.instructor, onSuccess, onFailed)
         },
     }
 }
@@ -115,7 +115,7 @@ export default {
 .data-field { display: inline-block; width: 40%; margin: 3px 5%;}
 .data-label { float: left; font-size: 15px; font-weight:bold; }
 .data-input { float: right; width: 150px;}
-.data-text {background: #F9F9F9; border: solid 1px;}.data-text:invalid {border-color: red;}
+.form-control:invalid {border-color: red;}
 
 .btn {
     margin: 0px 3px;

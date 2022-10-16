@@ -121,7 +121,7 @@ export default {
 .custom-calendar.vc-container {
   --day-border: 1px solid #b8c2cc;
   --day-border-highlight: 1px solid #b8c2cc;
-  --day-width: 90px;
+  --day-width: 35px;
   --day-height: 90px;
   --weekday-bg: #f8fafc;
   --weekday-border: 1px solid #eaeaea;

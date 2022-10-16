@@ -7,6 +7,7 @@ import InstructorView from "@components/Instructor/Main.vue"
 import InstructorTraineeList from "@components/Instructor/TraineeList.vue"
 import InstructorCalendar from "@components/Instructor/Calendar.vue"
 import InstructorSurveyList from "@components/Instructor/SurveyList.vue"
+import InstructorSurveyCreate from "@components/Instructor/SurveyCreate.vue"
 import InstructorList from "@components/Instructor/InstructorList.vue"
 
 const router = createRouter({
@@ -20,6 +21,7 @@ const router = createRouter({
             {path: "trainee", component: InstructorTraineeList},
             {path: "calendar", component: InstructorCalendar},
             {path: "survey", component: InstructorSurveyList},
+            {path: "survey/create", component: InstructorSurveyCreate},
         ]},
 
 

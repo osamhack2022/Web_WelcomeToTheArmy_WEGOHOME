@@ -17,31 +17,31 @@
                 <div class="data-area">
                     <div class="data-field">
                         <p class="data-label">이름</p>
-                        <input class="data-input data-text" type="text" required>
+                        <input class="data-input form-control" type="text" required>
                     </div>
                     <div class="data-field">
                         <p class="data-label">기수</p>
-                        <input class="data-input data-text" type="number" required>
+                        <input class="data-input form-control" type="number" required>
                     </div>
                     <div class="data-field">
                         <p class="data-label">소대번호</p>
-                        <input class="data-input data-text" type="number" required>
+                        <input class="data-input form-control" type="number" required>
                     </div>
                     <div class="data-field">
                         <p class="data-label">생년월일</p>
-                        <input class="data-input data-text" type="date" required>
+                        <input class="data-input form-control" type="date" required>
                     </div>
                     <div class="data-field">
                         <p class="data-label">연락처</p>
-                        <input class="data-input data-text" type="tel" pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" placeholder="010-1234-5678" required>
+                        <input class="data-input form-control" type="tel" pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" placeholder="010-1234-5678" required>
                     </div>
                     <div class="data-field">
                         <p class="data-label">보호자 연락처</p>
-                        <input class="data-input data-text" type="text" pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" placeholder="010-1234-5678" required>
+                        <input class="data-input form-control" type="text" pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" placeholder="010-1234-5678" required>
                     </div>
                     <div class="data-field">
                         <p class="data-label">특이사항</p>
-                        <input class="data-input data-text" type="text">
+                        <input class="data-input form-control" type="text">
                     </div>
                     <div class="data-field">
                         <p class="data-label">주의정도</p>
@@ -53,11 +53,11 @@
                     </div>
                     <div class="data-field">
                         <p class="data-label">질병</p>
-                        <input class="data-input data-text" type="text">
+                        <input class="data-input form-control" type="text">
                     </div>
                     <div class="data-field">
                         <p class="data-label">현재 점수</p>
-                        <input class="data-input data-text" type="number">
+                        <input class="data-input form-control" type="number">
                     </div>
                     <div class="data-field">
                         <p class="data-label">비건여부</p>
@@ -170,7 +170,7 @@
 .data-field { display: inline-block; width: 40%; margin: 3px 5%;}
 .data-label { float: left; font-size: 15px; font-weight:bold; }
 .data-input { float: right; width: 150px;}
-.data-text {background: #F9F9F9; border: solid 1px;}.data-text:invalid {border-color: red;}
+.form-control:invalid {border-color: red;}
 
 .button-area { padding-right: 10px; display: none; width: 100%; margin-bottom: 10px; }
 .btn {

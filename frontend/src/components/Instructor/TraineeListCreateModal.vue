@@ -6,31 +6,31 @@
             <div class="data-area">
                 <div class="data-field">
                     <p class="data-label">이름</p>
-                    <input class="data-input data-text" type="text" v-model="trainee.name" required>
+                    <input class="data-input form-control" type="text" v-model="trainee.name" required>
                 </div>
                 <div class="data-field">
                     <p class="data-label">기수</p>
-                    <input class="data-input data-text" type="number" v-model="trainee.generation" required>
+                    <input class="data-input form-control" type="number" v-model="trainee.generation" required>
                 </div>
                 <div class="data-field">
                     <p class="data-label">소대번호</p>
-                    <input class="data-input data-text" type="number" v-model="trainee.platoon_num" required>
+                    <input class="data-input form-control" type="number" v-model="trainee.platoon_num" required>
                 </div>
                 <div class="data-field">
                     <p class="data-label">생년월일</p>
-                    <input class="data-input data-text" type="date" v-model="trainee.birthday" required>
+                    <input class="data-input form-control" type="date" v-model="trainee.birthday" required>
                 </div>
                 <div class="data-field">
                     <p class="data-label">연락처</p>
-                    <input class="data-input data-text" type="tel" v-model="trainee.phone_number" pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" placeholder="010-1234-5678" required>
+                    <input class="data-input form-control" type="tel" v-model="trainee.phone_number" pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" placeholder="010-1234-5678" required>
                 </div>
                 <div class="data-field">
                     <p class="data-label">보호자 연락처</p>
-                    <input class="data-input data-text" type="text" v-model="trainee.home_tel" pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" placeholder="010-1234-5678" required>
+                    <input class="data-input form-control" type="text" v-model="trainee.home_tel" pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" placeholder="010-1234-5678" required>
                 </div>
                 <div class="data-field">
                     <p class="data-label">특이사항</p>
-                    <input class="data-input data-text" type="text" v-model="trainee.uniqueness">
+                    <input class="data-input form-control" type="text" v-model="trainee.uniqueness">
                 </div>
                 <div class="data-field">
                     <p class="data-label">주의정도</p>
@@ -42,11 +42,11 @@
                 </div>
                 <div class="data-field">
                     <p class="data-label">질병</p>
-                    <input class="data-input data-text" type="text" v-model="trainee.disease">
+                    <input class="data-input form-control" type="text" v-model="trainee.disease">
                 </div>
                 <div class="data-field">
                     <p class="data-label">현재 점수</p>
-                    <input class="data-input data-text" type="number" v-model="trainee.point">
+                    <input class="data-input form-control" type="number" v-model="trainee.point">
                 </div>
                 <div class="data-field">
                     <p class="data-label">비건여부</p>
@@ -119,7 +119,7 @@ export default {
             const onFailed = (data) => {
                 alert("훈련병을 추가하는데 실패하였습니다.")
             }
-            axiosPost("/createTrainee", this.trainee, onSuccess, onFailed)
+            axiosPost("/trainee", this.trainee, onSuccess, onFailed)
         },
     }
 }
@@ -157,7 +157,7 @@ export default {
 .data-field { display: inline-block; width: 40%; margin: 3px 5%;}
 .data-label { float: left; font-size: 15px; font-weight:bold; }
 .data-input { float: right; width: 150px;}
-.data-text {background: #F9F9F9; border: solid 1px;}.data-text:invalid {border-color: red;}
+.form-control:invalid {border-color: red;}
 
 .btn {
     margin: 0px 3px;
