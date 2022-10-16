@@ -5,6 +5,7 @@ import mil.af.welcometoarmy.domain.enums.HasAnswer;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,9 +26,21 @@ public class Qna {
     @NotNull
     private String questionContent;
 
+    @NotNull
+    private LocalDateTime questionCreatedDate;
+
+    @NotNull
+    private LocalDateTime questionModifiedDate;
+
     private String answerTitle;
 
     private String answerContent;
+
+    @NotNull
+    private LocalDateTime answerCreatedDate;
+
+    @NotNull
+    private LocalDateTime answerModifiedDate;
 
     @NotNull
     @Enumerated(EnumType.STRING)

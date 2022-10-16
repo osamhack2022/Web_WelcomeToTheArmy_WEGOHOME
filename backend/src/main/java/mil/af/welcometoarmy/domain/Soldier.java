@@ -1,8 +1,10 @@
 package mil.af.welcometoarmy.domain;
 
 import lombok.*;
+import mil.af.welcometoarmy.domain.enums.Authority;
 import mil.af.welcometoarmy.domain.enums.CautionLevel;
 import mil.af.welcometoarmy.domain.enums.IsVegan;
+import mil.af.welcometoarmy.web.dto.soldier.SoldierResponseDto;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -15,7 +17,7 @@ import java.util.List;
 @Getter
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @NoArgsConstructor(access =  AccessLevel.PROTECTED)
-public class Soldier {
+public class Soldier extends BaseTimeEntity {
 
     @Id
     @GeneratedValue
@@ -48,9 +50,15 @@ public class Soldier {
     @Enumerated(EnumType.STRING)
     private CautionLevel cautionLevel;
 
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private Authority authority;
+
     private String disease;
 
     private String phoneNumber;
+
+    private String homeTel;
 
     private String uniqueness;
 
@@ -59,7 +67,11 @@ public class Soldier {
 
     private String hasAllergy;
 
+    @NotNull
     private int point;
+
+    @NotNull
+    private int logInFailCnt;
 
     @OneToMany(
             mappedBy = "soldier",
@@ -85,5 +97,58 @@ public class Soldier {
 
     public void setQnaList(List<Qna> qnaList) {
         this.qnaList = qnaList;
+    }
+
+    public void setPoint(int point) {
+        this.point = point;
+    }
+
+    public void setAuthority(Authority authority) {
+        this.authority = authority;
+    }
+
+    public void setLogInFailCnt(int logInFailCnt) {
+        this.logInFailCnt = logInFailCnt;
+    }
+
+    public void update(Soldier soldier) {
+        platoonNum = soldier.getPlatoonNum();
+        password = soldier.getPassword();
+        birthday = soldier.getBirthday();
+        generation = soldier.getGeneration();
+        battalion = soldier.getBattalion();
+        company = soldier.getCompany();
+        platoon = soldier.getPlatoon();
+        name = soldier.getName();
+        cautionLevel = soldier.getCautionLevel();
+        disease = soldier.getDisease();
+        phoneNumber = soldier.getPhoneNumber();
+        homeTel = soldier.getHomeTel();
+        uniqueness = soldier.getUniqueness();
+        isVegan = soldier.getIsVegan();
+        hasAllergy = soldier.getHasAllergy();
+        logInFailCnt = 0;
+    }
+
+    public SoldierResponseDto toDto() {
+        return SoldierResponseDto.builder()
+                .id(id)
+                .platoonNum(platoonNum)
+                .birthday(birthday)
+                .generation(generation)
+                .battalion(battalion)
+                .company(company)
+                .platoon(platoon)
+                .name(name)
+                .cautionLevel(cautionLevel == null ? null : cautionLevel.name())
+                .authority(authority == null ? null : authority.name())
+                .disease(disease)
+                .phoneNumber(phoneNumber)
+                .homeTel(homeTel)
+                .uniqueness(uniqueness)
+                .isVegan(isVegan == null ? null : isVegan.name())
+                .hasAllergy(hasAllergy)
+                .point(point)
+                .build();
     }
 }

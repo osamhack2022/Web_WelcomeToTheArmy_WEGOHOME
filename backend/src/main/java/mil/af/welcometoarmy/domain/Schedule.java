@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @Getter
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @NoArgsConstructor(access =  AccessLevel.PROTECTED)
-public class Schedule {
+public class Schedule extends BaseTimeEntity {
 
     @Id
     @GeneratedValue
