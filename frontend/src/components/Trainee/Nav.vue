@@ -1,7 +1,7 @@
 <template>
     <nav class="navbar sticky-top">
         <div class="nav-top">
-            <a class="navbar-brand" href="/trainee">WELCOME TO ARMY</a>
+            <a class="navbar-brand" href="/trainee/main">WELCOME TO ARMY</a>
         </div>
     </nav>
 </template>

@@ -14,6 +14,9 @@ import InstructorList from "@components/Instructor/InstructorList.vue"
 import TraineeLogin from "@components/Trainee/Login.vue"
 import TraineeView from "@components/Trainee/View.vue"
 import TraineeMain from "@components/Trainee/Main.vue"
+import TraineeCalendar from "@components/Trainee/Calendar.vue"
+import TraineeCounsel from "@components/Trainee/Counsel.vue"
+import TraineeGallery from "@components/Trainee/Gallery.vue"
 
 const router = createRouter({
     history : createWebHistory(),
@@ -31,6 +34,9 @@ const router = createRouter({
         {path: "/trlogin", component: TraineeLogin},
         {path: "/trainee", component: TraineeView, redirect: "/trainee/main", children: [
             {path: "main", component: TraineeMain},
+            {path: "calendar", component: TraineeCalendar},
+            {path: "counsel", component: TraineeCounsel},
+            {path: "gallery", component: TraineeGallery},
         ]},
 
 
