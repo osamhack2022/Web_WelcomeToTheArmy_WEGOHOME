@@ -2,7 +2,7 @@
     <nav class="navbar sticky-top">
         <div class="nav-top">
             <div class="nav-left">
-                <a class="navbar-brand" href="/instructor">WELCOME TO ARMY</a>
+                <a class="navbar-brand" href="/instructor/trainee">WELCOME TO ARMY</a>
             </div>
             <div class="nav-right">
                 <div class="profile">
