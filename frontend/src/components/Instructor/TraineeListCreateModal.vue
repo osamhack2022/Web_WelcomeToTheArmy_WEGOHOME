@@ -119,7 +119,7 @@ export default {
             const onFailed = (data) => {
                 alert("훈련병을 추가하는데 실패하였습니다.")
             }
-            axiosPost("/trainee", this.trainee, onSuccess, onFailed)
+            axiosPost("/soldier/create", this.trainee, onSuccess, onFailed)
         },
     }
 }
