@@ -1,6 +1,8 @@
 package mil.af.welcometoarmy.domain;
 
 import lombok.*;
+import mil.af.welcometoarmy.domain.enums.Authority;
+import mil.af.welcometoarmy.web.dto.manager.ManagerResponseDto;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -33,7 +35,6 @@ public class Manager extends BaseTimeEntity {
     @NotNull
     private String position;
 
-    @NotNull
     private String battalion;
 
     private String company;
@@ -44,7 +45,11 @@ public class Manager extends BaseTimeEntity {
     private String phoneNumber;
 
     @NotNull
-    private int signInFailCnt;
+    private int logInFailCnt;
+
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private Authority authority;
 
     @OneToMany(
             mappedBy = "manager",
@@ -67,4 +72,41 @@ public class Manager extends BaseTimeEntity {
     public void setNoticeList(List<Notice> noticeList) {
         this.noticeList = noticeList;
     }
+
+    public void setAuthority(Authority authority) {
+        this.authority = authority;
+    }
+
+    public void setLogInFailCnt(int logInFailCnt) {
+        this.logInFailCnt = logInFailCnt;
+    }
+
+    public void update(Manager manager) {
+        managerId = manager.getManagerId();
+        password = manager.getPassword();
+        name = manager.getName();
+        rank = manager.getRank();
+        position = manager.getPosition();
+        battalion = manager.getBattalion();
+        company = manager.getCompany();
+        platoon = manager.getPlatoon();
+        phoneNumber = manager.getPhoneNumber();
+        logInFailCnt = 0;
+    }
+
+    public ManagerResponseDto toDto() {
+        return ManagerResponseDto.builder()
+                .id(id)
+                .managerId(managerId)
+                .name(name)
+                .rank(rank)
+                .position(position)
+                .battalion(battalion)
+                .company(company)
+                .phoneNumber(phoneNumber)
+                .authority(authority.name())
+                .build();
+    }
+
+
 }

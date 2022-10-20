@@ -1,4 +1,4 @@
-package mil.af.welcometoarmy.web.dto;
+package mil.af.welcometoarmy.web.dto.manager;
 
 import lombok.*;
 import lombok.extern.jackson.Jacksonized;
@@ -11,12 +11,11 @@ import javax.validation.constraints.NotBlank;
 @Jacksonized
 @NoArgsConstructor
 @AllArgsConstructor
-public class SoldierDto {
+public class ManagerLoginDto {
 
     @NotBlank(message = "아이디를 입력해주세요.")
-    private String platoonNum;
+    private String managerId;
 
     @NotBlank(message = "비밀번호를 입력해주세요.")
     private String password;
-
 }

@@ -4,14 +4,17 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import mil.af.welcometoarmy.config.security.jwt.JwtTokenProvider;
+import mil.af.welcometoarmy.domain.Manager;
 import mil.af.welcometoarmy.domain.Soldier;
 import mil.af.welcometoarmy.exception.ExceptionMessage;
-import mil.af.welcometoarmy.service.SoldierService;
+import mil.af.welcometoarmy.service.ManagerService;
 import mil.af.welcometoarmy.web.dto.BasicResponse;
-import mil.af.welcometoarmy.web.dto.soldier.SoldierCreateDto;
+import mil.af.welcometoarmy.web.dto.manager.ManagerCreateDto;
+import mil.af.welcometoarmy.web.dto.manager.ManagerLoginDto;
+import mil.af.welcometoarmy.web.dto.manager.ManagerResponseDto;
+import mil.af.welcometoarmy.web.dto.manager.ManagerUpdateDto;
 import mil.af.welcometoarmy.web.dto.soldier.SoldierLogInDto;
 import mil.af.welcometoarmy.web.dto.soldier.SoldierResponseDto;
-import mil.af.welcometoarmy.web.dto.soldier.SoldierUpdateDto;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,23 +25,21 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
-import java.io.IOException;
 
-@Api(tags = "훈련병 API")
+@Api(tags = "관리자 API")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/soldier")
-public class SoldierApiController {
+@RequestMapping("/api/manager")
+public class ManagerApiController {
 
-    private final SoldierService soldierService;
-
-    private final JwtTokenProvider jwtTokenProvider;
+    private final ManagerService managerService;
 
     private final PasswordEncoder passwordEncoder;
+
+    private final JwtTokenProvider jwtTokenProvider;
 
     @InitBinder
     public void initBinder(WebDataBinder dataBinder) {
@@ -48,108 +49,96 @@ public class SoldierApiController {
     }
 
     @PostMapping("/create")
-    @Secured({"ROLE_MANAGER", "ROLE_ADMINISTRATOR"})
-    @ApiOperation(value = "훈련병 생성")
-    public ResponseEntity<BasicResponse> createSoldier(@RequestBody @Valid SoldierCreateDto soldierCreateDto, BindingResult bindingResult) {
+    @Secured("ROLE_ADMINISTRATOR")
+    @ApiOperation(value = "관리자 생성")
+    public ResponseEntity<BasicResponse> createManager(@RequestBody @Valid ManagerCreateDto managerCreateDto, BindingResult bindingResult) {
 
         if(bindingResult.hasErrors()) {throw new
                 IllegalArgumentException(bindingResult.getAllErrors().get(0).getDefaultMessage());
         }
 
-        soldierService.save(soldierCreateDto);
+        managerService.save(managerCreateDto);
 
         return new ResponseEntity<>(
                 BasicResponse.builder()
                         .httpStatus(HttpStatus.CREATED)
-                        .message("훈련병 생성 완료")
-                        .build(), HttpStatus.CREATED);
-    }
-
-    @PostMapping(value = "/createMultiple")
-    @Secured({"ROLE_MANAGER", "ROLE_ADMINISTRATOR"})
-    @ApiOperation(value = "훈련병 엑셀로 다중 생성")
-    public ResponseEntity<BasicResponse> createMultipleSoldier(@RequestPart(value = "file") MultipartFile file) throws IOException {
-
-        soldierService.saveMultiple(file);
-
-        return new ResponseEntity<>(
-                BasicResponse.builder()
-                        .httpStatus(HttpStatus.CREATED)
-                        .message("훈련병 다중 생성 완료")
+                        .message("관리자 생성 완료")
                         .build(), HttpStatus.CREATED);
     }
 
     @PostMapping(value = "/read/{id}")
-    @ApiOperation(value = "훈련병 정보 조회")
-    public ResponseEntity<BasicResponse> readSoldier(@PathVariable Long id, @ApiIgnore @AuthenticationPrincipal UserDetails userDetails) {
+    @Secured({"ROLE_MANAGER", "ROLE_ADMINISTRATOR"})
+    @ApiOperation(value = "관리자 정보 조회")
+    public ResponseEntity<BasicResponse> readManager(@PathVariable Long id, @ApiIgnore @AuthenticationPrincipal UserDetails userDetails) {
 
-        SoldierResponseDto dto = soldierService.getOne(id, userDetails);
+        ManagerResponseDto dto = managerService.getOne(id, userDetails);
 
         return new ResponseEntity<>(
                 BasicResponse.builder()
                         .httpStatus(HttpStatus.OK)
-                        .message("훈련병 정보 조회 완료")
+                        .message("관리자 정보 조회 완료")
                         .data(dto)
                         .build(), HttpStatus.OK);
     }
 
-    @PostMapping(value = "/update/{id}")
-    @ApiOperation(value = "훈련병 정보 수정")
-    public ResponseEntity<BasicResponse> updateSoldier(@PathVariable Long id, @RequestBody @Valid SoldierUpdateDto soldierUpdateDto,
+    @PostMapping("/update/{id}")
+    @Secured({"ROLE_MANAGER", "ROLE_ADMINISTRATOR"})
+    @ApiOperation(value = "관리자 수정")
+    public ResponseEntity<BasicResponse> updateManager(@PathVariable Long id, @RequestBody @Valid ManagerUpdateDto managerUpdateDto,
                                                        @ApiIgnore @AuthenticationPrincipal UserDetails userDetails, BindingResult bindingResult) {
 
         if(bindingResult.hasErrors()) {throw new
                 IllegalArgumentException(bindingResult.getAllErrors().get(0).getDefaultMessage());
         }
 
-        soldierService.update(id, soldierUpdateDto, userDetails);
+        managerService.update(id, managerUpdateDto, userDetails);
 
         return new ResponseEntity<>(
                 BasicResponse.builder()
                         .httpStatus(HttpStatus.OK)
-                        .message("훈련병 정보 수정 완료")
+                        .message("관리자 수정 완료")
                         .build(), HttpStatus.OK);
     }
 
     @PostMapping("/delete/{id}")
     @Secured({"ROLE_MANAGER", "ROLE_ADMINISTRATOR"})
-    @ApiOperation(value = "훈련병 삭제")
-    public ResponseEntity<BasicResponse> deleteSoldier(@PathVariable Long id, @ApiIgnore @AuthenticationPrincipal UserDetails userDetails) {
+    @ApiOperation(value = "관리자 삭제")
+    public ResponseEntity<BasicResponse> deleteManager(@PathVariable Long id, @ApiIgnore @AuthenticationPrincipal UserDetails userDetails) {
 
-        soldierService.delete(id, userDetails);
+        managerService.delete(id, userDetails);
 
         return new ResponseEntity<>(
                 BasicResponse.builder()
                         .httpStatus(HttpStatus.OK)
-                        .message("훈련병 삭제 완료")
+                        .message("관리자 삭제 완료")
                         .build(), HttpStatus.OK);
     }
 
     @PostMapping(value = "/logIn")
-    @ApiOperation(value = "훈련병 로그인")
-    public ResponseEntity<BasicResponse> logIn(@RequestBody @Valid SoldierLogInDto soldierLogInDto, BindingResult bindingResult) {
+    @ApiOperation(value = "관리자 로그인")
+    public ResponseEntity<BasicResponse> logIn(@RequestBody @Valid ManagerLoginDto managerLoginDto, BindingResult bindingResult) {
 
         if(bindingResult.hasErrors()) {throw new
                 IllegalArgumentException(bindingResult.getAllErrors().get(0).getDefaultMessage());
         }
 
-        Soldier soldier = soldierService.getOneByPlatoonNum(soldierLogInDto.getPlatoonNum());
+        Manager manager = managerService.getOneByManagerId(managerLoginDto.getManagerId());
 
-        if (!passwordEncoder.matches(soldierLogInDto.getPassword(), soldier.getPassword())) {
-            soldierService.logInFail(soldier);
-            soldierService.failCountCheck(soldier);
+        if (!passwordEncoder.matches(managerLoginDto.getPassword(), manager.getPassword())) {
+            managerService.logInFail(manager);
+            managerService.failCountCheck(manager);
             throw new IllegalArgumentException(ExceptionMessage.SIGN_IN_FAIL_MESSAGE);
         }
 
-        soldierService.failCountCheck(soldier);
-        soldierService.failCntClear(soldier);
+        managerService.failCountCheck(manager);
+        managerService.failCntClear(manager);
 
-        String token = jwtTokenProvider.createToken(soldier.getPlatoonNum(), soldier.getAuthority());
+        String token = jwtTokenProvider.createToken(manager.getManagerId(), manager.getAuthority());
 
         return new ResponseEntity<>(
                 BasicResponse.builder()
                         .httpStatus(HttpStatus.OK)
-                        .message("훈련병 로그인 완료")
+                        .message("관리자 로그인 완료")
                         .data(token)
                         .build(), HttpStatus.OK);
     }
