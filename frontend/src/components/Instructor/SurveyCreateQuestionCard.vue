@@ -2,7 +2,7 @@
 <section class="question-card">
     <section class="option-area">
         <div class="option-right">
-            <select v-model="question.type" class="question-type">
+            <select v-model="question.type" class="question-type" @input="updateQuestion">
                 <option selected>주관식</option>
                 <option>객관식</option>
             </select>
@@ -13,19 +13,19 @@
         <div class="title-area">
             <div>
                 <span class="question-title">질문. {{ questionIndex + 1}} </span><br />
-                <input v-model="question.title" class="data-text data-title form-control" type="text" />
+                <input v-model="question.title" class="data-text data-title form-control" type="text" @change="updateQuestion"/>
             </div>
             <div>
                 <span class="question-title">질문 설명</span><br />
-                <input v-model="question.description" class="data-text data-title form-control" type="text" />
+                <input v-model="question.description" class="data-text data-title form-control" type="text" @change="updateQuestion"/>
             </div>
         </div>
         <div class="answer-area" v-if="question.type == '객관식'">
             <hr />
-            <div v-for="(option, i) in options">
+            <div v-for="(option, i) in question.options">
                 <span class="option-num">선택 {{ i + 1 }}.</span>
                 <div class="option-box">
-                    <input v-model="options[i]" type="text" class="option data-text form-control" />
+                    <input v-model="question.options[i]" type="text" class="option data-text form-control" @change="updateQuestion" />
                     <button class="btn btn-outline-danger" @click="removeOption(i)">선택 삭제</button>
                 </div>
                 <br />
@@ -41,7 +41,7 @@ export default {
     props: {
         questionIndex: {
             type: Number,
-        }
+        },
     },
     data() {
         return {
@@ -49,18 +49,23 @@ export default {
                 type: "주관식",
                 title: "",
                 description: "",
-                value: "",
+                options: ["", ""],
             },
-            options: [""],
         }
     },
     methods: {
+        updateQuestion() {
+            this.$parent.updateQuestion(this.question, this.questionIndex)
+            this.$forceUpdate()
+        },
         addOption() {
-            this.options.push("")
+            this.question.options.push("")
+            this.updateQuestion()
         },
         removeOption(index) {
-            this.options.splice(index, 1)
-        }
+            this.question.options.splice(index, 1)
+            this.updateQuestion()
+        },
     },
 }
 </script>
