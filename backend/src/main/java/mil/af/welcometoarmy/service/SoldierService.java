@@ -166,4 +166,10 @@ public class SoldierService {
                     "패스워드 분실 시 관리자에게 문의해주세요.");
     }
 
+    //로그인 실패 카운트 초기화
+    @Transactional
+    public void failCntClear(Soldier soldier) {
+        soldier.setLogInFailCnt(0);
+    }
+
 }

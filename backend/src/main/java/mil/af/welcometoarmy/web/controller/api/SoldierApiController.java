@@ -15,6 +15,7 @@ import mil.af.welcometoarmy.web.dto.soldier.SoldierUpdateDto;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -47,6 +48,7 @@ public class SoldierApiController {
     }
 
     @PostMapping("/create")
+    @Secured({"ROLE_MANAGER", "ROLE_ADMINISTRATOR"})
     @ApiOperation(value = "훈련병 생성")
     public ResponseEntity<BasicResponse> createSoldier(@RequestBody @Valid SoldierCreateDto soldierCreateDto, BindingResult bindingResult) {
 
@@ -64,6 +66,7 @@ public class SoldierApiController {
     }
 
     @PostMapping(value = "/createMultiple")
+    @Secured({"ROLE_MANAGER", "ROLE_ADMINISTRATOR"})
     @ApiOperation(value = "훈련병 엑셀로 다중 생성")
     public ResponseEntity<BasicResponse> createMultipleSoldier(@RequestPart(value = "file") MultipartFile file) throws IOException {
 
@@ -109,6 +112,7 @@ public class SoldierApiController {
     }
 
     @PostMapping("/delete/{id}")
+    @Secured({"ROLE_MANAGER", "ROLE_ADMINISTRATOR"})
     @ApiOperation(value = "훈련병 삭제")
     public ResponseEntity<BasicResponse> deleteSoldier(@PathVariable Long id, @ApiIgnore @AuthenticationPrincipal UserDetails userDetails) {
 
@@ -138,7 +142,7 @@ public class SoldierApiController {
         }
 
         soldierService.failCountCheck(soldier);
-        soldier.setLogInFailCnt(0);
+        soldierService.failCntClear(soldier);
 
         String token = jwtTokenProvider.createToken(soldier.getPlatoonNum(), soldier.getAuthority());
 

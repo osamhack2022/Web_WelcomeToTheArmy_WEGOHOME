@@ -2,6 +2,7 @@ package mil.af.welcometoarmy.domain;
 
 import lombok.*;
 import mil.af.welcometoarmy.domain.enums.Authority;
+import mil.af.welcometoarmy.web.dto.manager.ManagerResponseDto;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -76,6 +77,10 @@ public class Manager extends BaseTimeEntity {
         this.authority = authority;
     }
 
+    public void setLogInFailCnt(int logInFailCnt) {
+        this.logInFailCnt = logInFailCnt;
+    }
+
     public void update(Manager manager) {
         managerId = manager.getManagerId();
         password = manager.getPassword();
@@ -88,4 +93,20 @@ public class Manager extends BaseTimeEntity {
         phoneNumber = manager.getPhoneNumber();
         logInFailCnt = 0;
     }
+
+    public ManagerResponseDto toDto() {
+        return ManagerResponseDto.builder()
+                .id(id)
+                .managerId(managerId)
+                .name(name)
+                .rank(rank)
+                .position(position)
+                .battalion(battalion)
+                .company(company)
+                .phoneNumber(phoneNumber)
+                .authority(authority.name())
+                .build();
+    }
+
+
 }
