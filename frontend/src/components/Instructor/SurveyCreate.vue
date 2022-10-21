@@ -19,6 +19,8 @@
 import QuestionCard from "@components/Instructor/SurveyCreateQuestionCard.vue"
 import useAxios from "@app_modules/axios.js"
 
+const { axiosPost } = useAxios()
+
 export default {
     data() {
         return {
