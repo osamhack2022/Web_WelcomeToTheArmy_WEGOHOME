@@ -17,6 +17,7 @@ import TraineeMain from "@components/Trainee/Main.vue"
 import TraineeCalendar from "@components/Trainee/Calendar.vue"
 import TraineeCounsel from "@components/Trainee/Counsel.vue"
 import TraineeGallery from "@components/Trainee/Gallery.vue"
+import TraineeSurvey from "@components/Trainee/Survey.vue" 
 
 const router = createRouter({
     history : createWebHistory(),
@@ -37,6 +38,7 @@ const router = createRouter({
             {path: "calendar", component: TraineeCalendar},
             {path: "counsel", component: TraineeCounsel},
             {path: "gallery", component: TraineeGallery},
+            {path: "survey/:id", component: TraineeSurvey},
         ]},
 
 

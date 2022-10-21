@@ -2,7 +2,7 @@
 <div>
 <h1 class="widget-title"> 조사전달 </h1>
 <div class="widget">
-    <p class="survey">[오늘마감] 개인정보수집동의서</p>
+    <router-link to="survey/1"><p class="survey">[오늘마감] 개인정보수집동의서</p></router-link>
     <p class="survey">[D-3] 개인 피복류 사이즈 조사</p>
     <p class="survey not-answered">[D-5] 상담 희망자 조사</p>
 </div>
@@ -33,6 +33,10 @@ export default {
 * {
     margin: 0; padding: 0;
 }
+a {
+    text-decoration: none;
+    color: black;
+}
 .widget-title {
     font-size: 16px;
     font-weight: bold;
@@ -49,6 +53,6 @@ export default {
     background-color: #D9D9D9;
 }
 .not-answered {
-    color: red; font-weight: 800;
+    color: red !important; font-weight: 800;
 }
 </style>
