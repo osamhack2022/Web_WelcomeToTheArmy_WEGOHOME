@@ -27,7 +27,7 @@ export default {
             questionList: [],
             survey: {
                 title: "",
-                question: "",
+                questions: "",
             }
         }
     },
@@ -52,7 +52,7 @@ export default {
             const onFailed = (data) => {
                 alert("조사전달을 추가하는데 실패하였습니다.")
             }
-            this.survey.question = this.questionList
+            this.survey.questions = this.questionList
             console.log(this.survey)
             axiosPost("/survey/create", this.survey, onSuccess, onFailed)
         }
