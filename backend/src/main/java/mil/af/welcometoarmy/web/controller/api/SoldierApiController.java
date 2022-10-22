@@ -47,7 +47,7 @@ public class SoldierApiController {
         dataBinder.registerCustomEditor(String.class, stringTrimmerEditor);
     }
 
-    @PostMapping("/create")
+    @PostMapping()
     @Secured({"ROLE_MANAGER", "ROLE_ADMINISTRATOR"})
     @ApiOperation(value = "훈련병 생성")
     public ResponseEntity<BasicResponse> createSoldier(@RequestBody @Valid SoldierCreateDto soldierCreateDto, BindingResult bindingResult) {
@@ -65,7 +65,7 @@ public class SoldierApiController {
                         .build(), HttpStatus.CREATED);
     }
 
-    @PostMapping(value = "/createMultiple")
+    @PostMapping(value = "/multiple")
     @Secured({"ROLE_MANAGER", "ROLE_ADMINISTRATOR"})
     @ApiOperation(value = "훈련병 엑셀로 다중 생성")
     public ResponseEntity<BasicResponse> createMultipleSoldier(@RequestPart(value = "file") MultipartFile file) throws IOException {
@@ -79,7 +79,7 @@ public class SoldierApiController {
                         .build(), HttpStatus.CREATED);
     }
 
-    @PostMapping(value = "/read/{id}")
+    @GetMapping(value = "/{id}")
     @ApiOperation(value = "훈련병 정보 조회")
     public ResponseEntity<BasicResponse> readSoldier(@PathVariable Long id, @ApiIgnore @AuthenticationPrincipal UserDetails userDetails) {
 
@@ -93,7 +93,7 @@ public class SoldierApiController {
                         .build(), HttpStatus.OK);
     }
 
-    @PostMapping(value = "/update/{id}")
+    @PutMapping(value = "/{id}")
     @ApiOperation(value = "훈련병 정보 수정")
     public ResponseEntity<BasicResponse> updateSoldier(@PathVariable Long id, @RequestBody @Valid SoldierUpdateDto soldierUpdateDto,
                                                        @ApiIgnore @AuthenticationPrincipal UserDetails userDetails, BindingResult bindingResult) {
@@ -111,7 +111,7 @@ public class SoldierApiController {
                         .build(), HttpStatus.OK);
     }
 
-    @PostMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     @Secured({"ROLE_MANAGER", "ROLE_ADMINISTRATOR"})
     @ApiOperation(value = "훈련병 삭제")
     public ResponseEntity<BasicResponse> deleteSoldier(@PathVariable Long id, @ApiIgnore @AuthenticationPrincipal UserDetails userDetails) {
@@ -125,7 +125,7 @@ public class SoldierApiController {
                         .build(), HttpStatus.OK);
     }
 
-    @PostMapping(value = "/logIn")
+    @PostMapping(value = "/login")
     @ApiOperation(value = "훈련병 로그인")
     public ResponseEntity<BasicResponse> logIn(@RequestBody @Valid SoldierLogInDto soldierLogInDto, BindingResult bindingResult) {
 
