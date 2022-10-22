@@ -17,13 +17,13 @@
                 <hr />
                 <div class="form-check" v-for="option in question.options">
                     <input type="radio" class="form-check-input" :name="survey" :id="option" :value="option" v-model="this.survey_result.answers[question.title]" required/>
-                    <label class="form-check-label">{{ option }}</label>
+                    <label class="form-check-label" :for="option">{{ option }}</label>
                 </div>
             </div>
         </div>
     </section>
     <section class="buttons-area">
-        <button type="submit" class="btn btn-primary">제출</button>
+        <button type="submit" @click.prevent="submitSurveyAnswer" class="btn btn-primary">제출</button>
     </section>
     </form>
 </template>
@@ -31,7 +31,7 @@
 <script>
 import useAxios from "@app_modules/axios.js"
 
-const { axiosGET } = useAxios()
+const { axiosGet, axiosPost } = useAxios()
 
 export default {
     data() {
@@ -72,6 +72,17 @@ export default {
         this.survey = test_survey
         this.survey_result.response_time = new Date()
     },
+    methods: {
+        submitSurveyAnswer() {
+            const onSuccess = (data) => {
+                alert("응답이 저장되었습니다.")
+            }
+            const onFailed = (data) => {
+                alert("응답을 저장하는데 실패했습니다.")
+            }
+            axiosPost("/survey/answer", this.survey_result, onSuccess, onFailed)
+        }
+    }
 }
 </script>
 
@@ -91,5 +102,8 @@ export default {
 
 hr { margin: 0; margin-bottom: 15px; }
 .form-check-input { padding: 1px 2px; }
+
+.button-area { width: 100%; }
+.btn-primary { text-align: center; width: 16%; margin: 0 42%;  }
 
 </style>
