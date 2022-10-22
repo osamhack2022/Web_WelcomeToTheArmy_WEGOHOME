@@ -48,7 +48,7 @@ public class ManagerApiController {
         dataBinder.registerCustomEditor(String.class, stringTrimmerEditor);
     }
 
-    @PostMapping("/create")
+    @PostMapping()
     @Secured("ROLE_ADMINISTRATOR")
     @ApiOperation(value = "관리자 생성")
     public ResponseEntity<BasicResponse> createManager(@RequestBody @Valid ManagerCreateDto managerCreateDto, BindingResult bindingResult) {
@@ -66,7 +66,7 @@ public class ManagerApiController {
                         .build(), HttpStatus.CREATED);
     }
 
-    @PostMapping(value = "/read/{id}")
+    @GetMapping(value = "/{id}")
     @Secured({"ROLE_MANAGER", "ROLE_ADMINISTRATOR"})
     @ApiOperation(value = "관리자 정보 조회")
     public ResponseEntity<BasicResponse> readManager(@PathVariable Long id, @ApiIgnore @AuthenticationPrincipal UserDetails userDetails) {
@@ -81,7 +81,7 @@ public class ManagerApiController {
                         .build(), HttpStatus.OK);
     }
 
-    @PostMapping("/update/{id}")
+    @PutMapping("/{id}")
     @Secured({"ROLE_MANAGER", "ROLE_ADMINISTRATOR"})
     @ApiOperation(value = "관리자 수정")
     public ResponseEntity<BasicResponse> updateManager(@PathVariable Long id, @RequestBody @Valid ManagerUpdateDto managerUpdateDto,
@@ -100,7 +100,7 @@ public class ManagerApiController {
                         .build(), HttpStatus.OK);
     }
 
-    @PostMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     @Secured({"ROLE_MANAGER", "ROLE_ADMINISTRATOR"})
     @ApiOperation(value = "관리자 삭제")
     public ResponseEntity<BasicResponse> deleteManager(@PathVariable Long id, @ApiIgnore @AuthenticationPrincipal UserDetails userDetails) {
@@ -114,7 +114,7 @@ public class ManagerApiController {
                         .build(), HttpStatus.OK);
     }
 
-    @PostMapping(value = "/logIn")
+    @PostMapping(value = "/login")
     @ApiOperation(value = "관리자 로그인")
     public ResponseEntity<BasicResponse> logIn(@RequestBody @Valid ManagerLoginDto managerLoginDto, BindingResult bindingResult) {
 
