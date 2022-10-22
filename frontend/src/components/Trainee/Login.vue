@@ -6,16 +6,16 @@
         <form action="">
             <div class="input-area">
                 <input type="text" name="id" id="id" 
-                autocomplete="off" required/>
+                autocomplete="off" v-model="user.platoonNum" required/>
                 <label for="id">군번</label>
             </div>
             <div class="input-area">
                 <input type="password" name="pw" id="pw"
-                autocomplete="off" required/>
+                autocomplete="off" v-model="user.password" required/>
                 <label for="pw">생년월일 (yymmdd)</label>
             </div>
             <div class="button-area">
-                <router-link to="/trainee"><button type="submit">LOGIN</button></router-link>
+                <button @click.prevent="login" type="submit">LOGIN</button>
             </div>
         </form>
     </section>
@@ -23,8 +23,32 @@
 </template>
 
 <script>
+import useAxios from "@app_modules/axios.js"
+
+const { axiosPost } = useAxios()
+
 export default {
-    
+    data() {
+        return {
+            user: {
+                platoonNum: null,
+                password: null,
+            }
+        }
+    },
+    methods: {
+        login(){
+            const onSuccess = (data) => {
+                console.log(data.data)
+                localStorage.setItem("traineeLoginToken", data.data)
+                this.$router.push("/trainee")
+            }
+            const onFailed = (data) => {
+                alert("로그인 실패! 군번과 비밀번호를 확인하세요.")
+            }
+            axiosPost("soldier/login", this.user, onSuccess, onFailed)
+        }
+    }
 }
 </script>
 
