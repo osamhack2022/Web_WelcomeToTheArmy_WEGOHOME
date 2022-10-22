@@ -24,49 +24,44 @@
 </template>
 
 <script>
+import useAxios from "@app_modules/axios.js"
+
+const { axiosGet } = useAxios()
+
 export default {
     data() {
         const month = new Date().getMonth();
         const year = new Date().getFullYear();
         return {
-            masks: {
+          masks: {
             weekdays: 'WWW',
-            },
-            attributes: [
-                {
-                    key: 1,
-                    customData: {
-                    title: 'Lunch with mom.',
-                    class: 'bg-red-600 text-white',
-                    },
-                    dates: new Date(year, month, 1),
-                },
-                {
-                    key: 2,
-                    customData: {
-                    title: 'Take Noah to basketball practice',
-                    class: 'bg-blue-500 text-white',
-                    },
-                    dates: new Date(year, month, 2),
-                },
-                {
-                    key: 3,
-                    customData: {
-                    title: "Noah's basketball game.",
-                    class: 'bg-blue-500 text-white',
-                    },
-                    dates: new Date(year, month, 5),
-                },
-                {
-                    key: 4,
-                    customData: {
-                    title: 'Take car to the shop',
-                    class: 'bg-indigo-500 text-white',
-                    },
-                    dates: new Date(year, month, 5),
-                },
-            ],
+          },
+          attributes: []
         };
+    },
+    created() {
+      // schedules = axiosGet("schedules")
+      const test_schedules = [
+        {
+          key: 1,
+          customData: {
+            title: "수리남 여행",
+            class: 'bg-blue-500 text-white',
+          },
+          dates: { start: "2022-10-28", end: "2022-10-31" },
+          range: "기본군사훈련단",
+        },
+        {
+          key: 2,
+          customData: {
+            title: "발닦고 자기", 
+            class: 'bg-blue-500 text-white',
+          },
+          dates: { start: "2022-10-15", end: "2022-10-15" },
+          range: "4대대 3중대 1소대",
+        }
+      ]
+      this.attributes = test_schedules
     },
 };
 </script>

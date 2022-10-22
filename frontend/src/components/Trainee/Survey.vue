@@ -44,7 +44,7 @@ export default {
         }
     },
     created() {
-        //survey = axiosGET("survey/"+this.$route.params.id)
+        //this.survey = axiosGET("survey/"+this.$route.params.id)
         const test_survey = {
             "title": "테스트 조사전달",
             "questions": [
