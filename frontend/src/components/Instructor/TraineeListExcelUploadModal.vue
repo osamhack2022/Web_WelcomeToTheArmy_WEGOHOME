@@ -6,8 +6,8 @@
         <p class="description"><a href="#">탬플릿 파일 다운로드</a></p>
         <div class="uploader-area">
             <form>
-                <input class="file-uploader" type="file" accept=".xlsx, .csv, .cell" required /><br>
-                <button class="btn btn-primary" type="submit">업로드</button>
+                <input class="file-uploader" type="file" accept=".xlsx, .csv" @change="onFileUpload" ref="excelFile" required /><br>
+                <button class="btn btn-primary" type="submit" @click.prevent="createTraineeByExcel">업로드</button>
                 <button class="btn btn-outline-dark" type="button" @click="$emit('update', !visible)">취소</button>
             </form>
         </div>
@@ -16,8 +16,17 @@
 </template>
 
 <script>
+import useAxios from "@app_modules/axios.js"
+
+const { axiosPost } = useAxios()
+
 export default {
     name: 'ExcelUploadModal',
+    data() {
+        return {
+            excel: { file: null }
+        }
+    },
     props: {
         visible: {
             type: Boolean,
@@ -29,6 +38,19 @@ export default {
         handlebackgroundClick(){
             this.$emit('update', false)
         },
+        onFileUpload() {
+            this.excel.file = this.$refs.excelFile.files[0]
+            console.log(this.excel.file)
+        },
+        createTraineeByExcel() {
+            const onSuccess = (data) => {
+                alert("훈련병들이 성공적으로 추가되었습니다!")
+            }
+            const onFailed = (data) => {
+                alert(data.response.data.message)
+            }
+            axiosPost("soldier/multiple", this.excel.file, onSuccess, onFailed)
+        }
     }
 }
 </script>

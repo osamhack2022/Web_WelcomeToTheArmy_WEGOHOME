@@ -51,7 +51,6 @@ export default {
         updateExcelUploadModalVisibility(v) {
             this.excelUploadModalVisible = v
         },
-
     }
 }
 </script>

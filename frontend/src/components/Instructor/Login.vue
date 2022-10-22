@@ -39,7 +39,6 @@ export default {
     methods: {
         login(){
             const onSuccess = (data) => {
-                console.log(data.data)
                 localStorage.setItem("instructorLoginToken", data.data)
                 this.$router.push("/instructor")
             }

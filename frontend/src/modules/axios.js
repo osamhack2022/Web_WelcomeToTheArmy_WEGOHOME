@@ -18,8 +18,18 @@ export default function () {
     }
     const axiosPost = (URL, data, onSuccess=null, onFailed=null) => {
         const final_URL = URL.startsWith('http') ? URL : BASE_URL + URL
-        axios.post(final_URL, data).then((resp) => {
-            if (resp.status === 200 || resp.data.rsp === 'ok') {
+        var header = { "headers": {}}
+        const insToken = localStorage.getItem("instructorLoginToken")
+        const trToken = localStorage.getItem("traineeLoginToken")
+        if (insToken) {
+            header = { "headers": { "Authorization": insToken }}
+        }
+        if (trToken) {
+            header = { "headers": { "Authorization": trToken }}
+        }
+        axios.post(final_URL, data, header).then((resp) => {
+            console.log("Axios POST Response Status" + resp.status)
+            if (resp.status === 200 || resp.data.rsp === 'ok' || resp.status === 201) {
                 if (onSuccess) {
                     onSuccess(resp.data)
                 }

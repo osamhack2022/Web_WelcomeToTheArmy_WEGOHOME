@@ -14,7 +14,7 @@
                 </div>
                 <div class="data-field">
                     <p class="data-label">소대번호</p>
-                    <input class="data-input form-control" type="number" v-model="trainee.platoon_num" required>
+                    <input class="data-input form-control" type="number" v-model="trainee.platoonNum" required>
                 </div>
                 <div class="data-field">
                     <p class="data-label">생년월일</p>
@@ -22,49 +22,11 @@
                 </div>
                 <div class="data-field">
                     <p class="data-label">연락처</p>
-                    <input class="data-input form-control" type="tel" v-model="trainee.phone_number" pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" placeholder="010-1234-5678" required>
+                    <input class="data-input form-control" type="tel" v-model="trainee.phoneNumber" pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" placeholder="010-1234-5678" required>
                 </div>
                 <div class="data-field">
                     <p class="data-label">보호자 연락처</p>
-                    <input class="data-input form-control" type="text" v-model="trainee.home_tel" pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" placeholder="010-1234-5678" required>
-                </div>
-                <div class="data-field">
-                    <p class="data-label">특이사항</p>
-                    <input class="data-input form-control" type="text" v-model="trainee.uniqueness">
-                </div>
-                <div class="data-field">
-                    <p class="data-label">주의정도</p>
-                    <select class="data-input" v-model="trainee.caution_level">
-                        <option>해당없음</option>
-                        <option>배려병사</option>
-                        <option>도움병사</option>
-                    </select>
-                </div>
-                <div class="data-field">
-                    <p class="data-label">질병</p>
-                    <input class="data-input form-control" type="text" v-model="trainee.disease">
-                </div>
-                <div class="data-field">
-                    <p class="data-label">현재 점수</p>
-                    <input class="data-input form-control" type="number" v-model="trainee.point">
-                </div>
-                <div class="data-field">
-                    <p class="data-label">비건여부</p>
-                    <div class="data-input">
-                        <label class="switch">
-                            <input type="checkbox" v-model="trainee.is_vegan">
-                            <span class="slider round"></span>
-                        </label>
-                    </div>
-                </div>
-                <div class="data-field">
-                    <p class="data-label">알러지 여부</p>
-                    <div class="data-input">
-                        <label class="switch">
-                            <input type="checkbox" v-model="trainee.has_allrgy">
-                            <span class="slider round"></span>
-                        </label>
-                    </div>
+                    <input class="data-input form-control" type="text" v-model="trainee.homeTel" pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" placeholder="010-1234-5678" required>
                 </div>
             </div>
             <div class="button-area">
@@ -86,19 +48,16 @@ export default {
     data() {
         return {
             trainee:  {
-                platoon_num: null,
+                platoonNum: null,
                 birthday: null,
+                battalion: 0,
+                company: 0,
+                platoon: 0,
                 generation: null,
                 name: "",
-                caution_level: "해당없음",
-                disease: "",
-                phone_number: "",
-                home_tel: "",
-                uniqueness: "",
-                is_vegan: false,
-                has_allrgy: false,
-                point: 0,
-            }
+                phoneNumber: "",
+                homeTel: "",
+            },
         }
     },
     props: {
@@ -113,13 +72,17 @@ export default {
             this.$emit('update', false)
         },
         createTrainee(){
+            this.trainee.platoonNum = this.trainee.platoonNum.toString()
+            this.trainee.battalion = this.trainee.platoonNum.substr(0, 1)
+            this.trainee.company = this.trainee.platoonNum.substr(1, 1)
+            this.trainee.platoon = this.trainee.platoonNum.substr(2, 1)
             const onSuccess = (data) => {
-                alert(this.trainee.name + "훈련병이 성공적으로 추가되었습니다!")
+                alert(this.trainee.name + " 훈련병이 성공적으로 추가되었습니다!")
             }
             const onFailed = (data) => {
-                alert("훈련병을 추가하는데 실패하였습니다.")
+                alert(data.response.data.message)
             }
-            axiosPost("/soldier/create", this.trainee, onSuccess, onFailed)
+            axiosPost("soldier", this.trainee, onSuccess, onFailed)
         },
     }
 }
