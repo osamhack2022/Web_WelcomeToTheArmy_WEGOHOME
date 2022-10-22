@@ -26,6 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.Iterator;
 
 @Service
@@ -42,7 +43,7 @@ public class SoldierService {
     @Transactional
     public void save(SoldierCreateDto soldierCreateDto) {
         Soldier soldier = soldierCreateDto.toEntity();
-        soldier.setPassword(passwordEncoder.encode(soldier.getPlatoonNum()));
+        soldier.setPassword(passwordEncoder.encode(birthdayToString(soldier)));
         soldier.setPoint(0);
         soldier.setAuthority(Authority.ROLE_SOLDIER);
         soldier.setLogInFailCnt(0);
@@ -81,10 +82,12 @@ public class SoldierService {
                             .platoonNum(cellIterator.next().getStringCellValue())
                             .name(cellIterator.next().getStringCellValue())
                             .birthday(cellIterator.next().getDateCellValue().toInstant().atZone(ZoneId.systemDefault()).toLocalDate())
+                            .phoneNumber(cellIterator.next().getStringCellValue())
+                            .homeTel(cellIterator.next().getStringCellValue())
                             .build();
 
                     Soldier soldier = soldierInfo.toEntity();
-                    soldier.setPassword(passwordEncoder.encode(soldier.getPlatoonNum()));
+                    soldier.setPassword(passwordEncoder.encode(birthdayToString(soldier)));
                     soldier.setPoint(0);
                     soldier.setAuthority(Authority.ROLE_SOLDIER);
                     soldier.setLogInFailCnt(0);
@@ -172,4 +175,7 @@ public class SoldierService {
         soldier.setLogInFailCnt(0);
     }
 
+    private String birthdayToString(Soldier soldier) {
+        return soldier.getBirthday().format(DateTimeFormatter.ofPattern("yyMMdd"));
+    }
 }
