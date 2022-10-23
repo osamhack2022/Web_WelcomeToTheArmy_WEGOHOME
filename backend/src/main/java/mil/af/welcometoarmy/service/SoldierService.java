@@ -47,9 +47,6 @@ public class SoldierService {
     public void save(SoldierCreateDto soldierCreateDto) {
         Soldier soldier = soldierCreateDto.toEntity();
         soldier.setPassword(passwordEncoder.encode(birthdayToString(soldier)));
-        soldier.setPoint(0);
-        soldier.setAuthority(Authority.ROLE_SOLDIER);
-        soldier.setLogInFailCnt(0);
 
         if (checkDuplication(soldier.getPlatoonNum(), soldier))
             throw new IllegalArgumentException("이미 등록 된 소대번호입니다.");
@@ -91,9 +88,6 @@ public class SoldierService {
 
                     Soldier soldier = soldierInfo.toEntity();
                     soldier.setPassword(passwordEncoder.encode(birthdayToString(soldier)));
-                    soldier.setPoint(0);
-                    soldier.setAuthority(Authority.ROLE_SOLDIER);
-                    soldier.setLogInFailCnt(0);
 
                     if (!checkDuplication(soldier.getPlatoonNum(), soldier)) soldierRepository.save(soldier);
                 }

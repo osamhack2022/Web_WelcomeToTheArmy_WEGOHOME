@@ -63,7 +63,7 @@ public class ManagerService {
 
         if (checkDuplication(manager.getManagerId(), manager))
              throw new IllegalArgumentException("이미 등록된 아이디입니다.");
-        manager.update(manager);
+        manager.update(managerUpdateDto.toEntity());
     }
 
     public ManagerResponseDto getOne(Long id, UserDetails userDetails) {
