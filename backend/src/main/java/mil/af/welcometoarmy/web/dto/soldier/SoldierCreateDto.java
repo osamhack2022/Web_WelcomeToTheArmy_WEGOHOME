@@ -4,6 +4,9 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 import lombok.extern.jackson.Jacksonized;
 import mil.af.welcometoarmy.domain.Soldier;
+import mil.af.welcometoarmy.domain.enums.Authority;
+import mil.af.welcometoarmy.domain.enums.CautionLevel;
+import mil.af.welcometoarmy.domain.enums.IsVegan;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -66,6 +69,11 @@ public class SoldierCreateDto {
                 .birthday(LocalDate.parse(birthday, DateTimeFormatter.ISO_DATE))
                 .phoneNumber(phoneNumber)
                 .homeTel(homeTel)
+                .isVegan(IsVegan.NOT_VEGAN)
+                .cautionLevel(CautionLevel.NORMAL)
+                .point(0)
+                .authority(Authority.ROLE_SOLDIER)
+                .logInFailCnt(0)
                 .build();
     }
 }
