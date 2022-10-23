@@ -11,6 +11,7 @@ import mil.af.welcometoarmy.domain.Soldier;
 import mil.af.welcometoarmy.exception.ExceptionMessage;
 import mil.af.welcometoarmy.service.ManagerService;
 import mil.af.welcometoarmy.web.dto.BasicResponse;
+import mil.af.welcometoarmy.web.dto.LoginResponseDto;
 import mil.af.welcometoarmy.web.dto.manager.ManagerCreateDto;
 import mil.af.welcometoarmy.web.dto.manager.ManagerLoginDto;
 import mil.af.welcometoarmy.web.dto.manager.ManagerResponseDto;
@@ -136,12 +137,16 @@ public class ManagerApiController {
         managerService.failCntClear(manager);
 
         String token = jwtTokenProvider.createToken(manager.getManagerId(), manager.getAuthority());
+        LoginResponseDto dto = LoginResponseDto.builder()
+                .id(manager.getId())
+                .token(token)
+                .build();
 
         return new ResponseEntity<>(
                 BasicResponse.builder()
                         .httpStatus(HttpStatus.OK)
                         .message("관리자 로그인 완료")
-                        .data(token)
+                        .data(dto)
                         .build(), HttpStatus.OK);
     }
 }
