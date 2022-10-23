@@ -39,7 +39,8 @@ export default {
     methods: {
         login(){
             const onSuccess = (data) => {
-                localStorage.setItem("traineeLoginToken", data.data)
+                localStorage.setItem("traineeLoginToken", data.data.token)
+                localStorage.setItem("userId", data.data.id)
                 this.$router.push("/trainee")
             }
             const onFailed = (data) => {

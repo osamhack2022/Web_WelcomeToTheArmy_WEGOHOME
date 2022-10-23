@@ -4,8 +4,8 @@
             <div class="head-left">
                 <img class="trainee-image rounded-circle" src="@/assets/images/instructor_profile_example.jpg" alt="훈련병 프로필 이미지" />
                 <div class="trainee-profile">
-                    <h1 class="trainee-name">상사 김훈련</h1>
-                    <h1 class="trainee-position">신병 4대대 3중대 1소대장</h1>
+                    <h1 class="trainee-name">{{instructor.rank}} {{ instructor.name }}</h1>
+                    <h1 class="trainee-position">{{ instructor.position }}</h1>
                 </div>
             </div>
             <div class="head-right">
@@ -17,19 +17,19 @@
                 <div class="data-area">
                     <div class="data-field">
                         <p class="data-label">이름</p>
-                        <input class="data-input form-control" type="text" required>
+                        <input class="data-input form-control" type="text" v-model="instructor.name" required>
                     </div>
                     <div class="data-field">
                         <p class="data-label">계급</p>
-                        <input class="data-input form-control" type="text" required>
+                        <input class="data-input form-control" type="text" v-model="instructor.rank" required>
                     </div>
                     <div class="data-field">
                         <p class="data-label">군번</p>
-                        <input class="data-input form-control" type="text" required>
+                        <input class="data-input form-control" type="text" v-model="instructor.managerId" required>
                     </div>
                     <div class="data-field">
                         <p class="data-label">직책</p>
-                        <input class="data-input form-control" type="text" required>
+                        <input class="data-input form-control" type="text" v-model="instructor.position" required>
                     </div>
                     <div class="data-field">
                         <p class="data-label">소속</p>
@@ -37,13 +37,13 @@
                     </div>
                     <div class="data-field">
                         <p class="data-label">연락처</p>
-                        <input class="data-input form-control" type="tel" pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" placeholder="010-1234-5678" required>
+                        <input class="data-input form-control" type="tel" pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" placeholder="010-1234-5678" v-model="instructor.phoneNumber" required>
                     </div>
                 </div>
             </section>
             <section class="button-area">
-                <button class="btn btn-primary">수정</button> 
-                <button class="btn btn-danger" type="button">삭제</button>
+                <button class="btn btn-primary" @click.prevent="updateInstructor" type="submit">수정</button> 
+                <button class="btn btn-danger" @click="removeInstructor" type="button">삭제</button>
                 <button class="btn btn-outline-dark" @click="cancelChange($event)" type="button">취소</button>
             </section>
         </form>
@@ -51,33 +51,70 @@
 </template>
 
 <script>
-    export default {
-        methods: {
-            toggleBody(event) {
-                const card = event.currentTarget.parentNode;
-                const body = card.childNodes[1].firstChild;
-                const buttons = card.childNodes[1].childNodes[1];
-                if (body.style.display === "none") {
-                    card.style.height = "auto";
-                    body.style.display = "block";
-                    buttons.style.display = "inline-block";
-                }
-                else {
-                    card.style.height = "60px";
-                    body.style.display = "none";
-                    buttons.style.display = "none";
-                }
-            },
-            cancelChange(event) {
-                const card = event.currentTarget.parentNode.parentNode.parentNode;
-                const body = card.childNodes[1].firstChild;
-                const buttons = card.childNodes[1].childNodes[1];
+import useAxios from "@app_modules/axios.js"
+
+const { axiosDelete, axiosPut } = useAxios()
+
+export default {
+    data() {
+        return {
+            instructor: null,
+        }
+    },
+    props: {
+        propInstructor: {
+            type: Object,
+            required: true,
+        }
+    },
+    methods: {
+        toggleBody(event) {
+            const card = event.currentTarget.parentNode;
+            const body = card.childNodes[1].firstChild;
+            const buttons = card.childNodes[1].childNodes[1];
+            if (body.style.display === "none") {
+                card.style.height = "auto";
+                body.style.display = "block";
+                buttons.style.display = "inline-block";
+            }
+            else {
                 card.style.height = "60px";
                 body.style.display = "none";
                 buttons.style.display = "none";
             }
+        },
+        cancelChange(event) {
+            const card = event.currentTarget.parentNode.parentNode.parentNode;
+            const body = card.childNodes[1].firstChild;
+            const buttons = card.childNodes[1].childNodes[1];
+            card.style.height = "60px";
+            body.style.display = "none";
+            buttons.style.display = "none";
+        },
+        updateInstructor() {
+            const onSuccess = (data) => {
+                alert(this.instructor.name + " 관리자가 수정되었습니다.")
+            }
+            const onFailed = (data) => {
+                alert("정보를 수정하는데 실패하였습니다.\n"+data.response.data.message)
+            }
+            axiosPut("manager/"+this.instructor.id, this.instructor, onSuccess, onFailed)
+        },
+        removeInstructor() {
+            const onSuccess = (data) => {
+                alert(this.instructor.name + " 관리자가 삭제되었습니다.")
+                this.$router.go(this.$router.currentRoute)
+            }
+            const onFailed = (data) => {
+                alert("관리자를 삭제하는데 실패하였습니다.\n"+data.response.data.message)
+            }
+            axiosDelete("manager/"+this.instructor.id, onSuccess, onFailed)
         }
+    },
+    created() {
+        this.instructor = this.propInstructor
     }
+}
 </script>
 
 <style scoped>

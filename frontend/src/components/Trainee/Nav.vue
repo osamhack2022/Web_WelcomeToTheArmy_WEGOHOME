@@ -6,6 +6,32 @@
     </nav>
 </template>
 
+<script>
+import useAxios from "@app_modules/axios.js"
+
+const { axiosGet } = useAxios()
+
+export default {
+    data() {
+        return {
+        }
+    },
+    created() {
+        if(localStorage.getItem("userInfo")){
+            return
+        }
+        const onSuccess = (data) => {
+            localStorage.setItem("userInfo", data.data)
+        }
+        const onFailed = (data) => {
+            alert("유저 정보를 받아오지 못했습니다.")
+            this.$router.push("/trlogin")
+        }
+        axiosGet("soldier/"+localStorage.getItem("userId"), onSuccess, onFailed)
+    }
+}
+</script>
+
 <style scoped>
 * {
     padding: 0; margin: 0;
