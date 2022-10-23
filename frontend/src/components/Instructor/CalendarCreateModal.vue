@@ -63,7 +63,7 @@ export default {
         },
         createSchedule(){
             const onSuccess = (data) => {
-                alert(this.trainee.name + "일정이 성공적으로 추가되었습니다!")
+                alert("일정이 성공적으로 추가되었습니다!")
             }
             const onFailed = (data) => {
                 alert("일정을 추가하는데 실패하였습니다.")

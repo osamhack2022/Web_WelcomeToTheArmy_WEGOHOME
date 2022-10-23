@@ -19,13 +19,16 @@ import TraineeCounsel from "@components/Trainee/Counsel.vue"
 import TraineeGallery from "@components/Trainee/Gallery.vue"
 import TraineeSurvey from "@components/Trainee/Survey.vue" 
 
+// Index Page
+import Index from "@components/Index.vue"
+
 const router = createRouter({
     history : createWebHistory(),
     routes : [
-        {path: "/", redirect: "/trlogin"},
+        {path: "/", component: Index},
 
         {path: "/inslogin", component: InstructorLogin},
-        {path: "/instructor", component: InstructorView, redirect: "/instructor/trainee", children: [
+        {path: "/instructor", component: InstructorView, redirect: "/instructor/trainee", meta: {insAuthRequired: true}, children: [
             {path: "admin", component: InstructorList},
             {path: "trainee", component: InstructorTraineeList},
             {path: "calendar", component: InstructorCalendar},
@@ -33,7 +36,7 @@ const router = createRouter({
             {path: "survey/create", component: InstructorSurveyCreate},
         ]},
         {path: "/trlogin", component: TraineeLogin},
-        {path: "/trainee", component: TraineeView, redirect: "/trainee/main", children: [
+        {path: "/trainee", component: TraineeView, redirect: "/trainee/main", meta: {trAuthRequired: true}, children: [
             {path: "main", component: TraineeMain},
             {path: "calendar", component: TraineeCalendar},
             {path: "counsel", component: TraineeCounsel},
@@ -50,4 +53,25 @@ const router = createRouter({
     ]
 });
 
+router.beforeEach(function (to, from, next) {
+    if (to.matched.some(function(routeInfo) {
+        return routeInfo.meta.insAuthRequired;
+    })) {
+        if (localStorage.getItem("instructorLoginToken")){
+            next()
+            return
+        }
+        router.push("/inslogin")
+    } else if (to.matched.some(function(routeInfo) {
+        return routeInfo.meta.trAuthRequired;
+    })) {
+        if (localStorage.getItem("traineeLoginToken")){
+            next()
+            return
+        }
+        router.push("/trlogin")
+    } else {
+        next()
+    }
+})
 export default router
