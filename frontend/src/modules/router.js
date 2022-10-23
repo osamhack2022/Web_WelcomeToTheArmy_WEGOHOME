@@ -19,10 +19,13 @@ import TraineeCounsel from "@components/Trainee/Counsel.vue"
 import TraineeGallery from "@components/Trainee/Gallery.vue"
 import TraineeSurvey from "@components/Trainee/Survey.vue" 
 
+// Index Page
+import Index from "@components/Index.vue"
+
 const router = createRouter({
     history : createWebHistory(),
     routes : [
-        {path: "/", redirect: "/trlogin"},
+        {path: "/", component: Index},
 
         {path: "/inslogin", component: InstructorLogin},
         {path: "/instructor", component: InstructorView, redirect: "/instructor/trainee", meta: {insAuthRequired: true}, children: [
