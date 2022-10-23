@@ -17,11 +17,8 @@ export default {
         }
     },
     created() {
-        if(localStorage.getItem("userInfo")){
-            return
-        }
         const onSuccess = (data) => {
-            localStorage.setItem("userInfo", data.data)
+            localStorage.setItem("userInfo", JSON.stringify(data.data))
         }
         const onFailed = (data) => {
             alert("유저 정보를 받아오지 못했습니다.")

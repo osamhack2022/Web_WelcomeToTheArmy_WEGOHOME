@@ -48,6 +48,9 @@ export default {
             }
             axiosPost("manager/login", this.user, onSuccess, onFailed)
         }
+    },
+    created() {
+        localStorage.clear()
     }
 }
 </script>

@@ -38,12 +38,12 @@ export default {
     },
     created() {
         if(localStorage.getItem("userInfo")){
-            this.userInfo = localStorage.getItem("userInfo")
+            this.userInfo = JSON.parse(localStorage.getItem("userInfo"))
             return
         }
         const onSuccess = (data) => {
             this.userInfo = data.data
-            localStorage.setItem("userInfo", this.userInfo)
+            localStorage.setItem("userInfo", JSON.stringify(this.userInfo))
         }
         const onFailed = (data) => {
             alert("유저 정보를 받아오지 못했습니다.")

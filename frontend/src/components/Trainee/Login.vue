@@ -48,6 +48,9 @@ export default {
             }
             axiosPost("soldier/login", this.user, onSuccess, onFailed)
         }
+    },
+    created() {
+        localStorage.clear()
     }
 }
 </script>
