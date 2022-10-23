@@ -80,7 +80,7 @@ export default {
                 alert(this.trainee.name + " 훈련병이 성공적으로 추가되었습니다!")
             }
             const onFailed = (data) => {
-                alert(data.response.data.message)
+                alert("훈련병을 추가하는데 실패하였습니다.\n"+data.response.data.message)
             }
             axiosPost("soldier", this.trainee, onSuccess, onFailed)
         },

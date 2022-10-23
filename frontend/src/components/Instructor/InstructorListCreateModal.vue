@@ -14,19 +14,27 @@
                     </div>
                     <div class="data-field">
                         <p class="data-label">군번</p>
-                        <input class="data-input form-control" type="text" v-model="instructor.manager_id" required>
+                        <input class="data-input form-control" type="text" v-model="instructor.managerId" required>
                     </div>
                     <div class="data-field">
                         <p class="data-label">직책</p>
                         <input class="data-input form-control" type="text" v-model="instructor.position" required>
                     </div>
                     <div class="data-field">
-                        <p class="data-label">소속</p>
-                        <input class="data-input form-control" type="text" v-model="instructor.battalion" required>
+                        <p class="data-label">비밀번호</p>
+                        <input class="data-input form-control" type="password" v-model="instructor.password" required>
+                    </div>
+                    <div class="data-field">
+                        <p class="data-label">비밀번호 확인</p>
+                        <input class="data-input form-control" type="password" v-model="instructor.passwordCheck" required>
+                    </div>
+                    <div class="data-field">
+                        <p class="data-label">소대번호</p>
+                        <input class="data-input form-control" type="text" v-model="instructor.platoonNum" placeholder="431 | 없을 시 000" required>
                     </div>
                     <div class="data-field">
                         <p class="data-label">연락처</p>
-                        <input class="data-input form-control" type="tel" v-model="instructor.tel" pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" placeholder="010-1234-5678" required>
+                        <input class="data-input form-control" type="phoneNumber" v-model="instructor.phoneNumber" pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" placeholder="010-1234-5678" required>
                     </div>
                 </div>
                 <div class="button-area">
@@ -48,14 +56,17 @@ export default {
     data() {
         return {
             instructor:  {
-                manager_id: null,
+                managerId: null,
+                password: null,
+                passwordCheck: null,
                 name: null,
                 rank: null,
+                platoonNum: null,
                 position: null,
                 battalion: null,
                 company: null,
                 platoon: null,
-                tel: null,
+                phoneNumber: null,
             }
         }
     },
@@ -71,13 +82,17 @@ export default {
             this.$emit('update', false)
         },
         createInstructor(){
+            this.instructor.platoonNum = this.instructor.platoonNum.toString()
+            this.instructor.battalion = this.instructor.platoonNum.substr(0, 1)
+            this.instructor.company = this.instructor.platoonNum.substr(1, 1)
+            this.instructor.platoon = this.instructor.platoonNum.substr(2, 1)
             const onSuccess = (data) => {
                 alert(this.instructor.name + "훈육관이 성공적으로 추가되었습니다!")
             }
             const onFailed = (data) => {
-                alert("훈육관을 추가하는데 실패하였습니다.")
+                alert("훈육관을 추가하는데 실패하였습니다.\n"+data.response.data.message)
             }
-            axiosPost("/instructor", this.instructor, onSuccess, onFailed)
+            axiosPost("manager", this.instructor, onSuccess, onFailed)
         },
     }
 }
@@ -113,7 +128,8 @@ export default {
 
 .data-area { width: 100%; align-items: center; text-align: center;}
 .data-field { display: inline-block; width: 40%; margin: 3px 5%;}
-.data-label { float: left; font-size: 15px; font-weight:bold; }
+.data-label { float: left; font-size: 15px; font-weight:bold; text-align: left; }
+.label-sm {font-size: 7px; font-weight: 100;}
 .data-input { float: right; width: 150px;}
 .form-control:invalid {border-color: red;}
 
