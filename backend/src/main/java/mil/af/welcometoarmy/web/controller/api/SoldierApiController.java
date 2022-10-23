@@ -102,7 +102,7 @@ public class SoldierApiController {
         return new ResponseEntity<>(
                 BasicResponse.builder()
                         .httpStatus(HttpStatus.OK)
-                        .message("훈련병 정보 조회 완료")
+                        .message("훈련병 전체 정보 조회 완료")
                         .data(all)
                         .build(), HttpStatus.OK);
     }

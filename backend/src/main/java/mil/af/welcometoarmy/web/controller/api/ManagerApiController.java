@@ -31,6 +31,7 @@ import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Api(tags = "관리자 API")
 @RestController
@@ -81,6 +82,21 @@ public class ManagerApiController {
                         .httpStatus(HttpStatus.OK)
                         .message("관리자 정보 조회 완료")
                         .data(dto)
+                        .build(), HttpStatus.OK);
+    }
+
+    @GetMapping()
+    @Secured({"ROLE_MANAGER", "ROLE_ADMINISTRATOR"})
+    @ApiOperation(value = "관리자 전체 정보 조회")
+    public ResponseEntity<BasicResponse> readManagers() {
+
+        List<ManagerResponseDto> all = managerService.getAll();
+
+        return new ResponseEntity<>(
+                BasicResponse.builder()
+                        .httpStatus(HttpStatus.OK)
+                        .message("관리자 전체 정보 조회 완료")
+                        .data(all)
                         .build(), HttpStatus.OK);
     }
 

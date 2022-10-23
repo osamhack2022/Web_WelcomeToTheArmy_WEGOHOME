@@ -12,10 +12,14 @@ import mil.af.welcometoarmy.web.dto.manager.ManagerCreateDto;
 import mil.af.welcometoarmy.web.dto.manager.ManagerResponseDto;
 import mil.af.welcometoarmy.web.dto.manager.ManagerUpdateDto;
 import mil.af.welcometoarmy.web.dto.soldier.SoldierResponseDto;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @Transactional(readOnly = true)
@@ -71,6 +75,10 @@ public class ManagerService {
         return manager.toDto();
     }
 
+    public List<ManagerResponseDto> getAll() {
+        return getDtoList(managerRepository.findAll(Sort.by(Sort.Direction.ASC, "id")));
+    }
+
     public Manager getOneByManagerId(String managerId) {
         return managerRepository.findByManagerId(managerId).orElseThrow(() ->
                 new IllegalArgumentException(ExceptionMessage.SIGN_IN_FAIL_MESSAGE));
@@ -109,5 +117,15 @@ public class ManagerService {
     @Transactional
     public void failCntClear(Manager manager) {
         manager.setLogInFailCnt(0);
+    }
+
+    private List<ManagerResponseDto> getDtoList(List<Manager> managers) {
+        List<ManagerResponseDto> list = new ArrayList<>();
+
+        for (Manager manager : managers) {
+            list.add(manager.toDto());
+        }
+
+        return list;
     }
 }
