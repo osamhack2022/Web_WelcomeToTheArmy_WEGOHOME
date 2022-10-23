@@ -4,12 +4,12 @@
             <div class="head-left">
                 <img class="trainee-image rounded-circle" src="@/assets/images/trainee_profile_example.jpg" alt="훈련병 프로필 이미지" />
                 <div class="trainee-profile">
-                    <h1 class="trainee-name">이하늘 훈련병</h1>
-                    <h1 class="trainee-position">신병 4대대 3중대 1소대 1번</h1>
+                    <h1 class="trainee-name">{{trainee.name}} 훈련병</h1>
+                    <h1 class="trainee-position">{{trainee.battalion}}대대 {{trainee.company}}중대 {{trainee.platoon}}소대 {{trainee.platoonNum.substr(3, 2)}}번</h1>
                 </div>
             </div>
             <div class="head-right">
-                <p class="flag">⚠</p>
+                <p class="flag" v-if="trainee.cautionLevel === 'INTEREST'">⚠</p>
             </div>
         </section>
         <form class="form-c">
@@ -17,71 +17,63 @@
                 <div class="data-area">
                     <div class="data-field">
                         <p class="data-label">이름</p>
-                        <input class="data-input form-control" type="text" required>
+                        <input class="data-input form-control" type="text" v-model="trainee.name" required>
                     </div>
                     <div class="data-field">
                         <p class="data-label">기수</p>
-                        <input class="data-input form-control" type="number" required>
+                        <input class="data-input form-control" type="number" v-model="trainee.generation" required>
                     </div>
                     <div class="data-field">
                         <p class="data-label">소대번호</p>
-                        <input class="data-input form-control" type="number" required>
+                        <input class="data-input form-control" type="number" v-model="trainee.platoonNum" required>
                     </div>
                     <div class="data-field">
                         <p class="data-label">생년월일</p>
-                        <input class="data-input form-control" type="date" required>
+                        <input class="data-input form-control" type="date" v-model="trainee.birthday" required>
                     </div>
                     <div class="data-field">
                         <p class="data-label">연락처</p>
-                        <input class="data-input form-control" type="tel" pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" placeholder="010-1234-5678" required>
+                        <input class="data-input form-control" type="tel" pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" placeholder="010-1234-5678" v-model="trainee.phoneNumber" required>
                     </div>
                     <div class="data-field">
                         <p class="data-label">보호자 연락처</p>
-                        <input class="data-input form-control" type="text" pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" placeholder="010-1234-5678" required>
+                        <input class="data-input form-control" type="text" pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" placeholder="010-1234-5678" v-model="trainee.homeTel" required>
                     </div>
                     <div class="data-field">
                         <p class="data-label">특이사항</p>
-                        <input class="data-input form-control" type="text">
+                        <input class="data-input form-control" type="text" v-model="trainee.uniqueness">
                     </div>
                     <div class="data-field">
                         <p class="data-label">주의정도</p>
-                        <select class="data-input">
-                            <option>해당없음</option>
-                            <option>배려병사</option>
-                            <option>도움병사</option>
+                        <select class="data-input" v-model="trainee.cautionLevel">
+                            <option value="NORMAL">해당없음</option>
+                            <option value="INTEREST">배려병사</option>
                         </select>
                     </div>
                     <div class="data-field">
                         <p class="data-label">질병</p>
-                        <input class="data-input form-control" type="text">
+                        <input class="data-input form-control" type="text" v-model="trainee.disease">
                     </div>
                     <div class="data-field">
                         <p class="data-label">현재 점수</p>
-                        <input class="data-input form-control" type="number">
+                        <input class="data-input form-control" type="number" v-model="trainee.point">
                     </div>
                     <div class="data-field">
                         <p class="data-label">비건여부</p>
-                        <div class="data-input">
-                            <label class="switch">
-                                <input type="checkbox">
-                                <span class="slider round"></span>
-                            </label>
-                        </div>
+                        <select class="data-input" v-model="trainee.isVegan">
+                            <option value="NOT_VEGAN">해당없음</option>
+                            <option value="VEGAN">채식주의</option>
+                        </select>
                     </div>
                     <div class="data-field">
                         <p class="data-label">알러지 여부</p>
-                        <div class="data-input">
-                            <label class="switch">
-                                <input type="checkbox">
-                                <span class="slider round"></span>
-                            </label>
-                        </div>
+                        <input class="data-input form-control" type="text" v-model="trainee.hasAllergy">
                     </div>
                 </div>
             </section>
             <section class="button-area">
-                <button class="btn btn-primary">수정</button> 
-                <button class="btn btn-danger" type="button">삭제</button>
+                <button class="btn btn-primary" @click.prevent="updateTrainee" type="submit">수정</button> 
+                <button class="btn btn-danger" @click="removeTrainee" type="button">삭제</button>
                 <button class="btn btn-outline-dark" @click="cancelChange($event)" type="button">취소</button>
             </section>
         </form>
@@ -89,33 +81,70 @@
 </template>
 
 <script>
-    export default {
-        methods: {
-            toggleBody(event) {
-                const card = event.currentTarget.parentNode;
-                const body = card.childNodes[1].firstChild;
-                const buttons = card.childNodes[1].childNodes[1];
-                if (body.style.display === "none") {
-                    card.style.height = "auto";
-                    body.style.display = "block";
-                    buttons.style.display = "inline-block";
-                }
-                else {
-                    card.style.height = "60px";
-                    body.style.display = "none";
-                    buttons.style.display = "none";
-                }
-            },
-            cancelChange(event) {
-                const card = event.currentTarget.parentNode.parentNode.parentNode;
-                const body = card.childNodes[1].firstChild;
-                const buttons = card.childNodes[1].childNodes[1];
+import useAxios from "@app_modules/axios.js"
+
+const { axiosDelete, axiosPut } = useAxios()
+
+export default {
+    data() {
+        return {
+            trainee: null,
+        }
+    },
+    props: {
+        propTrainee: {
+            type: Object,
+            required: true,
+        }
+    },
+    methods: {
+        toggleBody(event) {
+            const card = event.currentTarget.parentNode;
+            const body = card.childNodes[1].firstChild;
+            const buttons = card.childNodes[1].childNodes[1];
+            if (body.style.display === "none") {
+                card.style.height = "auto";
+                body.style.display = "block";
+                buttons.style.display = "inline-block";
+            }
+            else {
                 card.style.height = "60px";
                 body.style.display = "none";
                 buttons.style.display = "none";
             }
+        },
+        cancelChange(event) {
+            const card = event.currentTarget.parentNode.parentNode.parentNode;
+            const body = card.childNodes[1].firstChild;
+            const buttons = card.childNodes[1].childNodes[1];
+            card.style.height = "60px";
+            body.style.display = "none";
+            buttons.style.display = "none";
+        },
+        updateTrainee() {
+            const onSuccess = (data) => {
+                alert(this.trainee.name + " 훈련병이 수정되었습니다.")
+            }
+            const onFailed = (data) => {
+                alert("훈련병을 수정하는데 실패하였습니다.\n"+data.response.data.message)
+            }
+            axiosPut("soldier/"+this.trainee.id, this.trainee, onSuccess, onFailed)
+        },
+        removeTrainee() {
+            const onSuccess = (data) => {
+                alert(this.trainee.name + " 훈련병이 삭제되었습니다.")
+                this.$router.go(this.$router.currentRoute)
+            }
+            const onFailed = (data) => {
+                alert("훈련병을 삭제하는데 실패하였습니다.\n"+data.response.data.message)
+            }
+            axiosDelete("soldier/"+this.trainee.id, onSuccess, onFailed)
         }
+    },
+    created() {
+        this.trainee = this.propTrainee
     }
+}
 </script>
 
 <style scoped>

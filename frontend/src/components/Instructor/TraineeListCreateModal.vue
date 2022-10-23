@@ -78,6 +78,7 @@ export default {
             this.trainee.platoon = this.trainee.platoonNum.substr(2, 1)
             const onSuccess = (data) => {
                 alert(this.trainee.name + " 훈련병이 성공적으로 추가되었습니다!")
+                this.$router.go(this.$router.currentRoute)
             }
             const onFailed = (data) => {
                 alert("훈련병을 추가하는데 실패하였습니다.\n"+data.response.data.message)
