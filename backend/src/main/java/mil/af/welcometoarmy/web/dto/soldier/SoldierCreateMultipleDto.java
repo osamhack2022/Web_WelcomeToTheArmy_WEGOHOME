@@ -30,6 +30,10 @@ public class SoldierCreateMultipleDto {
 
     private LocalDate birthday;
 
+    private String phoneNumber;
+
+    private String homeTel;
+
     public Soldier toEntity() {
 
         return Soldier.builder()

@@ -46,6 +46,14 @@ public class SoldierCreateDto {
     @ApiModelProperty(value = "기수", required = true, example = "2000-01-01")
     private String birthday;
 
+    @NotBlank(message = "휴대전화 번호를 입력해주세요.")
+    @ApiModelProperty(value = "휴대전화 번호", required = true)
+    private String phoneNumber;
+
+    @NotBlank(message = "보호자 연락처를 입력해주세요.")
+    @ApiModelProperty(value = "보호자 연락처", required = true)
+    private String homeTel;
+
     public Soldier toEntity() {
 
         return Soldier.builder()
@@ -56,6 +64,8 @@ public class SoldierCreateDto {
                 .platoonNum(platoonNum)
                 .name(name)
                 .birthday(LocalDate.parse(birthday, DateTimeFormatter.ISO_DATE))
+                .phoneNumber(phoneNumber)
+                .homeTel(homeTel)
                 .build();
     }
 }

@@ -18,6 +18,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -26,7 +27,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 @Service
 @Transactional(readOnly = true)
@@ -42,7 +46,7 @@ public class SoldierService {
     @Transactional
     public void save(SoldierCreateDto soldierCreateDto) {
         Soldier soldier = soldierCreateDto.toEntity();
-        soldier.setPassword(passwordEncoder.encode(soldier.getPlatoonNum()));
+        soldier.setPassword(passwordEncoder.encode(birthdayToString(soldier)));
         soldier.setPoint(0);
         soldier.setAuthority(Authority.ROLE_SOLDIER);
         soldier.setLogInFailCnt(0);
@@ -81,10 +85,12 @@ public class SoldierService {
                             .platoonNum(cellIterator.next().getStringCellValue())
                             .name(cellIterator.next().getStringCellValue())
                             .birthday(cellIterator.next().getDateCellValue().toInstant().atZone(ZoneId.systemDefault()).toLocalDate())
+                            .phoneNumber(cellIterator.next().getStringCellValue())
+                            .homeTel(cellIterator.next().getStringCellValue())
                             .build();
 
                     Soldier soldier = soldierInfo.toEntity();
-                    soldier.setPassword(passwordEncoder.encode(soldier.getPlatoonNum()));
+                    soldier.setPassword(passwordEncoder.encode(birthdayToString(soldier)));
                     soldier.setPoint(0);
                     soldier.setAuthority(Authority.ROLE_SOLDIER);
                     soldier.setLogInFailCnt(0);
@@ -132,6 +138,10 @@ public class SoldierService {
         return soldier.toDto();
     }
 
+    public List<SoldierResponseDto> getAll() {
+        return getDtoList(soldierRepository.findAll(Sort.by(Sort.Direction.DESC, "generation")));
+    }
+
     public Soldier getOneByPlatoonNum(String platoonNum) {
         return soldierRepository.findByPlatoonNum(platoonNum).orElseThrow(() ->
                 new IllegalArgumentException(ExceptionMessage.SIGN_IN_FAIL_MESSAGE));
@@ -170,6 +180,20 @@ public class SoldierService {
     @Transactional
     public void failCntClear(Soldier soldier) {
         soldier.setLogInFailCnt(0);
+    }
+
+    private String birthdayToString(Soldier soldier) {
+        return soldier.getBirthday().format(DateTimeFormatter.ofPattern("yyMMdd"));
+    }
+
+    private List<SoldierResponseDto> getDtoList(List<Soldier> soldiers) {
+        List<SoldierResponseDto> list = new ArrayList<>();
+
+        for (Soldier soldier : soldiers) {
+            list.add(soldier.toDto());
+        }
+
+        return list;
     }
 
 }
