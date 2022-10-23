@@ -138,6 +138,10 @@ export default {
             const onFailed = (data) => {
                 alert("훈련병을 삭제하는데 실패하였습니다.\n"+data.response.data.message)
             }
+            if(!confirm(this.trainee.name+" 훈련병을 삭제하시겠습니까?")){
+                alert("삭제를 취소했습니다.")
+                return
+            }
             axiosDelete("soldier/"+this.trainee.id, onSuccess, onFailed)
         }
     },

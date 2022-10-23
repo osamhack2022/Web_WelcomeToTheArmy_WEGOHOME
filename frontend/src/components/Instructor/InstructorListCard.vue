@@ -108,6 +108,10 @@ export default {
             const onFailed = (data) => {
                 alert("관리자를 삭제하는데 실패하였습니다.\n"+data.response.data.message)
             }
+            if(!confirm(this.instructor.name+" 관리자를 삭제하시겠습니까?")){
+                alert("삭제를 취소했습니다.")
+                return
+            }
             axiosDelete("manager/"+this.instructor.id, onSuccess, onFailed)
         }
     },
