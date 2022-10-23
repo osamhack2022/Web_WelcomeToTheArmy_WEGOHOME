@@ -1,6 +1,8 @@
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.6/dist/web/static/pretendard-dynamic-subset.css");
 #app {
-  font-family: Nanum Gothic, Helvetica, Arial, sans-serif;
+  font-family: Pretendard, Nanum Gothic, Helvetica, Arial, sans-serif;
 }
+
 
 /* font area */
 @font-face {

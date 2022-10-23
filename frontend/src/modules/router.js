@@ -57,6 +57,10 @@ router.beforeEach(function (to, from, next) {
     if (to.matched.some(function(routeInfo) {
         return routeInfo.meta.insAuthRequired;
     })) {
+        if (localStorage.getItem("traineeLoginToken")){
+            alert("이 페이지는 관리자 전용 페이지 입니다.\n로그아웃합니다.")
+            localStorage.removeItem("traineeLoginToken")
+        }
         if (localStorage.getItem("instructorLoginToken")){
             next()
             return
@@ -65,6 +69,10 @@ router.beforeEach(function (to, from, next) {
     } else if (to.matched.some(function(routeInfo) {
         return routeInfo.meta.trAuthRequired;
     })) {
+        if (localStorage.getItem("instructorLoginToken")){
+            alert("이 페이지는 훈련병 전용 페이지 입니다.\n로그아웃합니다.")
+            localStorage.removeItem("instructorLoginToken")
+        }
         if (localStorage.getItem("traineeLoginToken")){
             next()
             return

@@ -30,13 +30,11 @@ const { axiosGet } = useAxios()
 
 export default {
     data() {
-        const month = new Date().getMonth();
-        const year = new Date().getFullYear();
         return {
           masks: {
             weekdays: 'WWW',
           },
-          attributes: []
+          attributes: [],
         };
     },
     created() {
@@ -59,9 +57,16 @@ export default {
           },
           dates: { start: "2022-10-15", end: "2022-10-15" },
           range: "4대대 3중대 1소대",
-        }
+        },
       ]
+      const today = {
+        key: "today",
+        highlight: true,
+        dates: new Date().toDateString(),
+        customData: {}
+      }
       this.attributes = test_schedules
+      this.attributes.push(today)
     },
 };
 </script>
@@ -205,4 +210,6 @@ export default {
 ::-webkit-scrollbar-track {
   display: none;
 }
+.vc-highlight { display: none; }
+.vc-highlights { background-color: pink; }
 </style>
