@@ -87,6 +87,5 @@ export default {
 }
 .schedule {
     font-size: 16px;
-    font-weight: bold;
 }
 </style>
