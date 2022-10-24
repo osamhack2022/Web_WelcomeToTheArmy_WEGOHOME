@@ -1,8 +1,8 @@
 <template>
     <section class="survey-card survey-on">
         <div class="survey-left">
-            <span class="text-main">[필수] 개인정보수집동의서</span><br />
-            <span class="text-sub">2022.10.03 20:00까지</span> 
+            <span class="text-main">{{propSurvey.title}}</span><br />
+            <span class="text-sub">{{propSurvey.endDate}}까지</span> 
         </div>
         <div class="survey-right">
             <span class="text-main">조사 중 (36%)</span><br />
@@ -12,7 +12,11 @@
 </template>
 
 <script>
-
+export default {
+    props: {
+        propSurvey: Object,
+    }
+}
 </script>
 
 <style scoped>
