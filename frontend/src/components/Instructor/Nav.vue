@@ -6,8 +6,8 @@
             </div>
             <div class="nav-right">
                 <div class="profile">
-                    <p class="user-name">상사 김훈련</p>
-                    <p class="user-position">신병4대대 3중대 1소대장</p>
+                    <p class="user-name">{{userInfo.rank}} {{userInfo.name}}</p>
+                    <p class="user-position">{{userInfo.position}}</p>
                 </div>
                 <img class="user-image rounded-circle" src="@/assets/images/instructor_profile_example.jpg" alt="user profile image" />
             </div>
@@ -24,6 +24,35 @@
         </div>
     </nav>
 </template>
+
+<script>
+import useAxios from "@app_modules/axios.js"
+
+const { axiosGet } = useAxios()
+
+export default {
+    data() {
+        return {
+            userInfo: null,
+        }
+    },
+    created() {
+        if(localStorage.getItem("userInfo")){
+            this.userInfo = JSON.parse(localStorage.getItem("userInfo"))
+            return
+        }
+        const onSuccess = (data) => {
+            this.userInfo = data.data
+            localStorage.setItem("userInfo", JSON.stringify(this.userInfo))
+        }
+        const onFailed = (data) => {
+            alert("유저 정보를 받아오지 못했습니다.")
+            this.$router.push("/inslogin")
+        }
+        axiosGet("manager/"+localStorage.getItem("userId"), onSuccess, onFailed)
+    }
+}
+</script>
 
 <style scoped>
 

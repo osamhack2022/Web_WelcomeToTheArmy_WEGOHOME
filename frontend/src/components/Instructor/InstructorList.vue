@@ -7,21 +7,22 @@
     <button @click="toggleCreateModal" class="btn btn-outline-dark">훈육관 추가</button> 
 </section>
 <section class="list-area">
-        <InstructorListCard />
-        <InstructorListCard />
-        <InstructorListCard />
-        <InstructorListCard />
+        <InstructorListCard v-for="instructor in instructorData" :propInstructor="instructor" />
     </section>
 </template>
 
 <script>
 import InstructorListCard from "./InstructorListCard.vue";
 import InstructorCreateModal from "./InstructorListCreateModal.vue"
+import useAxios from "@app_modules/axios.js"
+
+const { axiosGet } = useAxios()
 
 export default {
     data() {
         return {
             createModalVisible: false,
+            instructorData: null,
         }
     },
     components: {
@@ -35,7 +36,15 @@ export default {
         updateCreateModalVisibility(v) {
             this.createModalVisible = v
         },
-
+    },
+    created() {
+        const onSuccess = (data) => {
+            this.instructorData = data.data
+        }
+        const onFailed = (data) => {
+            //console.error("훈련병을 불러오는 과정에서 오류가 발생했습니다..\n"+data.response.data.message)
+        }
+        axiosGet("manager", onSuccess, onFailed)
     }
 }
 </script>

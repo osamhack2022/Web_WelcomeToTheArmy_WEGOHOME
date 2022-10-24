@@ -32,7 +32,25 @@
 </template>
 
 <script>
+import useAxios from "@app_modules/axios.js"
+
+const { axiosGet } = useAxios()
+
 export default {
+    data() {
+        return {
+        }
+    },
+    created() {
+        const onSuccess = (data) => {
+            localStorage.setItem("userInfo", JSON.stringify(data.data))
+        }
+        const onFailed = (data) => {
+            alert("유저 정보를 받아오지 못했습니다.")
+            this.$router.push("/trlogin")
+        }
+        axiosGet("soldier/"+localStorage.getItem("userId"), onSuccess, onFailed)
+    },
     methods: {
         logout() {
             localStorage.clear()

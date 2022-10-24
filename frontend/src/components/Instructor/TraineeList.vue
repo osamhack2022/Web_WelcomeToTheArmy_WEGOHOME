@@ -12,10 +12,7 @@
         <p>훈련병을 클릭하면 자세한 정보를 볼 수 있습니다.</p>
     </section>
     <section class="list-area">
-        <TraineeListCard />
-        <TraineeListCard />
-        <TraineeListCard />
-        <TraineeListCard />
+        <TraineeListCard v-for="trainee in traineeData" :propTrainee="trainee"/>
     </section>
 </template>
 
@@ -24,12 +21,16 @@ import Nav from "@components/Instructor/Nav.vue";
 import TraineeListCard from "./TraineeListCard.vue";
 import TraineeCreateModal from "./TraineeListCreateModal.vue"
 import TraineeExcelUploadModal from "./TraineeListExcelUploadModal.vue"
+import useAxios from "@app_modules/axios.js"
+
+const { axiosGet } = useAxios()
 
 export default {
     data() {
         return {
             createModalVisible: false,
             excelUploadModalVisible: false,
+            traineeData: [],
         }
     },
     components: {
@@ -51,6 +52,15 @@ export default {
         updateExcelUploadModalVisibility(v) {
             this.excelUploadModalVisible = v
         },
+    },
+    created() {
+        const onSuccess = (data) => {
+            this.traineeData = data.data
+        }
+        const onFailed = (data) => {
+            //console.error("훈련병을 불러오는 과정에서 오류가 발생했습니다..\n"+data.response.data.message)
+        }
+        axiosGet("soldier", onSuccess, onFailed)
     }
 }
 </script>
