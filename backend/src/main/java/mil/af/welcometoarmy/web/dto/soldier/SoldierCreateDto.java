@@ -4,6 +4,9 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 import lombok.extern.jackson.Jacksonized;
 import mil.af.welcometoarmy.domain.Soldier;
+import mil.af.welcometoarmy.domain.enums.Authority;
+import mil.af.welcometoarmy.domain.enums.CautionLevel;
+import mil.af.welcometoarmy.domain.enums.IsVegan;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -46,6 +49,14 @@ public class SoldierCreateDto {
     @ApiModelProperty(value = "기수", required = true, example = "2000-01-01")
     private String birthday;
 
+    @NotBlank(message = "휴대전화 번호를 입력해주세요.")
+    @ApiModelProperty(value = "휴대전화 번호", required = true)
+    private String phoneNumber;
+
+    @NotBlank(message = "보호자 연락처를 입력해주세요.")
+    @ApiModelProperty(value = "보호자 연락처", required = true)
+    private String homeTel;
+
     public Soldier toEntity() {
 
         return Soldier.builder()
@@ -56,6 +67,13 @@ public class SoldierCreateDto {
                 .platoonNum(platoonNum)
                 .name(name)
                 .birthday(LocalDate.parse(birthday, DateTimeFormatter.ISO_DATE))
+                .phoneNumber(phoneNumber)
+                .homeTel(homeTel)
+                .isVegan(IsVegan.NOT_VEGAN)
+                .cautionLevel(CautionLevel.NORMAL)
+                .point(0)
+                .authority(Authority.ROLE_SOLDIER)
+                .logInFailCnt(0)
                 .build();
     }
 }

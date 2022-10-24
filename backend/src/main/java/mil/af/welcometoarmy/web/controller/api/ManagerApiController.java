@@ -11,6 +11,7 @@ import mil.af.welcometoarmy.domain.Soldier;
 import mil.af.welcometoarmy.exception.ExceptionMessage;
 import mil.af.welcometoarmy.service.ManagerService;
 import mil.af.welcometoarmy.web.dto.BasicResponse;
+import mil.af.welcometoarmy.web.dto.LoginResponseDto;
 import mil.af.welcometoarmy.web.dto.manager.ManagerCreateDto;
 import mil.af.welcometoarmy.web.dto.manager.ManagerLoginDto;
 import mil.af.welcometoarmy.web.dto.manager.ManagerResponseDto;
@@ -30,6 +31,7 @@ import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Api(tags = "관리자 API")
 @RestController
@@ -80,6 +82,21 @@ public class ManagerApiController {
                         .httpStatus(HttpStatus.OK)
                         .message("관리자 정보 조회 완료")
                         .data(dto)
+                        .build(), HttpStatus.OK);
+    }
+
+    @GetMapping()
+    @Secured({"ROLE_MANAGER", "ROLE_ADMINISTRATOR"})
+    @ApiOperation(value = "관리자 전체 정보 조회")
+    public ResponseEntity<BasicResponse> readManagers() {
+
+        List<ManagerResponseDto> all = managerService.getAll();
+
+        return new ResponseEntity<>(
+                BasicResponse.builder()
+                        .httpStatus(HttpStatus.OK)
+                        .message("관리자 전체 정보 조회 완료")
+                        .data(all)
                         .build(), HttpStatus.OK);
     }
 
@@ -136,12 +153,16 @@ public class ManagerApiController {
         managerService.failCntClear(manager);
 
         String token = jwtTokenProvider.createToken(manager.getManagerId(), manager.getAuthority());
+        LoginResponseDto dto = LoginResponseDto.builder()
+                .id(manager.getId())
+                .token(token)
+                .build();
 
         return new ResponseEntity<>(
                 BasicResponse.builder()
                         .httpStatus(HttpStatus.OK)
                         .message("관리자 로그인 완료")
-                        .data(token)
+                        .data(dto)
                         .build(), HttpStatus.OK);
     }
 }

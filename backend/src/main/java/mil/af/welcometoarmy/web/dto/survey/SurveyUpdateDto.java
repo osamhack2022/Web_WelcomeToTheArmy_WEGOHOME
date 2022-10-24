@@ -1,7 +1,5 @@
 package mil.af.welcometoarmy.web.dto.survey;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
@@ -21,7 +19,7 @@ import java.util.List;
 @Jacksonized
 @NoArgsConstructor
 @AllArgsConstructor
-public class SurveyCreateDto {
+public class SurveyUpdateDto {
 
     @NotBlank(message = "제목을 입력해주세요.")
     @ApiModelProperty(value = "제목", required = true)

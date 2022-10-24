@@ -48,7 +48,7 @@ p {
     text-align: center;
 }
 .trainee-profile {
-    font-size: 16px; font-weight: bold;
+    font-size: 16px; margin-bottom: -15px;
 }
 .left-msg {
     font-size: 35px; font-weight: bold;

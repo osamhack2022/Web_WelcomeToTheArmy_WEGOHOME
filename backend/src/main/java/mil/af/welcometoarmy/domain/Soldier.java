@@ -47,6 +47,7 @@ public class Soldier extends BaseTimeEntity {
     @NotNull
     private String name;
 
+    @NotNull
     @Enumerated(EnumType.STRING)
     private CautionLevel cautionLevel;
 
@@ -62,6 +63,7 @@ public class Soldier extends BaseTimeEntity {
 
     private String uniqueness;
 
+    @NotNull
     @Enumerated(EnumType.STRING)
     private IsVegan isVegan;
 
