@@ -7,6 +7,8 @@ import mil.af.welcometoarmy.exception.EntityNotFoundException;
 import mil.af.welcometoarmy.exception.ExceptionMessage;
 import mil.af.welcometoarmy.repository.SoldierRepository;
 import mil.af.welcometoarmy.util.AuthChecker;
+import mil.af.welcometoarmy.util.FileHandler;
+import mil.af.welcometoarmy.web.dto.FileInfo;
 import mil.af.welcometoarmy.web.dto.soldier.SoldierCreateDto;
 import mil.af.welcometoarmy.web.dto.soldier.SoldierCreateMultipleDto;
 import mil.af.welcometoarmy.web.dto.soldier.SoldierResponseDto;
@@ -24,6 +26,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import java.io.IOException;
 import java.time.ZoneId;
@@ -42,6 +45,8 @@ public class SoldierService {
     private final SoldierRepository soldierRepository;
 
     private final AuthChecker authChecker;
+
+    private final FileHandler fileHandler;
 
     @Transactional
     public void save(SoldierCreateDto soldierCreateDto) {
@@ -76,9 +81,7 @@ public class SoldierService {
                     Iterator<Cell> cellIterator = row.cellIterator();
                     SoldierCreateMultipleDto soldierInfo = SoldierCreateMultipleDto.builder()
                             .generation((int) cellIterator.next().getNumericCellValue())
-                            .battalion((int)cellIterator.next().getNumericCellValue()+"")
-                            .company((int)cellIterator.next().getNumericCellValue()+"")
-                            .platoon((int)cellIterator.next().getNumericCellValue()+"")
+                            .belong((int)cellIterator.next().getNumericCellValue()+"")
                             .platoonNum(cellIterator.next().getStringCellValue())
                             .name(cellIterator.next().getStringCellValue())
                             .birthday(cellIterator.next().getDateCellValue().toInstant().atZone(ZoneId.systemDefault()).toLocalDate())
@@ -162,6 +165,26 @@ public class SoldierService {
         if (soldier.getLogInFailCnt() < 5) {
             soldier.setLogInFailCnt(soldier.getLogInFailCnt() + 1);
         }
+    }
+
+    @Transactional
+    public void setProfilePicture(Long id, List<MultipartFile> files) {
+        Soldier soldier = soldierRepository.findById(id).orElseThrow(() ->
+                new EntityNotFoundException(ExceptionMessage.NONE_SOLDIER_MESSAGE));
+
+        List<FileInfo> fileInfoList = fileHandler.saveFile(files, "profile", soldier.getGeneration(), soldier.getBelong());
+
+        if (!fileInfoList.isEmpty()) {
+            String filePath = fileInfoList.get(0).getFilePath();
+            soldier.setProfilePicturePath(filePath);
+        }
+    }
+
+    public String getProfilePicture(Long id) {
+        Soldier soldier = soldierRepository.findById(id).orElseThrow(() ->
+                new EntityNotFoundException(ExceptionMessage.NONE_SOLDIER_MESSAGE));
+
+        return soldier.getProfilePicturePath();
     }
 
     public void failCountCheck(Soldier soldier) {

@@ -2,6 +2,7 @@ package mil.af.welcometoarmy.web.controller.api;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 import mil.af.welcometoarmy.config.security.jwt.JwtTokenProvider;
 import mil.af.welcometoarmy.domain.Soldier;
@@ -11,6 +12,8 @@ import mil.af.welcometoarmy.web.dto.BasicResponse;
 import mil.af.welcometoarmy.web.dto.LoginResponseDto;
 import mil.af.welcometoarmy.web.dto.soldier.*;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
@@ -25,6 +28,7 @@ import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.List;
 
 @Api(tags = "훈련병 API")
@@ -170,5 +174,25 @@ public class SoldierApiController {
                         .message("훈련병 로그인 완료")
                         .data(dto)
                         .build(), HttpStatus.OK);
+    }
+
+    @PostMapping("/profile/{id}")
+    @ApiOperation(value = "프로필 사진 설정")
+    public ResponseEntity<BasicResponse> setProfilePicture(@PathVariable Long id, @RequestPart(value = "file") List<MultipartFile> files) {
+
+        soldierService.setProfilePicture(id, files);
+
+        return new ResponseEntity<>(
+                BasicResponse.builder()
+                        .httpStatus(HttpStatus.OK)
+                        .message("프로필 사진 설정 완료")
+                        .build(), HttpStatus.OK);
+    }
+
+    @GetMapping("/profile/{id}")
+    @ApiOperation(value = "이미지 조회")
+    public Resource showImage(@PathVariable Long id) throws MalformedURLException {
+        String picturePath = soldierService.getProfilePicture(id);
+        return new UrlResource("file:" + picturePath);
     }
 }

@@ -1,4 +1,4 @@
-package mil.af.welcometoarmy.web.dto.survey;
+package mil.af.welcometoarmy.web.dto.gallery;
 
 import lombok.*;
 import lombok.extern.jackson.Jacksonized;
@@ -11,13 +11,11 @@ import java.util.List;
 @Jacksonized
 @NoArgsConstructor
 @AllArgsConstructor
-public class SurveyResponseDto {
+public class GalleryResponseDto {
     private Long id;
     private String title;
-    private List<QuestionDto> questions;
+    private String content;
     private int generation;
     private String belong;
-    private String startDate;
-    private String endDate;
-    private String hasAnswer;
+    private List<ImageResponseDto> imgList;
 }

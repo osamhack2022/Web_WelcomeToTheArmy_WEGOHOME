@@ -1,9 +1,7 @@
-package mil.af.welcometoarmy.web.dto.survey;
+package mil.af.welcometoarmy.web.dto.schedule;
 
 import lombok.*;
 import lombok.extern.jackson.Jacksonized;
-
-import java.util.List;
 
 @Builder
 @Getter
@@ -11,13 +9,13 @@ import java.util.List;
 @Jacksonized
 @NoArgsConstructor
 @AllArgsConstructor
-public class SurveyResponseDto {
+public class ScheduleResponseDto {
     private Long id;
-    private String title;
-    private List<QuestionDto> questions;
+    private String name;
     private int generation;
     private String belong;
     private String startDate;
     private String endDate;
-    private String hasAnswer;
+    private String startTime;
+    private String endTime;
 }

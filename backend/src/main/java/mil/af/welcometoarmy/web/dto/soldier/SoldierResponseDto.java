@@ -16,9 +16,7 @@ public class SoldierResponseDto {
     private String platoonNum;
     private LocalDate birthday;
     private int generation;
-    private String battalion;
-    private String company;
-    private String platoon;
+    private String belong;
     private String name;
     private String cautionLevel;
     private String authority;

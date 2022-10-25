@@ -42,14 +42,9 @@ public class ManagerUpdateDto {
     @ApiModelProperty(value = "직책", required = true)
     private String position;
 
-    @ApiModelProperty(value = "대대")
-    private String battalion;
-
-    @ApiModelProperty(value = "중대")
-    private String company;
-
-    @ApiModelProperty(value = "소대")
-    private String platoon;
+    @NotBlank(message = "소속을 입력해주세요.")
+    @ApiModelProperty(value = "소속", required = true, example = "111")
+    private String belong;
 
     @NotBlank(message = "휴대전화 번호를 입력해주세요.")
     @ApiModelProperty(value = "휴대전화 번호", required = true)
@@ -62,9 +57,7 @@ public class ManagerUpdateDto {
                 .name(name)
                 .rank(rank)
                 .position(position)
-                .battalion(battalion)
-                .company(company)
-                .platoon(platoon)
+                .belong(belong)
                 .phoneNumber(phoneNumber)
                 .build();
     }

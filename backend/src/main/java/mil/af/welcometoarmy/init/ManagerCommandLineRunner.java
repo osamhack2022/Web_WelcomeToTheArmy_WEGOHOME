@@ -34,6 +34,7 @@ public class ManagerCommandLineRunner implements CommandLineRunner {
                     .name(NAME)
                     .rank("none")
                     .position("none")
+                    .belong("000")
                     .phoneNumber("none")
                     .build();
 

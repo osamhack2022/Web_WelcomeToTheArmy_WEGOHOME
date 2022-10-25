@@ -10,6 +10,7 @@ import mil.af.welcometoarmy.domain.enums.IsVegan;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -22,20 +23,13 @@ import java.time.format.DateTimeFormatter;
 public class SoldierCreateDto {
 
     @NotNull(message = "기수를 입력해주세요.")
+    @Positive(message = "기수는 양수만 입력해주세요.")
     @ApiModelProperty(value = "기수", required = true)
     private int generation;
 
-    @NotBlank(message = "대대를 입력해주세요.")
-    @ApiModelProperty(value = "대대", required = true)
-    private String battalion;
-
-    @NotBlank(message = "중대를 입력해주세요.")
-    @ApiModelProperty(value = "중대", required = true)
-    private String company;
-
-    @NotBlank(message = "소대를 입력해주세요.")
-    @ApiModelProperty(value = "소대", required = true)
-    private String platoon;
+    @NotBlank(message = "소속을 입력해주세요.")
+    @ApiModelProperty(value = "소속", required = true, example = "111")
+    private String belong;
 
     @NotBlank(message = "소대번호를 입력해주세요.")
     @ApiModelProperty(value = "소대번호", required = true)
@@ -61,9 +55,7 @@ public class SoldierCreateDto {
 
         return Soldier.builder()
                 .generation(generation)
-                .battalion(battalion)
-                .company(company)
-                .platoon(platoon)
+                .belong(belong)
                 .platoonNum(platoonNum)
                 .name(name)
                 .birthday(LocalDate.parse(birthday, DateTimeFormatter.ISO_DATE))
