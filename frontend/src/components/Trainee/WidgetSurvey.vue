@@ -2,19 +2,23 @@
 <div>
 <h1 class="widget-title"> 조사전달 </h1>
 <div class="widget">
-    <router-link to="survey/1"><p class="survey answered">[오늘마감] 개인정보수집동의서</p></router-link>
-    <p class="survey">[D-3] 개인 피복류 사이즈 조사</p>
-    <p class="survey urgent">[D-5] 상담 희망자 조사</p>
+    <div v-for="survey in surveyList">
+        <router-link :to="'survey/'+survey.id"><p class="survey">{{survey.title}}</p></router-link>
+    </div>
 </div>
 </div>
 </template>
 
 <script>
+import useAxios from "@app_modules/axios.js"
+
+const { axiosGet } = useAxios()
+
 export default {
     name: "Survey Widget",
     data() {
         return {
-
+            surveyList: null,
         }
     },
     props: {
@@ -23,8 +27,14 @@ export default {
             default: "",
         }
     },
-    methods: {
-
+    created() {
+        const onSuccess = (data) => {
+            this.surveyList = data.data
+        }
+        const onFailed = (data) => {
+            alert("조사전달을 받아오지 못했습니다.")
+        }
+        axiosGet("survey/", onSuccess, onFailed)
     }
 }
 </script>

@@ -6,17 +6,33 @@
         <router-link to="/instructor/survey/create"><button class="btn btn-outline-dark">조사전달 추가</button></router-link>
     </section>
     <section class="list-area">
-        <SurveyListCard />
-        <SurveyListCard />
-        <SurveyListCard />
+        <SurveyListCard v-for="survey in surveyList" :propSurvey="survey" />
     </section>
 </template>
 
 <script>
 import SurveyListCard from "@components/Instructor/SurveyListCard.vue"
+import useAxios from "@app_modules/axios.js"
+
+const { axiosGet } = useAxios()
+
 export default {
+    data() {
+        return {
+            surveyList: null
+        }
+    },
     components: {
         SurveyListCard,
+    },
+    created() {
+        const onSuccess = (data) => {
+            this.surveyList = data.data
+        }
+        const onFailed = (data) => {
+            alert("조사전달을 받아오지 못했습니다.")
+        }
+        axiosGet("survey/", onSuccess, onFailed)
     }
 }
 </script>

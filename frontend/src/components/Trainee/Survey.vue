@@ -9,14 +9,14 @@
                 <h3 class="question-title">{{ question.title }}</h3>
                 <p class="question-description">{{ question.description }}</p>
                 <hr />
-                <input type="text" class="form-control" placeholder="응답입력" v-model="this.survey_result.answers[question.title]" required/>
+                <input type="text" class="form-control" placeholder="응답입력" v-model="this.survey_result.answers[question.id]" required/>
             </div>
             <div class="question-box" v-if="question.type=='객관식'">
                 <h3 class="question-title">{{ question.title }}</h3>
                 <p class="question-description">{{ question.description }}</p>
                 <hr />
                 <div class="form-check" v-for="option in question.options">
-                    <input type="radio" class="form-check-input" :name="survey" :id="option" :value="option" v-model="this.survey_result.answers[question.title]" required/>
+                    <input type="radio" class="form-check-input" :name="survey" :id="option" :value="option" v-model="this.survey_result.answers[question.id]" required/>
                     <label class="form-check-label" :for="option">{{ option }}</label>
                 </div>
             </div>
@@ -39,37 +39,19 @@ export default {
             survey: Object,
             survey_result: {
                 response_time: "",
-                answers: {},
+                answers: [],
             },
         }
     },
     created() {
-        //this.survey = axiosGET("survey/"+this.$route.params.id)
-        const test_survey = {
-            "title": "테스트 조사전달",
-            "questions": [
-                {
-                    "type": "주관식",
-                    "title": "이름이 뭐에용",
-                    "description": "주관식 질문 예시",
-                    "options": [
-                        "",
-                        ""
-                    ]
-                },
-                {
-                    "type": "객관식",
-                    "title": "좋아하는 베라 맛은?",
-                    "description": "객관식 질문 예시",
-                    "options": [
-                        "민트초코",
-                        "초코나무숲",
-                        "슈팅스타"
-                    ]
-                }
-            ]
+        const onSuccess = (data) => {
+            this.survey = data.data
         }
-        this.survey = test_survey
+        const onFailed = (data) => {
+            alert("조사전달을 받아오지 못했습니다.")
+        }
+        axiosGet("survey/"+this.$route.params.id, onSuccess, onFailed)
+        
         this.survey_result.response_time = new Date()
     },
     methods: {
@@ -80,7 +62,7 @@ export default {
             const onFailed = (data) => {
                 alert("응답을 저장하는데 실패했습니다.")
             }
-            axiosPost("/survey/answer", this.survey_result, onSuccess, onFailed)
+            axiosPost("survey/answer", this.survey_result, onSuccess, onFailed)
         }
     }
 }

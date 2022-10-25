@@ -6,8 +6,8 @@
             </div>
             <div class="nav-right">
                 <div class="profile">
-                    <p class="user-name">{{userInfo.rank}} {{userInfo.name}}</p>
-                    <p class="user-position">{{userInfo.position}}</p>
+                    <p class="user-name">{{userInfo?.rank}} {{userInfo?.name}}</p>
+                    <p class="user-position">{{userInfo?.position}}</p>
                 </div>
                 <img class="user-image rounded-circle" src="@/assets/images/instructor_profile_example.jpg" alt="user profile image" />
             </div>
