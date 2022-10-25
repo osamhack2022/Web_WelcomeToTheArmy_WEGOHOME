@@ -63,6 +63,11 @@ export default {
         QuestionCard,
     },
     methods: {
+        dateToString(date) {
+            var strDate = date.toString()
+            strDate = strDate.substr(0, 10) + " " + strDate.substr(11, 5)
+            return strDate
+        },
         addQuestion() {
             this.questionList.push("")
         },
@@ -78,6 +83,8 @@ export default {
             this.survey.battalion = this.survey.platoonNum.substr(0,1)
             this.survey.company = this.survey.platoonNum.substr(1,1)
             this.survey.platoon = this.survey.platoonNum.substr(2,1)
+            this.survey.startDate = this.dateToString(this.survey.startDate)
+            this.survey.endDate = this.dateToString(this.survey.endDate)
             const onSuccess = (data) => {
                 alert("조사전달이 성공적으로 생성되었습니다.")
             }

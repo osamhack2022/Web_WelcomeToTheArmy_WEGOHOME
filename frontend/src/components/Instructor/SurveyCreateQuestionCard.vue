@@ -50,6 +50,7 @@ export default {
                 title: "",
                 description: "",
                 options: ["", ""],
+                id: null,
             },
         }
     },
@@ -67,6 +68,9 @@ export default {
             this.updateQuestion()
         },
     },
+    created() {
+        this.question.id = this.questionIndex
+    }
 }
 </script>
 
