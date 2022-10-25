@@ -12,10 +12,14 @@ import mil.af.welcometoarmy.web.dto.manager.ManagerCreateDto;
 import mil.af.welcometoarmy.web.dto.manager.ManagerResponseDto;
 import mil.af.welcometoarmy.web.dto.manager.ManagerUpdateDto;
 import mil.af.welcometoarmy.web.dto.soldier.SoldierResponseDto;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @Transactional(readOnly = true)
@@ -59,7 +63,7 @@ public class ManagerService {
 
         if (checkDuplication(manager.getManagerId(), manager))
              throw new IllegalArgumentException("이미 등록된 아이디입니다.");
-        manager.update(manager);
+        manager.update(managerUpdateDto.toEntity());
     }
 
     public ManagerResponseDto getOne(Long id, UserDetails userDetails) {
@@ -69,6 +73,10 @@ public class ManagerService {
         authChecker.authCheck(id, userDetails, 2, "조회");
 
         return manager.toDto();
+    }
+
+    public List<ManagerResponseDto> getAll() {
+        return getDtoList(managerRepository.findAll(Sort.by(Sort.Direction.ASC, "id")));
     }
 
     public Manager getOneByManagerId(String managerId) {
@@ -109,5 +117,15 @@ public class ManagerService {
     @Transactional
     public void failCntClear(Manager manager) {
         manager.setLogInFailCnt(0);
+    }
+
+    private List<ManagerResponseDto> getDtoList(List<Manager> managers) {
+        List<ManagerResponseDto> list = new ArrayList<>();
+
+        for (Manager manager : managers) {
+            list.add(manager.toDto());
+        }
+
+        return list;
     }
 }

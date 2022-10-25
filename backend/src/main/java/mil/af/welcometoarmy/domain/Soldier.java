@@ -8,6 +8,7 @@ import mil.af.welcometoarmy.web.dto.soldier.SoldierResponseDto;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,21 +33,16 @@ public class Soldier extends BaseTimeEntity {
     @NotNull
     private LocalDate birthday;
 
-    @NotNull
+    @Positive
     private int generation;
 
     @NotNull
-    private String battalion; // 대대
-
-    @NotNull
-    private String company; // 중대
-
-    @NotNull
-    private String platoon; // 소대
+    private String belong;
 
     @NotNull
     private String name;
 
+    @NotNull
     @Enumerated(EnumType.STRING)
     private CautionLevel cautionLevel;
 
@@ -62,6 +58,7 @@ public class Soldier extends BaseTimeEntity {
 
     private String uniqueness;
 
+    @NotNull
     @Enumerated(EnumType.STRING)
     private IsVegan isVegan;
 
@@ -73,12 +70,7 @@ public class Soldier extends BaseTimeEntity {
     @NotNull
     private int logInFailCnt;
 
-    @OneToMany(
-            mappedBy = "soldier",
-            fetch = FetchType.LAZY,
-            orphanRemoval = true
-    )
-    private List<SoldierImage> imgFiles = new ArrayList<>();
+    private String profilePicturePath;
 
     @OneToMany(
             mappedBy = "soldier",
@@ -89,10 +81,6 @@ public class Soldier extends BaseTimeEntity {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public void setImgFiles(List<SoldierImage> imgFiles) {
-        this.imgFiles = imgFiles;
     }
 
     public void setQnaList(List<Qna> qnaList) {
@@ -111,14 +99,16 @@ public class Soldier extends BaseTimeEntity {
         this.logInFailCnt = logInFailCnt;
     }
 
+    public void setProfilePicturePath(String profilePicturePath) {
+        this.profilePicturePath = profilePicturePath;
+    }
+
     public void update(Soldier soldier) {
         platoonNum = soldier.getPlatoonNum();
         password = soldier.getPassword();
         birthday = soldier.getBirthday();
         generation = soldier.getGeneration();
-        battalion = soldier.getBattalion();
-        company = soldier.getCompany();
-        platoon = soldier.getPlatoon();
+        belong = soldier.getBelong();
         name = soldier.getName();
         cautionLevel = soldier.getCautionLevel();
         disease = soldier.getDisease();
@@ -136,17 +126,15 @@ public class Soldier extends BaseTimeEntity {
                 .platoonNum(platoonNum)
                 .birthday(birthday)
                 .generation(generation)
-                .battalion(battalion)
-                .company(company)
-                .platoon(platoon)
+                .belong(belong)
                 .name(name)
-                .cautionLevel(cautionLevel == null ? null : cautionLevel.name())
-                .authority(authority == null ? null : authority.name())
+                .cautionLevel(cautionLevel.name())
+                .authority(authority.name())
                 .disease(disease)
                 .phoneNumber(phoneNumber)
                 .homeTel(homeTel)
                 .uniqueness(uniqueness)
-                .isVegan(isVegan == null ? null : isVegan.name())
+                .isVegan(isVegan.name())
                 .hasAllergy(hasAllergy)
                 .point(point)
                 .build();

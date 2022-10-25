@@ -5,6 +5,7 @@ import mil.af.welcometoarmy.domain.enums.Range;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,7 +30,7 @@ public class Notice extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private Range range;
 
-    @NotNull
+    @Positive
     private int generation;
 
     private String battalion;

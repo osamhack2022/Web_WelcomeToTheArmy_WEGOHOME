@@ -17,8 +17,7 @@ public class ManagerResponseDto {
     private String name;
     private String rank;
     private String position;
-    private String battalion;
-    private String company;
+    private String belong;
     private String phoneNumber;
     private String authority;
 }

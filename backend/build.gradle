@@ -39,6 +39,8 @@ dependencies {
 	// 엑셀
 	implementation group: 'org.apache.poi', name: 'poi-ooxml', version: '5.1.0'
 	implementation group: 'commons-io', name: 'commons-io', version: '2.11.0'
+	//Json 변환
+	implementation group: 'com.google.code.gson', name: 'gson', version: '2.9.1'
 }
 
 tasks.named('test') {

@@ -1,5 +1,6 @@
 package mil.af.welcometoarmy.web.dto.manager;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 import lombok.extern.jackson.Jacksonized;
 import mil.af.welcometoarmy.domain.Manager;
@@ -17,30 +18,36 @@ import java.util.regex.Pattern;
 public class ManagerUpdateDto {
 
     @NotBlank(message = "아이디를 입력해주세요.")
+    @ApiModelProperty(value = "아이디", required = true)
     private String managerId;
 
+    @ApiModelProperty(value = "비밀번호")
     private String password;
 
+    @ApiModelProperty(value = "비밀번호 재확인")
     private String passwordCheck;
 
+    @ApiModelProperty(value = "현재 비밀번호")
     private String currentPw;
 
     @NotBlank(message = "이름을 입력해주세요.")
+    @ApiModelProperty(value = "이름", required = true)
     private String name;
 
     @NotBlank(message = "계급을 입력해주세요.")
+    @ApiModelProperty(value = "계급", required = true)
     private String rank;
 
     @NotBlank(message = "직책을 입력해주세요.")
+    @ApiModelProperty(value = "직책", required = true)
     private String position;
 
-    private String battalion;
-
-    private String company;
-
-    private String platoon;
+    @NotBlank(message = "소속을 입력해주세요.")
+    @ApiModelProperty(value = "소속", required = true, example = "111")
+    private String belong;
 
     @NotBlank(message = "휴대전화 번호를 입력해주세요.")
+    @ApiModelProperty(value = "휴대전화 번호", required = true)
     private String phoneNumber;
 
     public Manager toEntity() {
@@ -50,9 +57,7 @@ public class ManagerUpdateDto {
                 .name(name)
                 .rank(rank)
                 .position(position)
-                .battalion(battalion)
-                .company(company)
-                .platoon(platoon)
+                .belong(belong)
                 .phoneNumber(phoneNumber)
                 .build();
     }

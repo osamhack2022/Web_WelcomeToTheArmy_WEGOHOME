@@ -58,7 +58,7 @@ public class SpringSecurityConfig {
                 .csrf().disable()
 
                 .authorizeRequests()
-                .antMatchers("/api/soldier/logIn", "/api/manager/logIn").permitAll()
+                .antMatchers("/api/soldier/login", "/api/manager/login").permitAll()
                 .antMatchers("/swagger-resources/**", "/swagger-ui/**").permitAll() // Swagger
                 .anyRequest().authenticated()
 
@@ -84,7 +84,7 @@ public class SpringSecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOriginPatterns(Arrays.asList("*"));
-        configuration.setAllowedMethods(Arrays.asList("HEAD", "GET", "POST", "PUT"));
+        configuration.setAllowedMethods(Arrays.asList("HEAD", "GET", "POST", "PUT", "DELETE"));
         configuration.setAllowedHeaders(Arrays.asList("*"));
         configuration.setAllowCredentials(true);
         configuration.setMaxAge(3600L);

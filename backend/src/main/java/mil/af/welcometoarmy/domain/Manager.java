@@ -35,11 +35,8 @@ public class Manager extends BaseTimeEntity {
     @NotNull
     private String position;
 
-    private String battalion;
-
-    private String company;
-
-    private String platoon;
+    @NotNull
+    private String belong;
 
     @NotNull
     private String phoneNumber;
@@ -87,9 +84,7 @@ public class Manager extends BaseTimeEntity {
         name = manager.getName();
         rank = manager.getRank();
         position = manager.getPosition();
-        battalion = manager.getBattalion();
-        company = manager.getCompany();
-        platoon = manager.getPlatoon();
+        belong = manager.getBelong();
         phoneNumber = manager.getPhoneNumber();
         logInFailCnt = 0;
     }
@@ -101,8 +96,7 @@ public class Manager extends BaseTimeEntity {
                 .name(name)
                 .rank(rank)
                 .position(position)
-                .battalion(battalion)
-                .company(company)
+                .belong(belong)
                 .phoneNumber(phoneNumber)
                 .authority(authority.name())
                 .build();
