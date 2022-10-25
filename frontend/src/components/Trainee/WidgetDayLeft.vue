@@ -1,6 +1,6 @@
 <template>
 <div class="widget">
-    <p class="trainee-profile">{{userInfo.battalion}}대대 {{userInfo.company}}중대 {{userInfo.platoon}}소대 {{userInfo.number}}번 {{userInfo.name}} 훈련병</p>
+    <p class="trainee-profile" v-if="profile">{{profile}}</p>
     <p class="left-msg">수료까지 <span class="day">{{ day_left }}</span>일</p>
 </div>
 </template>
@@ -18,6 +18,7 @@ export default {
             dday: new Date(),
             day_left: 0,
             userInfo: null,
+            profile: "",
         }
     },
     props: {
@@ -31,8 +32,12 @@ export default {
         this.dday = new Date('2022-12-14 00:00:00')
         this.day_left = parseInt((this.dday - this.today) / 86400000)
 
-        this.userInfo = JSON.parse(localStorage.getItem("userInfo"))
-        this.userInfo.number = this.userInfo.platoonNum.substr(3, 2)
+        try {
+            this.userInfo = JSON.parse(localStorage.getItem("userInfo"))
+            this.userInfo.number = this.userInfo.platoonNum.substr(3, 2)
+            this.profile = this.userInfo.battalion + "대대 " + this.userInfo.company + "중대 " + this.userInfo.platoon + "소대 " + this.userInfo.number + "번 " + this.userInfo.name + " 훈련병"
+        } catch(err) {
+        }
     },
     methods: {
 

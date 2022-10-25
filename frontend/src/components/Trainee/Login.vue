@@ -25,7 +25,7 @@
 <script>
 import useAxios from "@app_modules/axios.js"
 
-const { axiosPost } = useAxios()
+const { axiosPost, axiosGet } = useAxios()
 
 export default {
     data() {
@@ -33,14 +33,25 @@ export default {
             user: {
                 platoonNum: null,
                 password: null,
-            }
+            },
         }
     },
     methods: {
-        login(){
+        updateUserInfo(id) {
+            const onSuccess = (data) => {
+                localStorage.setItem("userInfo", JSON.stringify(data.data))
+            }
+            const onFailed = (data) => {
+                alert("유저 정보를 받아오지 못했습니다.")
+                this.$router.push("/trlogin")
+            }
+            axiosGet("soldier/"+id, onSuccess, onFailed)
+        },
+        login() {
             const onSuccess = (data) => {
                 localStorage.setItem("traineeLoginToken", data.data.token)
                 localStorage.setItem("userId", data.data.id)
+                this.updateUserInfo(data.data.id)
                 this.$router.push("/trainee")
             }
             const onFailed = (data) => {
