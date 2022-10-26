@@ -3,7 +3,7 @@
     <div class="modal-window">
         <h1 class="title">액셀 업로드하기</h1>
         <p class="description">액셀 파일을 업로드하여 여러 명의 훈련병을 한번에 추가하실 수 있습니다.</p>
-        <p class="description"><a href="#">탬플릿 파일 다운로드</a></p>
+        <p class="description"><a href="/files/엑셀 샘플.xlsx" download>탬플릿 파일 다운로드</a></p>
         <div class="uploader-area">
             <form>
                 <input class="file-uploader" type="file" accept=".xlsx, .csv" @change="onFileUpload" ref="excelFile" required /><br>
