@@ -33,7 +33,7 @@
                     </div>
                     <div class="data-field">
                         <p class="data-label">소속</p>
-                        <input class="data-input form-control" type="text" required>
+                        <input class="data-input form-control" type="text" v-model="instructor.belong" required>
                     </div>
                     <div class="data-field">
                         <p class="data-label">연락처</p>

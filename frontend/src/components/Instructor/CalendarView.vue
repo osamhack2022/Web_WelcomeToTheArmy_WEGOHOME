@@ -13,7 +13,7 @@
             <p
                 v-for="attr in attributes"
                 :key="attr.key"
-                class="leading-tight rounded-sm p-1 mt-0 mb-1 schedule"
+                class="leading-tight rounded-sm p-1 mt-0 mb-1 schedule-box"
                 :style="'background-color:'+attr.customData.color+';'">
                 {{ attr.customData.title }}
             </p>
@@ -81,7 +81,7 @@ export default {
 </script>
 
 <style>
-.schedule {
+.schedule-box {
   font-size: 1vw !important;
   color: white;
 }

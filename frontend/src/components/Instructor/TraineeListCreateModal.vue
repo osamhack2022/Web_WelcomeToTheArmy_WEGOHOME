@@ -49,10 +49,8 @@ export default {
         return {
             trainee:  {
                 platoonNum: null,
+                belong: null,
                 birthday: null,
-                battalion: 0,
-                company: 0,
-                platoon: 0,
                 generation: null,
                 name: "",
                 phoneNumber: "",
@@ -73,9 +71,7 @@ export default {
         },
         createTrainee(){
             this.trainee.platoonNum = this.trainee.platoonNum.toString()
-            this.trainee.battalion = this.trainee.platoonNum.substr(0, 1)
-            this.trainee.company = this.trainee.platoonNum.substr(1, 1)
-            this.trainee.platoon = this.trainee.platoonNum.substr(2, 1)
+            this.trainee.belong = this.trainee.platoonNum.substr(0,3)
             const onSuccess = (data) => {
                 alert(this.trainee.name + " 훈련병이 성공적으로 추가되었습니다!")
                 this.$router.go(this.$router.currentRoute)

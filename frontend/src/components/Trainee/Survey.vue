@@ -9,14 +9,14 @@
                 <h3 class="question-title">{{ question.title }}</h3>
                 <p class="question-description">{{ question.description }}</p>
                 <hr />
-                <input type="text" class="form-control" placeholder="응답입력" v-model="this.survey_result.answers[question.id]" required/>
+                <input type="text" class="form-control" placeholder="응답입력" v-model="this.answerList[question.id]" required/>
             </div>
             <div class="question-box" v-if="question.type=='객관식'">
                 <h3 class="question-title">{{ question.title }}</h3>
                 <p class="question-description">{{ question.description }}</p>
                 <hr />
                 <div class="form-check" v-for="option in question.options">
-                    <input type="radio" class="form-check-input" :name="survey" :id="option" :value="option" v-model="this.survey_result.answers[question.id]" required/>
+                    <input type="radio" class="form-check-input" :name="survey" :id="option" :value="option" v-model="this.answerList[question.id]" required/>
                     <label class="form-check-label" :for="option">{{ option }}</label>
                 </div>
             </div>
@@ -41,6 +41,7 @@ export default {
                 response_time: "",
                 answers: [],
             },
+            answerList: [],
         }
     },
     created() {
@@ -56,6 +57,11 @@ export default {
     },
     methods: {
         submitSurveyAnswer() {
+            var i = 0
+            for (var answer in this.answerList) {
+                this.survey_result.answers.push({"id": i++, "answer": answer})
+            }
+
             const onSuccess = (data) => {
                 alert("응답이 저장되었습니다.")
             }

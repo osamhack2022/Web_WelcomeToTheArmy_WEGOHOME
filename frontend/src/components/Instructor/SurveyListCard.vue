@@ -1,20 +1,47 @@
 <template>
-    <section class="survey-card survey-on">
-        <div class="survey-left">
-            <span class="text-main">{{propSurvey.title}}</span><br />
-            <span class="text-sub">{{propSurvey.endDate}}까지</span> 
-        </div>
-        <div class="survey-right">
-            <span class="text-main">조사 중 (36%)</span><br />
-            <span class="text-sub">작성자: 중위 박중위</span>
-        </div>
-    </section>
+<section class="survey-card" :class="class" @click="loadResult">
+    <div class="survey-left">
+        <span class="text-main">{{propSurvey.title}}</span><br />
+        <span class="text-sub">{{propSurvey.endDate}}까지</span> 
+    </div>
+    <div class="survey-right">
+        <span class="text-main">{{status}} (36%)</span><br />
+        <span class="text-sub">작성자: {{propSurvey.title}}</span>
+    </div>
+</section>
 </template>
 
 <script>
 export default {
     props: {
         propSurvey: Object,
+    },
+    data() {
+        return {
+            class: "",
+            status: "",
+        }
+    },
+    methods: {
+        checkStatus(date) {
+            const today = new Date()
+            const d = new Date(date)
+            if (d < today) {
+                return "survey-complete"
+            }
+            return "survey-on"
+        },
+        loadResult() {
+            this.$router.push("/instructor/survey/"+this.propSurvey.id)
+        }
+    },
+    mounted() {
+        this.class = this.checkStatus(this.propSurvey.endDate)
+        if (this.class==="survey-on") {
+            this.status = "조사 중"
+        } else {
+            this.status = "조사 완료"
+        }
     }
 }
 </script>

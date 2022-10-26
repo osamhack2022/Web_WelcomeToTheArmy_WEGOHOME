@@ -13,7 +13,7 @@
             <option value="PLATOON">소대</option>
         </select>
         <input type="text" class="form-control float-left" placeholder="기수입력 (예시: 824)" v-model="survey.generation" style="width:20%;"/>
-        <input type="text" class="form-control float-left" placeholder="4대대 3중대 1소대 -> 431" v-model="survey.platoonNum" style="width: 40%" />
+        <input type="text" class="form-control float-left" placeholder="4대대 3중대 1소대 -> 431" v-model="survey.belong" style="width: 40%" />
     </div>
     <div class="date-wrapper">
         <div class="title-wrapper float-left" style="width: 45%;">
@@ -51,11 +51,8 @@ export default {
                 title: "",
                 questions: null,
                 generation: null,
-                battalion: null,
-                company: null,
-                platoon: null,
                 range: "ALL",
-                platoonNum: null,
+                belong: null,
             }
         }
     },
@@ -79,14 +76,12 @@ export default {
             this.$forceUpdate()
         },
         createSurvey() {
-            this.survey.platoonNum = this.survey.platoonNum.toString()
-            this.survey.battalion = this.survey.platoonNum.substr(0,1)
-            this.survey.company = this.survey.platoonNum.substr(1,1)
-            this.survey.platoon = this.survey.platoonNum.substr(2,1)
+            this.survey.belong = this.survey.belong.toString()
             this.survey.startDate = this.dateToString(this.survey.startDate)
             this.survey.endDate = this.dateToString(this.survey.endDate)
             const onSuccess = (data) => {
                 alert("조사전달이 성공적으로 생성되었습니다.")
+                this.$router.push("/instructor/survey")
             }
             const onFailed = (data) => {
                 alert("조사전달을 추가하는데 실패하였습니다.")

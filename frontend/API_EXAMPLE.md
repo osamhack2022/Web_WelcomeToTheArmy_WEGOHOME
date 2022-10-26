@@ -98,3 +98,20 @@
   }
 ]
 ```
+
+## /survey/answer
+```
+{
+  "response_time": "2022-10-26T13:15:51.252Z",
+  "answers": [
+    {
+      "id": 0,
+      "answer": "0"
+    },
+    {
+      "id": 1,
+      "answer": "1"
+    }
+  ]
+}
+```

@@ -30,7 +30,7 @@
                     </div>
                     <div class="data-field">
                         <p class="data-label">소대번호</p>
-                        <input class="data-input form-control" type="text" v-model="instructor.platoonNum" placeholder="431 | 없을 시 000" required>
+                        <input class="data-input form-control" type="text" v-model="instructor.belong" placeholder="431 | 없을 시 000" required>
                     </div>
                     <div class="data-field">
                         <p class="data-label">연락처</p>
@@ -61,11 +61,8 @@ export default {
                 passwordCheck: null,
                 name: null,
                 rank: null,
-                platoonNum: null,
+                belong: null,
                 position: null,
-                battalion: null,
-                company: null,
-                platoon: null,
                 phoneNumber: null,
             }
         }
@@ -82,10 +79,7 @@ export default {
             this.$emit('update', false)
         },
         createInstructor(){
-            this.instructor.platoonNum = this.instructor.platoonNum.toString()
-            this.instructor.battalion = this.instructor.platoonNum.substr(0, 1)
-            this.instructor.company = this.instructor.platoonNum.substr(1, 1)
-            this.instructor.platoon = this.instructor.platoonNum.substr(2, 1)
+            this.instructor.belong = this.instructor.belong.toString()
             const onSuccess = (data) => {
                 alert(this.instructor.name + "훈육관이 성공적으로 추가되었습니다!")
             }

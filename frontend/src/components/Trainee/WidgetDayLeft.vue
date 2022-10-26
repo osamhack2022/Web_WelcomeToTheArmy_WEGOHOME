@@ -35,7 +35,7 @@ export default {
         try {
             this.userInfo = JSON.parse(localStorage.getItem("userInfo"))
             this.userInfo.number = this.userInfo.platoonNum.substr(3, 2)
-            this.profile = this.userInfo.battalion + "대대 " + this.userInfo.company + "중대 " + this.userInfo.platoon + "소대 " + this.userInfo.number + "번 " + this.userInfo.name + " 훈련병"
+            this.profile = this.userInfo.belong.substr(0,1) + "대대 " + this.userInfo.belong.substr(1,1) + "중대 " + this.userInfo.belong.substr(2,1) + "소대 " + this.userInfo.number + "번 " + this.userInfo.name + " 훈련병"
         } catch(err) {
         }
     },

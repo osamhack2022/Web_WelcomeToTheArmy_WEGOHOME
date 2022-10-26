@@ -32,7 +32,7 @@ export default {
         const onFailed = (data) => {
             alert("조사전달을 받아오지 못했습니다.")
         }
-        axiosGet("survey/", onSuccess, onFailed)
+        axiosGet("survey/?loadCompleted=true", onSuccess, onFailed)
     }
 }
 </script>

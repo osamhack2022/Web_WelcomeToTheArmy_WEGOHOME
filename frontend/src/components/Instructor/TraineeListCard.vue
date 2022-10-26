@@ -5,11 +5,12 @@
                 <img class="trainee-image rounded-circle" src="@/assets/images/trainee_profile_example.jpg" alt="훈련병 프로필 이미지" />
                 <div class="trainee-profile">
                     <h1 class="trainee-name">{{trainee.name}} 훈련병</h1>
-                    <h1 class="trainee-position">{{trainee.battalion}}대대 {{trainee.company}}중대 {{trainee.platoon}}소대 {{trainee.platoonNum.substr(3, 2)}}번</h1>
+                    <h1 class="trainee-position">{{trainee.belong.substr(0,1)}}대대 {{trainee.belong.substr(1,1)}}중대 {{trainee.belong.substr(2,1)}}소대 {{trainee.platoonNum.substr(3, 2)}}번</h1>
                 </div>
             </div>
             <div class="head-right">
                 <p class="flag" v-if="trainee.cautionLevel === 'INTEREST'">⚠</p>
+                <p class="flag" v-if="trainee.isVegan === 'VEGAN'">🥗</p>
             </div>
         </section>
         <form class="form-c">
