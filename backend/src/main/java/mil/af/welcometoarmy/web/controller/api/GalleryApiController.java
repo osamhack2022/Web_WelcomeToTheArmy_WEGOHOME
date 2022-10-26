@@ -107,4 +107,18 @@ public class GalleryApiController {
                         .message("사진 게시글 수정 완료")
                         .build(), HttpStatus.OK);
     }
+
+    @DeleteMapping("/{id}")
+    @Secured({"ROLE_MANAGER", "ROLE_ADMINISTRATOR"})
+    @ApiOperation(value = "사진 게시글 삭제")
+    public ResponseEntity<BasicResponse> deleteGallery(@PathVariable Long id) {
+
+        galleryService.delete(id);
+
+        return new ResponseEntity<>(
+                BasicResponse.builder()
+                        .httpStatus(HttpStatus.OK)
+                        .message("사진 게시글 삭제 완료")
+                        .build(), HttpStatus.OK);
+    }
 }

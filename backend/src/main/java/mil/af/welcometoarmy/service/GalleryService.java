@@ -95,6 +95,13 @@ public class GalleryService {
         return getDtoList(galleries);
     }
 
+    @Transactional
+    public void delete(Long id) {
+        Gallery gallery = galleryRepository.findById(id).orElseThrow(() -> new
+                EntityNotFoundException(ExceptionMessage.NONE_GALLERY_MESSAGE));
+        galleryRepository.delete(gallery);
+    }
+
     private List<GalleryResponseDto> getDtoList(List<Gallery> galleries) {
         List<GalleryResponseDto> list = new ArrayList<>();
 

@@ -9,6 +9,7 @@ import java.util.List;
 
 @Builder
 @Getter
+@Setter
 @ToString
 @Jacksonized
 @NoArgsConstructor
@@ -28,4 +29,6 @@ public class QuestionDto {
     private String description;
 
     private List<String> options;
+
+    private int counts[];
 }

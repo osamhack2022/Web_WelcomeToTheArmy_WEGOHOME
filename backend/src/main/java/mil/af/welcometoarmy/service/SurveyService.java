@@ -6,6 +6,7 @@ import mil.af.welcometoarmy.domain.Soldier;
 import mil.af.welcometoarmy.domain.Survey;
 import mil.af.welcometoarmy.exception.EntityNotFoundException;
 import mil.af.welcometoarmy.exception.ExceptionMessage;
+import mil.af.welcometoarmy.repository.SoldierRepository;
 import mil.af.welcometoarmy.repository.SurveyRepository;
 import mil.af.welcometoarmy.util.AuthChecker;
 import mil.af.welcometoarmy.web.dto.schedule.ScheduleResponseDto;
@@ -32,11 +33,14 @@ public class SurveyService {
 
     private final SurveyRepository surveyRepository;
 
+    private final SoldierRepository soldierRepository;
+
     private final AuthChecker authChecker;
 
     @Transactional
     public void save(SurveyCreateDto surveyCreateDto) {
         Survey survey = surveyCreateDto.toEntity();
+        survey.setTotal(calculateTotal(survey.getBelong(), survey.getGeneration()));
         if (survey.getStartDate().isAfter(survey.getEndDate()))
             throw new IllegalArgumentException("조사 마감일보다 조사 시작일이 빨라야 합니다");
         surveyRepository.save(survey);
@@ -47,6 +51,7 @@ public class SurveyService {
         Survey survey = surveyRepository.findById(id).orElseThrow(() -> new
                 EntityNotFoundException(ExceptionMessage.NONE_SURVEY_MESSAGE));
         survey.update(surveyUpdateDto.toEntity());
+        survey.setTotal(calculateTotal(survey.getBelong(), survey.getGeneration()));
     }
 
     public SurveyResponseDto getOne(Long id) {
@@ -101,5 +106,28 @@ public class SurveyService {
         }
 
         return list;
+    }
+
+    private int calculateTotal(String belong, int generation) {
+        int total = 0;
+        String battalion = belong.substring(0, 1);
+        String company = belong.substring(1, 2);
+        String platoon = belong.substring(2, 3);
+
+        List<Soldier> soldiers = soldierRepository.findAllByGeneration(generation);
+        if (!battalion.equals("0")) {
+            soldiers = soldiers.stream().filter(s -> s.getBelong().substring(0, 1).equals(battalion)).collect(Collectors.toList());
+
+            if (!company.equals("0")) {
+                soldiers = soldiers.stream().filter(s -> s.getBelong().substring(1, 2).equals(company) ||
+                        s.getBelong().charAt(1) == '0').collect(Collectors.toList());
+
+                if (!platoon.equals("0")) {
+                    soldiers = soldiers.stream().filter(s -> s.getBelong().substring(2, 3).equals(platoon) ||
+                            s.getBelong().charAt(2) == '0').collect(Collectors.toList());
+                }
+            }
+        }
+        return soldiers.size();
     }
 }
