@@ -11,7 +11,7 @@
             <li class="nav-item">
                 <router-link to="calendar" class="nav-link">훈련일정</router-link>
             </li>
-            <li class="nav-item">
+            <li class="nav-item" style="display:none">
                 <router-link to="survey" class="nav-link">조사전달</router-link>
             </li>
             <li class="nav-item">

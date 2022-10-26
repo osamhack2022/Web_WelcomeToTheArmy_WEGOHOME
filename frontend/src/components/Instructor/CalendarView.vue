@@ -13,8 +13,8 @@
             <p
                 v-for="attr in attributes"
                 :key="attr.key"
-                class="text-xs leading-tight rounded-sm p-1 mt-0 mb-1"
-                :class="attr.customData.class">
+                class="leading-tight rounded-sm p-1 mt-0 mb-1 schedule"
+                :style="'background-color:'+attr.customData.color+';'">
                 {{ attr.customData.title }}
             </p>
             </div>
@@ -44,7 +44,7 @@ export default {
           key: 1,
           customData: {
             title: "수리남 여행",
-            class: 'bg-blue-500 text-white',
+            color: "blue",
           },
           dates: { start: "2022-10-28", end: "2022-10-31" },
           range: "기본군사훈련단",
@@ -53,7 +53,16 @@ export default {
           key: 2,
           customData: {
             title: "발닦고 자기", 
-            class: 'bg-blue-500 text-white',
+            color: "blue",
+          },
+          dates: { start: "2022-10-15", end: "2022-10-15" },
+          range: "4대대 3중대 1소대",
+        },
+        {
+          key: 3,
+          customData: {
+            title: "발닦고 자기",
+            color: "blue",
           },
           dates: { start: "2022-10-15", end: "2022-10-15" },
           range: "4대대 3중대 1소대",
@@ -72,6 +81,13 @@ export default {
 </script>
 
 <style>
+.schedule {
+  font-size: 1vw !important;
+  color: white;
+}
+
+
+
 .flex-col {
   flex-direction: column;
 }

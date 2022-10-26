@@ -74,6 +74,7 @@ export default {
     width: 100%; height: 340px;
     padding: 5px;
     background-color: #ABABAB;
+    display: none;
 }
 .button-area {
     width: 100%;
