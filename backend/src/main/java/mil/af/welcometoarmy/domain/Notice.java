@@ -1,13 +1,10 @@
 package mil.af.welcometoarmy.domain;
 
 import lombok.*;
-import mil.af.welcometoarmy.domain.enums.Range;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Builder
@@ -31,4 +28,12 @@ public class Notice extends BaseTimeEntity {
 
     @NotNull
     private String belong;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "MANAGER_ID")
+    private Manager manager;
+
+    public void setManager(Manager manager) {
+        this.manager = manager;
+    }
 }

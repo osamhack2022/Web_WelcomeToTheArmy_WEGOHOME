@@ -18,7 +18,11 @@ public class SoldierCreateMultipleDto {
 
     private int generation;
 
-    private String belong;
+    private String battalion;
+
+    private String company;
+
+    private String platoon;
 
     private String platoonNum;
 
@@ -34,7 +38,7 @@ public class SoldierCreateMultipleDto {
 
         return Soldier.builder()
                 .generation(generation)
-                .belong(belong)
+                .belong(battalion+company+platoon)
                 .platoonNum(platoonNum)
                 .name(name)
                 .birthday(birthday)

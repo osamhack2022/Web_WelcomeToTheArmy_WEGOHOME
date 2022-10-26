@@ -5,6 +5,7 @@ import lombok.*;
 import lombok.extern.jackson.Jacksonized;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Builder
@@ -15,6 +16,10 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class QuestionDto {
+
+    @NotNull(message = "id를 입력해주세요.")
+    @ApiModelProperty(value = "id", required = true)
+    private Long id;
 
     @NotBlank(message = "타입을 입력해주세요.")
     @ApiModelProperty(value = "타입", required = true)

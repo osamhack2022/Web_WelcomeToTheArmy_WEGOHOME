@@ -44,13 +44,14 @@ public class SurveyApiController {
     @PostMapping()
     @Secured({"ROLE_MANAGER", "ROLE_ADMINISTRATOR"})
     @ApiOperation(value = "조사전달 생성")
-    public ResponseEntity<BasicResponse> createSurvey(@RequestBody @Valid SurveyCreateDto surveyCreateDto, BindingResult bindingResult) {
+    public ResponseEntity<BasicResponse> createSurvey(@RequestBody @Valid SurveyCreateDto surveyCreateDto,
+                                                      @ApiIgnore @AuthenticationPrincipal UserDetails userDetails, BindingResult bindingResult) {
 
         if(bindingResult.hasErrors()) {throw new
                 IllegalArgumentException(bindingResult.getAllErrors().get(0).getDefaultMessage());
         }
 
-        surveyService.save(surveyCreateDto);
+        surveyService.save(surveyCreateDto, userDetails);
 
         return new ResponseEntity<>(
                 BasicResponse.builder()

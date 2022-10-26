@@ -1,11 +1,13 @@
 package mil.af.welcometoarmy.service;
 
 import lombok.RequiredArgsConstructor;
+import mil.af.welcometoarmy.domain.Manager;
 import mil.af.welcometoarmy.domain.Schedule;
 import mil.af.welcometoarmy.domain.Soldier;
 import mil.af.welcometoarmy.domain.Survey;
 import mil.af.welcometoarmy.exception.EntityNotFoundException;
 import mil.af.welcometoarmy.exception.ExceptionMessage;
+import mil.af.welcometoarmy.repository.ManagerRepository;
 import mil.af.welcometoarmy.repository.SoldierRepository;
 import mil.af.welcometoarmy.repository.SurveyRepository;
 import mil.af.welcometoarmy.util.AuthChecker;
@@ -35,14 +37,19 @@ public class SurveyService {
 
     private final SoldierRepository soldierRepository;
 
+    private final ManagerRepository managerRepository;
+
     private final AuthChecker authChecker;
 
     @Transactional
-    public void save(SurveyCreateDto surveyCreateDto) {
+    public void save(SurveyCreateDto surveyCreateDto, UserDetails userDetails) {
         Survey survey = surveyCreateDto.toEntity();
         survey.setTotal(calculateTotal(survey.getBelong(), survey.getGeneration()));
         if (survey.getStartDate().isAfter(survey.getEndDate()))
             throw new IllegalArgumentException("조사 마감일보다 조사 시작일이 빨라야 합니다");
+        Manager manager = managerRepository.findByManagerId(userDetails.getUsername()).orElseThrow(() -> new
+                EntityNotFoundException(ExceptionMessage.NONE_MANAGER_MESSAGE));
+        survey.setManager(manager);
         surveyRepository.save(survey);
     }
 

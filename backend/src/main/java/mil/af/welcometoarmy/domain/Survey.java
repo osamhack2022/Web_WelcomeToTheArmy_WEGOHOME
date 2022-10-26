@@ -48,12 +48,20 @@ public class Survey extends BaseTimeEntity {
     @NotNull
     private int total;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "MANAGER_ID")
+    private Manager manager;
+
     @OneToMany(
             mappedBy = "survey",
             fetch = FetchType.LAZY,
             orphanRemoval = true
     )
     private List<SurveyAnswer> surveyAnswers = new ArrayList<>();
+
+    public void setManager(Manager manager) {
+        this.manager = manager;
+    }
 
     public void setSurveyAnswers(List<SurveyAnswer> surveyAnswers) {
         this.surveyAnswers = surveyAnswers;
