@@ -13,6 +13,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -45,9 +46,22 @@ public class Survey extends BaseTimeEntity {
     private LocalDateTime endDate;
 
     @NotNull
-    @Enumerated(EnumType.STRING)
-    private HasAnswer hasAnswer;
+    private int total;
 
+    @OneToMany(
+            mappedBy = "survey",
+            fetch = FetchType.LAZY,
+            orphanRemoval = true
+    )
+    private List<SurveyAnswer> surveyAnswers = new ArrayList<>();
+
+    public void setSurveyAnswers(List<SurveyAnswer> surveyAnswers) {
+        this.surveyAnswers = surveyAnswers;
+    }
+
+    public void setTotal(int total) {
+        this.total = total;
+    }
 
     public void update(Survey survey) {
         if (survey.getStartDate().isAfter(survey.getEndDate()))
@@ -70,7 +84,7 @@ public class Survey extends BaseTimeEntity {
                 .belong(belong)
                 .startDate(startDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")))
                 .endDate(endDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")))
-                .hasAnswer(hasAnswer.name())
+                .total(total)
                 .build();
     }
 }

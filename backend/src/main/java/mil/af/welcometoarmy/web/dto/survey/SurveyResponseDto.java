@@ -19,5 +19,5 @@ public class SurveyResponseDto {
     private String belong;
     private String startDate;
     private String endDate;
-    private String hasAnswer;
+    private int total;
 }

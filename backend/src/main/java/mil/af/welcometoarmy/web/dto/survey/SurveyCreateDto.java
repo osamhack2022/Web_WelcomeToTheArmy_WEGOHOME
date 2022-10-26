@@ -1,14 +1,10 @@
 package mil.af.welcometoarmy.web.dto.survey;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 import lombok.extern.jackson.Jacksonized;
 import mil.af.welcometoarmy.domain.Survey;
-import mil.af.welcometoarmy.domain.enums.HasAnswer;
-import mil.af.welcometoarmy.domain.enums.Range;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -49,6 +45,7 @@ public class SurveyCreateDto {
     private String endDate;
 
     public Survey toEntity() {
+        questions.stream().filter(q -> q.getType().equals("객관식")).forEach(q -> q.setCounts(new int[q.getOptions().size()]));
         return Survey.builder()
                 .title(title)
                 .questions(new Gson().toJson(questions))
@@ -56,7 +53,6 @@ public class SurveyCreateDto {
                 .belong(belong)
                 .startDate(LocalDateTime.parse(startDate, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")))
                 .endDate(LocalDateTime.parse(endDate, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")))
-                .hasAnswer(HasAnswer.ANSWER_INCOMPLETE)
                 .build();
     }
 }
