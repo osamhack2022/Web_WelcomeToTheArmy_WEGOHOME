@@ -8,8 +8,8 @@
 <section class="controller-area">
   <button class="controller-btn btn btn-secondary btn-left" type="button" @click="decreaseId">◀</button>
   <div class="responder-info">  
-    <p class="responder-name">응답자: {{answer_id}}</p>
-    <p class="responder-name">응답시간: </p>
+    <p class="responder-name">응답자: {{survey_results[answer_id].soldierName}}</p>
+    <p class="responder-name">응답시간: {{survey_results[answer_id].createdDate}}</p>
   </div>
   <button class="controller-btn btn btn-secondary btn-right" type="button" @click="increaseId">▶</button>
 </section>

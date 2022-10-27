@@ -123,6 +123,7 @@ export default {
             buttons.style.display = "none";
         },
         updateTrainee() {
+            this.trainee.belong = this.trainee.platoonNum.toString().substr(0,3)
             const onSuccess = (data) => {
                 alert(this.trainee.name + " 훈련병이 수정되었습니다.")
             }

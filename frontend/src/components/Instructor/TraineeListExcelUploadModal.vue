@@ -18,7 +18,7 @@
 <script>
 import useAxios from "@app_modules/axios.js"
 
-const { axiosPost } = useAxios()
+const { axiosMultiparts } = useAxios()
 
 export default {
     name: 'ExcelUploadModal',
@@ -49,7 +49,7 @@ export default {
             const onFailed = (data) => {
                 alert(data.response.data.message)
             }
-            axiosPost("soldier/multiple", this.excel.file, onSuccess, onFailed)
+            axiosMultiparts("soldier/multiple", this.excel.file, onSuccess, onFailed)
         }
     }
 }
