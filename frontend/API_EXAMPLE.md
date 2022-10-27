@@ -47,7 +47,6 @@
       class: 'bg-blue-500 text-white',
     },
     dates: { start: "2022-10-28", end: "2022-10-31" }
-    range: "기본군사훈련단",
   },
   {
     key: 2,
@@ -56,7 +55,6 @@
       class: 'bg-blue-500 text-white',
     },
     dates: { start: "2022-10-15", end: "2022-10-15" }
-    "range": "4대대 3중대 1소대",
   }
 ]
 ```

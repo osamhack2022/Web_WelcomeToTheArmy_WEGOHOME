@@ -17,9 +17,9 @@
             <router-link to="/instructor/trainee" class="nav-link">병사관리</router-link>
             <router-link to="/instructor/calendar" class="nav-link">훈련일정</router-link>
             <router-link to="/instructor/survey" class="nav-link">조사전달</router-link>
-            <router-link to="#" class="nav-link">병사상담</router-link>
-            <router-link to="#" class="nav-link">훈련사진</router-link>
-            <router-link to="#" class="nav-link">공지사항</router-link>
+            <router-link to="/instructor/counsel" class="nav-link">병사상담</router-link>
+            <router-link to="/instructor/gallery" class="nav-link">훈련사진</router-link>
+            <router-link to="/instructor/counsel" class="nav-link">공지사항</router-link>
             <router-link to="/instructor/admin" class="nav-link">훈육관관리</router-link>
         </div>
     </nav>

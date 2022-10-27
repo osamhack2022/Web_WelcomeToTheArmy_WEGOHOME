@@ -3,15 +3,15 @@
     <h1 class="title">{{survey.title}}</h1>
 </section>
 <section class="response-info-area">
-    <p class="info-text">응답자 수: {{survey_results.length}}</p>
+    <p class="info-text">응답자 수: {{survey.answeredNum}}</p>
 </section>
 <section class="controller-area">
-  <button class="controller-btn btn btn-secondary btn-left" type="button">◀</button>
+  <button class="controller-btn btn btn-secondary btn-left" type="button" @click="decreaseId">◀</button>
   <div class="responder-info">  
     <p class="responder-name">응답자: {{answer_id}}</p>
-    <p class="responder-name">응답시간: {{answer_id}}</p>
+    <p class="responder-name">응답시간: </p>
   </div>
-  <button class="controller-btn btn btn-secondary btn-right" type="button">▶</button>
+  <button class="controller-btn btn btn-secondary btn-right" type="button" @click="increaseId">▶</button>
 </section>
 <section class="response-area">
   <div v-for="question in survey.questions">
@@ -19,14 +19,14 @@
                 <h3 class="question-title">{{ question.title }}</h3>
                 <p class="question-description">{{ question.description }}</p>
                 <hr />
-                <input type="text" class="form-control" disabled/>
+                <input type="text" class="form-control" v-model="survey_results[answer_id].answers[question.id].answer" disabled/>
             </div>
             <div class="question-box" v-if="question.type=='객관식'">
                 <h3 class="question-title">{{ question.title }}</h3>
                 <p class="question-description">{{ question.description }}</p>
                 <hr />
                 <div class="form-check" v-for="option in question.options">
-                    <input type="radio" class="form-check-input" :name="survey" :id="option" :value="option" disabled/>
+                    <input type="radio" class="form-check-input" :name="survey" :id="option" :value="option" v-model="survey_results[answer_id].answers[question.id].answer" disabled/>
                     <label class="form-check-label" :for="option">{{ option }}</label>
                 </div>
             </div>
@@ -37,7 +37,7 @@
 <script>
 import useAxios from "@app_modules/axios.js"
 
-const { axiosGet, axiosPost } = useAxios()
+const { axiosGet } = useAxios()
 
 export default {
     data() {
@@ -47,17 +47,41 @@ export default {
             answer_id: 0,
         }
     },
-    created() {
-        const onSuccess = (data) => {
-            this.survey = data.data
-        }
-        const onFailed = (data) => {
-            alert("조사전달을 받아오지 못했습니다.")
-        }
-        axiosGet("survey/"+this.$route.params.id, onSuccess, onFailed)
-    },
     methods: {
-    }
+        loadSurvey() {
+            const onSuccess = (data) => {
+                this.survey = data.data
+            }
+            const onFailed = (data) => {
+                alert("조사전달을 받아오지 못했습니다.")
+            }
+            axiosGet("survey/"+this.$route.params.id, onSuccess, onFailed)
+        },
+        loadAnswers() {
+            const onSuccess = (data) => {
+                this.survey_results = data.data
+                console.log(data.data)
+            }
+            const onFailed = (data) => {
+                alert("응답을 받아오지 못했습니다.")
+            }
+            axiosGet("survey-answer/all/"+this.$route.params.id, onSuccess, onFailed)
+        },
+        increaseId() {
+            if (this.survey.total - 1 > this.answer_id) {
+                this.answer_id++
+            }
+        },
+        decreaseId() {
+            if (this.answer_id > 0) {
+                this.answer_id--
+            }
+        }
+    },
+    created() {
+        this.loadSurvey()
+        this.loadAnswers()
+    },
 }
 </script>
 

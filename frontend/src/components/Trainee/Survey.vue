@@ -58,7 +58,7 @@ export default {
     methods: {
         submitSurveyAnswer() {
             var i = 0
-            for (var answer in this.answerList) {
+            for (var answer of this.answerList) {
                 this.survey_result.answers.push({"id": i++, "answer": answer})
             }
 
@@ -68,7 +68,7 @@ export default {
             const onFailed = (data) => {
                 alert("응답을 저장하는데 실패했습니다.")
             }
-            axiosPost("survey/answer", this.survey_result, onSuccess, onFailed)
+            axiosPost("survey-answer/"+this.$route.params.id, this.survey_result, onSuccess, onFailed)
         }
     }
 }

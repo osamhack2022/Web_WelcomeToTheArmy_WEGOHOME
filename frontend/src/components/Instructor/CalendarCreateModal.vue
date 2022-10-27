@@ -10,18 +10,30 @@
                     </div>
                     <div class="data-field">
                         <p class="data-label">일정 공개 범위</p>
-                        <select class="data-input" v-model="schedule.range">
-                            <option>4대대 3중대 1소대</option>
-                            <option>기본군사훈련단</option>
+                        <select class="data-input" v-model="schedule.belong">
+                            <option value="431">4대대 3중대 1소대</option>
+                            <option value="000">기본군사훈련단</option>
                         </select>
                     </div>
                     <div class="data-field">
                         <p class="data-label">시작일자</p>
-                        <input class="data-input form-control" type="date" v-model="schedule.start_date" required>
+                        <input class="data-input form-control" type="date" v-model="schedule.startDate" required>
+                    </div>
+                    <div class="data-field">
+                        <p class="data-label">시작시간</p>
+                        <input class="data-input form-control" type="time" v-model="schedule.startTime" required>
                     </div>
                     <div class="data-field">
                         <p class="data-label">종료일자</p>
-                        <input class="data-input form-control" type="date" v-model="schedule.end_date" required>
+                        <input class="data-input form-control" type="date" v-model="schedule.endDate" required>
+                    </div>
+                    <div class="data-field">
+                        <p class="data-label">종료시간</p>
+                        <input class="data-input form-control" type="time" v-model="schedule.endTime" required>
+                    </div>
+                    <div class="data-field">
+                        <p class="data-label">기수</p>
+                        <input class="data-input form-control" type="number" v-model="schedule.generation" placeholder="824" required>
                     </div>
                 </div>
                 <div class="button-area">
@@ -44,9 +56,12 @@ export default {
         return {
             schedule:  {
                 name: "",
-                range: "기본군사훈련단",
-                start_date: null,
-                end_date: null,
+                belong: "431",
+                generation: "",
+                startDate: null,
+                startTime: null,
+                endDate: null,
+                endTime: null,
             }
         }
     },
@@ -64,11 +79,12 @@ export default {
         createSchedule(){
             const onSuccess = (data) => {
                 alert("일정이 성공적으로 추가되었습니다!")
+                this.$router.push("/instructor/calendar")
             }
             const onFailed = (data) => {
                 alert("일정을 추가하는데 실패하였습니다.")
             }
-            axiosPost("/schedule", this.schedule, onSuccess, onFailed)
+            axiosPost("schedule", this.schedule, onSuccess, onFailed)
         },
     }
 }

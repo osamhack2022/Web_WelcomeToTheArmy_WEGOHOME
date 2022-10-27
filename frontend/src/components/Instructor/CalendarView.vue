@@ -37,45 +37,41 @@ export default {
           attributes: [],
         };
     },
-    created() {
-      // schedules = axiosGet("schedules")
-      const test_schedules = [
-        {
-          key: 1,
-          customData: {
-            title: "수리남 여행",
+    methods: {
+      createCalendarAttr(datas) {
+        var attrs = []
+        var i = 1
+        for (var data of datas) {
+          var attr = {}
+          attr.key = i++
+          attr.cutstomData = {
+            title: data.name,
             color: "blue",
-          },
-          dates: { start: "2022-10-28", end: "2022-10-31" },
-          range: "기본군사훈련단",
-        },
-        {
-          key: 2,
-          customData: {
-            title: "발닦고 자기", 
-            color: "blue",
-          },
-          dates: { start: "2022-10-15", end: "2022-10-15" },
-          range: "4대대 3중대 1소대",
-        },
-        {
-          key: 3,
-          customData: {
-            title: "발닦고 자기",
-            color: "blue",
-          },
-          dates: { start: "2022-10-15", end: "2022-10-15" },
-          range: "4대대 3중대 1소대",
-        },
-      ]
-      const today = {
-        key: "today",
-        highlight: true,
-        dates: new Date().toDateString(),
-        customData: {}
+          }
+          attr.dates = {
+            start: data.startDate,
+            end: data.endDate,
+          }
+          attrs.push(attr)
+        }
+        return attrs
       }
-      this.attributes = test_schedules
+    },
+    created() {
+      const onSuccess = (data) => {
+        this.attributes = this.createCalendarAttr(data.data)
+        const today = {
+          key: "today",
+          highlight: true,
+          dates: new Date().toDateString(),
+          customData: {}
+        }
       this.attributes.push(today)
+      }
+      const onFailed = (data) => {
+          console.error("일정을 불러오는 과정에서 오류가 발생했습니다..\n"+data.response.data.message)
+      }
+      axiosGet("schedule", onSuccess, onFailed)
     },
 };
 </script>

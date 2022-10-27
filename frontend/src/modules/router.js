@@ -10,6 +10,8 @@ import InstructorSurveyList from "@components/Instructor/SurveyList.vue"
 import InstructorSurveyCreate from "@components/Instructor/SurveyCreate.vue"
 import InstructorList from "@components/Instructor/InstructorList.vue"
 import InstructorSurveyResult from "@components/Instructor/SurveyResult.vue"
+import InstructorCounsel from "@components/Instructor/Counsel.vue"
+import InstructorGallery from "@components/Instructor/Gallery.vue"
 
 // Trainee Pages
 import TraineeLogin from "@components/Trainee/Login.vue"
@@ -35,7 +37,9 @@ const router = createRouter({
             {path: "calendar", component: InstructorCalendar},
             {path: "survey", component: InstructorSurveyList},
             {path: "survey/create", component: InstructorSurveyCreate},
-            {path: "survey/:id", component: InstructorSurveyResult}
+            {path: "survey/:id", component: InstructorSurveyResult},
+            {path: "counsel", component: InstructorCounsel}, 
+            {path: "gallery", component: InstructorGallery},
         ]},
         {path: "/trlogin", component: TraineeLogin},
         {path: "/trainee", component: TraineeView, redirect: "/trainee/main", meta: {trAuthRequired: true}, children: [

@@ -5,8 +5,8 @@
         <span class="text-sub">{{propSurvey.endDate}}까지</span> 
     </div>
     <div class="survey-right">
-        <span class="text-main">{{status}} (36%)</span><br />
-        <span class="text-sub">작성자: {{propSurvey.title}}</span>
+        <span class="text-main">{{status}} ({{response_rate}}%)</span><br />
+        <span class="text-sub">작성자: {{propSurvey.managerRank}} {{propSurvey.managerName}}</span>
     </div>
 </section>
 </template>
@@ -20,6 +20,7 @@ export default {
         return {
             class: "",
             status: "",
+            response_rate: 0.0,
         }
     },
     methods: {
@@ -42,6 +43,7 @@ export default {
         } else {
             this.status = "조사 완료"
         }
+        this.response_rate = Math.round(this.propSurvey.answeredNum / this.propSurvey.total * 100)
     }
 }
 </script>
