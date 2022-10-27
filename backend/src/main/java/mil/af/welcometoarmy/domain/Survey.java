@@ -45,8 +45,11 @@ public class Survey extends BaseTimeEntity {
     @NotNull
     private LocalDateTime endDate;
 
-    @NotNull
     private int total;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "MANAGER_ID")
+    private Manager manager;
 
     @OneToMany(
             mappedBy = "survey",
@@ -55,8 +58,16 @@ public class Survey extends BaseTimeEntity {
     )
     private List<SurveyAnswer> surveyAnswers = new ArrayList<>();
 
+    public void setManager(Manager manager) {
+        this.manager = manager;
+    }
+
     public void setSurveyAnswers(List<SurveyAnswer> surveyAnswers) {
         this.surveyAnswers = surveyAnswers;
+    }
+
+    public void setQuestions(String questions) {
+        this.questions = questions;
     }
 
     public void setTotal(int total) {
@@ -85,6 +96,9 @@ public class Survey extends BaseTimeEntity {
                 .startDate(startDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")))
                 .endDate(endDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")))
                 .total(total)
+                .answeredNum(surveyAnswers.size())
+                .managerName(manager.getName())
+                .managerRank(manager.getRank())
                 .build();
     }
 }

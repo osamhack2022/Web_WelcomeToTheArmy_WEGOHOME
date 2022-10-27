@@ -20,4 +20,7 @@ public class SurveyResponseDto {
     private String startDate;
     private String endDate;
     private int total;
+    private int answeredNum;
+    private String managerName;
+    private String managerRank;
 }

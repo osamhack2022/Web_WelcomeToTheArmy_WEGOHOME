@@ -81,7 +81,9 @@ public class SoldierService {
                     Iterator<Cell> cellIterator = row.cellIterator();
                     SoldierCreateMultipleDto soldierInfo = SoldierCreateMultipleDto.builder()
                             .generation((int) cellIterator.next().getNumericCellValue())
-                            .belong((int)cellIterator.next().getNumericCellValue()+"")
+                            .battalion((int)cellIterator.next().getNumericCellValue()+"")
+                            .company((int)cellIterator.next().getNumericCellValue()+"")
+                            .platoon((int)cellIterator.next().getNumericCellValue()+"")
                             .platoonNum(cellIterator.next().getStringCellValue())
                             .name(cellIterator.next().getStringCellValue())
                             .birthday(cellIterator.next().getDateCellValue().toInstant().atZone(ZoneId.systemDefault()).toLocalDate())
