@@ -18,9 +18,11 @@ import TraineeLogin from "@components/Trainee/Login.vue"
 import TraineeView from "@components/Trainee/View.vue"
 import TraineeMain from "@components/Trainee/Main.vue"
 import TraineeCalendar from "@components/Trainee/Calendar.vue"
-import TraineeCounsel from "@components/Trainee/Counsel.vue"
 import TraineeGallery from "@components/Trainee/Gallery.vue"
 import TraineeSurvey from "@components/Trainee/Survey.vue" 
+import TraineeCounsel from "@components/Trainee/Counsel.vue"
+import TraineeCounselCreate from "@components/Trainee/CounselCreate.vue"
+import TraineeCounselSubmit from "@components/Trainee/CounselSubmit.vue"
 
 // Index Page
 import Index from "@components/Index.vue"
@@ -45,7 +47,9 @@ const router = createRouter({
         {path: "/trainee", component: TraineeView, redirect: "/trainee/main", meta: {trAuthRequired: true}, children: [
             {path: "main", component: TraineeMain},
             {path: "calendar", component: TraineeCalendar},
-            {path: "counsel", component: TraineeCounsel},
+            {path: "counsel", component: TraineeCounsel },
+            {path: "createCounsel", component: TraineeCounselCreate},
+            {path: "counselSubmit", component: TraineeCounselSubmit},
             {path: "gallery", component: TraineeGallery},
             {path: "survey/:id", component: TraineeSurvey},
         ]},
