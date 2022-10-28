@@ -4,6 +4,7 @@
 </section>
 <section class="response-info-area">
     <p class="info-text">응답자 수: {{survey.answeredNum}}</p>
+    <a :href="'https://flask.giopaik.me/api/survey-answer/excel/'+survey.id">결과 액셀 다운로드</a>
 </section>
 <section class="controller-area">
   <button class="controller-btn btn btn-secondary btn-left" type="button" @click="decreaseId">◀</button>
@@ -42,9 +43,17 @@ const { axiosGet } = useAxios()
 export default {
     data() {
         return {
-            survey: Object,
-            survey_results: [],
+            survey: {
+                title: "",
+            },
+            survey_results: [
+                {
+                    soldierName: "",
+                    createdDate: new Date(),
+                }
+            ],
             answer_id: 0,
+            file: null,
         }
     },
     methods: {
@@ -54,16 +63,17 @@ export default {
             }
             const onFailed = (data) => {
                 alert("조사전달을 받아오지 못했습니다.")
+                this.$router.push("/instructor/survey")
             }
             axiosGet("survey/"+this.$route.params.id, onSuccess, onFailed)
         },
         loadAnswers() {
             const onSuccess = (data) => {
                 this.survey_results = data.data
-                console.log(data.data)
             }
             const onFailed = (data) => {
                 alert("응답을 받아오지 못했습니다.")
+                this.$router.push("/instructor/survey")
             }
             axiosGet("survey-answer/all/"+this.$route.params.id, onSuccess, onFailed)
         },
@@ -76,7 +86,7 @@ export default {
             if (this.answer_id > 0) {
                 this.answer_id--
             }
-        }
+        },
     },
     created() {
         this.loadSurvey()

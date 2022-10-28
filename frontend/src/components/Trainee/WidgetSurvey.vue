@@ -3,7 +3,7 @@
 <h1 class="widget-title"> 조사전달 </h1>
 <div class="widget">
     <div v-for="survey in surveyList">
-        <router-link :to="'survey/'+survey.id"><p class="survey">{{survey.title}}</p></router-link>
+        <router-link :to="'survey/'+survey.id" :class="survey.class"><p class="survey">{{survey.title}}</p></router-link>
     </div>
 </div>
 </div>
@@ -18,7 +18,7 @@ export default {
     name: "Survey Widget",
     data() {
         return {
-            surveyList: null,
+            surveyList: [],
         }
     },
     props: {
@@ -35,6 +35,17 @@ export default {
             alert("조사전달을 받아오지 못했습니다.")
         }
         axiosGet("survey/?loadCompleted=true", onSuccess, onFailed)
+    },
+    updated() {
+        for (var survey of this.surveyList) {
+            survey.class = "normal"
+            if (new Date(survey.endDate).toDateString() == new Date().toDateString()) {
+                survey.class = "urgent"
+            }
+            if (survey.answered) {
+                survey.class = "answered"
+            }
+        }
     }
 }
 </script>
@@ -62,8 +73,12 @@ a {
     border-radius: 3px;
     background-color: #D9D9D9;
 }
+.normal {
+    color: red;
+}
 .urgent {
     color: red !important;
+    font-weight: bold;
 }
 .answered {
     color: lightgray !important;

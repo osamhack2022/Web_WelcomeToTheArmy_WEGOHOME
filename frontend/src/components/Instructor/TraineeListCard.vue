@@ -1,8 +1,9 @@
 <template>
+    <TraineeListCardProfileUploadModal :visible="profileUploadModalVisibility" @update="updateProfileUploadModalVisibility" :id="trainee.id" />
     <div class="trainee-card">
         <section class="head" @click="toggleBody($event)">
             <div class="head-left">
-                <img class="trainee-image rounded-circle" src="@/assets/images/trainee_profile_example.jpg" alt="훈련병 프로필 이미지" />
+                <img @click="toggleProfileUploadModal" class="trainee-image rounded-circle" :src="'https://flask.giopaik.me/api/soldier/profile/'+trainee.id" onerror="this.src='https://via.placeholder.com/150'" alt="훈련병 프로필 이미지" />
                 <div class="trainee-profile">
                     <h1 class="trainee-name">{{trainee.name}} 훈련병</h1>
                     <h1 class="trainee-position">{{trainee.belong.substr(0,1)}}대대 {{trainee.belong.substr(1,1)}}중대 {{trainee.belong.substr(2,1)}}소대 {{trainee.platoonNum.substr(3, 2)}}번</h1>
@@ -82,14 +83,19 @@
 </template>
 
 <script>
+import TraineeListCardProfileUploadModal from "./TraineeListCardProfileUpload.vue"
 import useAxios from "@app_modules/axios.js"
 
 const { axiosDelete, axiosPut } = useAxios()
 
 export default {
+    components: {
+        TraineeListCardProfileUploadModal,
+    },
     data() {
         return {
             trainee: null,
+            profileUploadModalVisibility: false,
         }
     },
     props: {
@@ -145,7 +151,13 @@ export default {
                 return
             }
             axiosDelete("soldier/"+this.trainee.id, onSuccess, onFailed)
-        }
+        },
+        toggleProfileUploadModal() {
+            this.profileUploadModalVisibility = !this.profileUploadModalVisibility
+        },
+        updateProfileUploadModalVisibility(v) {
+            this.profileUploadModalVisibility = v
+        },
     },
     created() {
         this.trainee = this.propTrainee
@@ -163,6 +175,7 @@ export default {
     border-radius: 8px;
     height: 60px;
     overflow: hidden;
+    margin: 20px 0px;
 }
 
 .head {

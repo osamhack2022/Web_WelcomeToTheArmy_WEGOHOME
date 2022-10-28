@@ -14,7 +14,7 @@
                 v-for="attr in attributes"
                 :key="attr.key"
                 class="leading-tight rounded-sm p-1 mt-0 mb-1 schedule-box"
-                :style="'background-color:'+attr.customData.color+';'">
+                :class="attr.customData.color">
                 {{ attr.customData.title }}
             </p>
             </div>
@@ -34,7 +34,14 @@ export default {
           masks: {
             weekdays: 'WWW',
           },
-          attributes: [],
+          attributes: [
+            {
+              key: "today",
+              highlight: true,
+              dates: new Date().toDateString(),
+              customData: {color: "bg-today"}
+            }
+          ],
         };
     },
     methods: {
@@ -46,7 +53,7 @@ export default {
           attr.key = i++
           attr.cutstomData = {
             title: data.name,
-            color: "blue",
+            color: "bg-blue",
           }
           attr.dates = {
             start: data.startDate,
@@ -60,13 +67,6 @@ export default {
     created() {
       const onSuccess = (data) => {
         this.attributes = this.createCalendarAttr(data.data)
-        const today = {
-          key: "today",
-          highlight: true,
-          dates: new Date().toDateString(),
-          customData: {}
-        }
-      this.attributes.push(today)
       }
       const onFailed = (data) => {
           console.error("일정을 불러오는 과정에서 오류가 발생했습니다..\n"+data.response.data.message)
@@ -81,7 +81,7 @@ export default {
   font-size: 1vw !important;
   color: white;
 }
-
+.bg-blue{background-color: blue;}
 
 
 .flex-col {

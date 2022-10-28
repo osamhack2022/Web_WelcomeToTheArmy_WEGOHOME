@@ -82,7 +82,7 @@ export default {
                 this.$router.push("/instructor/calendar")
             }
             const onFailed = (data) => {
-                alert("일정을 추가하는데 실패하였습니다.")
+                alert("일정을 추가하는데 실패하였습니다.\n" + data.response.data.message)
             }
             axiosPost("schedule", this.schedule, onSuccess, onFailed)
         },

@@ -49,7 +49,7 @@ export default {
             const onFailed = (data) => {
                 alert(data.response.data.message)
             }
-            axiosMultiparts("soldier/multiple", this.excel.file, onSuccess, onFailed)
+            axiosMultiparts("soldier/multiple", this.excel, onSuccess, onFailed)
         }
     }
 }
