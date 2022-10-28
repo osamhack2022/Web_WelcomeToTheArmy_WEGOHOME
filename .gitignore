@@ -1,3 +1,5 @@
 */.gradle/*
 .gradle/*
 backendOld/*
+
+backend/uploads/*
