@@ -17,7 +17,7 @@
                 <h3 class="widget-title">훈련 사진</h3> 
             </div>
         </router-link>
-        <a href="https://www.youtube.com/channel/UCsEF5EAdc5fTuRmkWcFjIhA" target="_blank">
+        <a href="https://www.youtube.com/watch?v=Zy3eX8GZ1s0&list=PLtFaCRM4Ud77rQqq3PUhJwdadnSc4riqr" target="_blank">
             <div class="widget-sm widget-right">
                 <img class="widget-img" src="@/assets/images/HighestPower.jpg" alt="training gallery" />
                 <h3 class="widget-title">정신전력교육</h3>
