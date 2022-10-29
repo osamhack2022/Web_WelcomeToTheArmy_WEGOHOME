@@ -1,9 +1,9 @@
-package mil.af.welcometoarmy.web.dto.gallery;
+package mil.af.welcometoarmy.web.dto.notice;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 import lombok.extern.jackson.Jacksonized;
-import mil.af.welcometoarmy.domain.Gallery;
+import mil.af.welcometoarmy.domain.Notice;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -11,12 +11,11 @@ import javax.validation.constraints.Positive;
 
 @Builder
 @Getter
-@Setter
 @ToString
 @Jacksonized
 @NoArgsConstructor
 @AllArgsConstructor
-public class GalleryCreateDto {
+public class NoticeUpdateDto {
 
     @NotBlank(message = "제목을 입력해주세요.")
     @ApiModelProperty(value = "제목", required = true)
@@ -35,8 +34,8 @@ public class GalleryCreateDto {
     @ApiModelProperty(value = "공개범위", required = true, example = "111")
     private String belong;
 
-    public Gallery toEntity() {
-        return Gallery.builder()
+    public Notice toEntity() {
+        return Notice.builder()
                 .title(title)
                 .content(content)
                 .generation(generation)

@@ -10,6 +10,8 @@ import mil.af.welcometoarmy.web.dto.gallery.GalleryCreateDto;
 import mil.af.welcometoarmy.web.dto.gallery.GalleryResponseDto;
 import mil.af.welcometoarmy.web.dto.gallery.GalleryUpdateDto;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
@@ -23,6 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
+import java.net.MalformedURLException;
 import java.util.List;
 
 @Api(tags = "훈련사진 API")
@@ -120,5 +123,12 @@ public class GalleryApiController {
                         .httpStatus(HttpStatus.OK)
                         .message("사진 게시글 삭제 완료")
                         .build(), HttpStatus.OK);
+    }
+
+    @GetMapping("/display/{id}")
+    @ApiOperation(value = "이미지 조회")
+    public Resource showImage(@ApiParam(value = "조회할 이미지의 id") @PathVariable Long id) throws MalformedURLException {
+        String path = galleryService.getPath(id);
+        return new UrlResource("file:" + path);
     }
 }
