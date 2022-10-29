@@ -16,8 +16,8 @@
                 <p class="question-description">{{ question.description }}</p>
                 <hr />
                 <div class="form-check" v-for="option in question.options">
-                    <input type="radio" class="form-check-input" :name="survey" :id="option" :value="option" v-model="this.answerList[question.id]" required/>
-                    <label class="form-check-label" :for="option">{{ option }}</label>
+                    <input type="radio" class="form-check-input" :name="question.id" :id="question.id + option" :value="option" v-model="this.answerList[question.id]" required/>
+                    <label class="form-check-label" :for="question.id + option">{{ option }}</label>
                 </div>
             </div>
         </div>

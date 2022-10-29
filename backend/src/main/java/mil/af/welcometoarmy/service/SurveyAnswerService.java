@@ -24,6 +24,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.Optional;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
@@ -51,27 +52,29 @@ public class SurveyAnswerService {
         validateSurvey(survey);
         Soldier soldier = soldierRepository.findByPlatoonNum(userDetails.getUsername()).orElseThrow(() -> new
                 EntityNotFoundException(ExceptionMessage.NONE_SOLDIER_MESSAGE));
-        if (survey.getSurveyAnswers().stream().anyMatch(s -> Objects.equals(s.getSoldier().getId(), soldier.getId())))
-            throw new IllegalArgumentException("이미 답변하신 조사전달입니다.");
-        SurveyAnswer surveyAnswer = surveyAnswerCreateDto.toEntity();
-        surveyAnswer.setSurvey(survey);
-        surveyAnswer.setSoldier(soldier);
+        Optional<SurveyAnswer> anyElement = survey.getSurveyAnswers().stream().filter(s -> Objects.equals(s.getSoldier().getId(), soldier.getId())).findAny();
+        if (anyElement.isPresent()) update(anyElement.get().getId(), surveyAnswerCreateDto);
+        else {
+            SurveyAnswer surveyAnswer = surveyAnswerCreateDto.toEntity();
+            surveyAnswer.setSurvey(survey);
+            surveyAnswer.setSoldier(soldier);
 
-        List<QuestionDto> questions = new Gson().fromJson(survey.getQuestions(), new TypeToken<List<QuestionDto>>(){}.getType());
-        for (QuestionDto questionDto : questions) {
-            if (questionDto.getType().equals("객관식")) {
-                String answer = surveyAnswerCreateDto.getAnswers().get(questionDto.getId().intValue()).getAnswer();
-                int[] counts = questionDto.getCounts();
-                counts[questionDto.getOptions().indexOf(answer)]++;
-                questionDto.setCounts(counts);
+            List<QuestionDto> questions = new Gson().fromJson(survey.getQuestions(), new TypeToken<List<QuestionDto>>(){}.getType());
+            for (QuestionDto questionDto : questions) {
+                if (questionDto.getType().equals("객관식")) {
+                    String answer = surveyAnswerCreateDto.getAnswers().get(questionDto.getId().intValue()).getAnswer();
+                    int[] counts = questionDto.getCounts();
+                    counts[questionDto.getOptions().indexOf(answer)]++;
+                    questionDto.setCounts(counts);
+                }
             }
+            survey.setQuestions(new Gson().toJson(questions));
+            surveyAnswerRepository.save(surveyAnswer);
         }
-        survey.setQuestions(new Gson().toJson(questions));
-        surveyAnswerRepository.save(surveyAnswer);
     }
 
     @Transactional
-    public void update(Long id, SurveyAnswerUpdateDto surveyAnswerUpdateDto) {
+    public void update(Long id, SurveyAnswerCreateDto surveyAnswerCreateDto) {
         SurveyAnswer surveyAnswer = surveyAnswerRepository.findById(id).orElseThrow(() -> new
                 EntityNotFoundException(ExceptionMessage.NONE_SURVEY_ANSWER_MESSAGE));
         Survey survey = surveyAnswer.getSurvey();
@@ -82,7 +85,7 @@ public class SurveyAnswerService {
         for (QuestionDto questionDto : questions) {
             if (questionDto.getType().equals("객관식")) {
                 String origAnswer = answers.get(questionDto.getId().intValue()).getAnswer();
-                String newAnswer = surveyAnswerUpdateDto.getAnswers().get(questionDto.getId().intValue()).getAnswer();
+                String newAnswer = surveyAnswerCreateDto.getAnswers().get(questionDto.getId().intValue()).getAnswer();
                 int[] counts = questionDto.getCounts();
                 counts[questionDto.getOptions().indexOf(origAnswer)]--;
                 counts[questionDto.getOptions().indexOf(newAnswer)]++;
@@ -90,7 +93,7 @@ public class SurveyAnswerService {
             }
         }
         survey.setQuestions(new Gson().toJson(questions));
-        surveyAnswer.update(surveyAnswerUpdateDto.toEntity());
+        surveyAnswer.update(surveyAnswerCreateDto.toEntity());
     }
 
     public SurveyAnswerResponseDto getOne(Long id) {
@@ -193,7 +196,7 @@ public class SurveyAnswerService {
             List<QuestionDto> questions = new Gson().fromJson(survey.getQuestions(), new TypeToken<List<QuestionDto>>(){}.getType());
             for (int i = 3; i < questions.size()+3; i++) {
                 cell = row.createCell(i);
-                cell.setCellValue(questions.get(i-1).getTitle());
+                cell.setCellValue(questions.get(i-3).getTitle());
                 cell.setCellStyle(headerStyle);
             }
             cell = row.createCell(questions.size()+3);
@@ -222,12 +225,12 @@ public class SurveyAnswerService {
                     cell.setCellStyle(bodyStyle);
                 }
                 cell = row.createCell(questions.size()+3);
-                cell.setCellValue(survey.getSurveyAnswers().get(i).getCreatedDate());
+                cell.setCellValue(survey.getSurveyAnswers().get(i).getCreatedDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
                 cell.setCellStyle(bodyStyle);
             }
 
             //열 너비 지정
-            for (int i=0; i< questions.size()+1; i++) {
+            for (int i=0; i< questions.size()+4; i++) {
                 sheet.autoSizeColumn(i);
                 sheet.setColumnWidth(i, (sheet.getColumnWidth(i))+256);
             }
