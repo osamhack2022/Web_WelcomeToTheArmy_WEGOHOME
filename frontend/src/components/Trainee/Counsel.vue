@@ -18,7 +18,7 @@ export default {
 <style scoped>
 .title-area {
     text-align: center;
-    margin: 45% 0;
+    margin-top: 40vh;
 }
 .title { font-weight: bold; }
 </style>
