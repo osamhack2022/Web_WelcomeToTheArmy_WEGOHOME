@@ -38,7 +38,7 @@ WELCOME TO ARMY는 **훈련병에게는 쉽고 스마트한 훈련과정을, 훈
 			<img style="width:450px;" src="/docs/screenshots/instructorTraineePage.png">
 		</td>
 		<td>
-			<img style="width:450px;" src="/docs/wireframe/instructor/instructorSurveyPage.png">
+			<img style="width:450px;" src="/docs/screenshots/instructorSurveyPage.png">
 		</td>
 	</tr>
 	<tr>
@@ -46,7 +46,7 @@ WELCOME TO ARMY는 **훈련병에게는 쉽고 스마트한 훈련과정을, 훈
 			<b>훈육관 훈련병 관리 페이지</b>
 		</td>
 		<td align="center">
-			<b>훈육관 조사전달 페이지</b>
+			<b>조사전달 관리 페이지</b>
 		</td>
 	</tr>
 	<tr>
@@ -62,18 +62,23 @@ WELCOME TO ARMY는 **훈련병에게는 쉽고 스마트한 훈련과정을, 훈
 			<b>훈련병 메인 페이지</b>
 		</td>
 		<td align="center">
-			<b>훈육관 훈련사진 페이지</b>
+			<b>훈련사진 페이지</b>
 		</td>
 	</tr>
 </table>
 
 ## 기술 스택 (Technique Used) 
 ### Server(back-end)
-- Spring Boot
+- [Spring Boot](https://spring.io/projects/spring-boot)
+- [PostgreSQL](https://www.postgresql.org/)
+- [Swagger](https://swagger.io/)
+
 ### Front-end
 - [Vuejs3](https://vuejs.org/)
+- [Bootstrap](https://getbootstrap.com/)
+- [v-calendar](https://vcalendar.io/)
 
-## 컴퓨터 구성 / 필수 조건 안내 (Prerequisites
+## 컴퓨터 구성 / 필수 조건 안내 (Prerequisites)
 - ECMAScript 6 지원 브라우저 사용
 - 권장: Google Chrome 버젼 77 이상
 
@@ -93,6 +98,17 @@ $ gradle bootRun
 ```
 
 ## 프로젝트 사용법 (Getting Started)
+- 처음 프로젝트를 실행하면 다음과 같이 관리자 계정이 발급됩니다.
+	- ID: `admin`
+	- PW: `1q2w1q2w!`
+- 서버를 실행하고 `/` 경로로 접근하여, 훈육관 페이지나 훈련병 페이지에 접속할 수 있습니다.
+- 우선 관리자 페이지에 접속하여 훈련병 계정을 만들어야 훈련병 페이지에 로그인이 가능합니다.
+- 훈련병 계정은 다음과 같이 생성됩니다.
+	- ID: `(소대번호)`
+	- PW: `(생년월일 yymmdd)`
+- 소대번호는 5자리 숫자이며, 다음과 같은 의미를 가집니다.
+	- `BCPNN`이면 `B`대대 `C`중대 `P`소대 `NN`번 훈련병
+	- 예를들어, `43124`는 4대대 3중대 1소대 24번 훈련병 입니다.
 
 ## 😎 팀 정보 (TEAM INFORMATION)
 <table align="center">
