@@ -27,8 +27,8 @@
                 <p class="question-description">{{ question.description }}</p>
                 <hr />
                 <div class="form-check" v-for="option in question.options">
-                    <input type="radio" class="form-check-input" :name="survey" :id="option" :value="option" v-model="survey_results[answer_id].answers[question.id].answer" disabled/>
-                    <label class="form-check-label" :for="option">{{ option }}</label>
+                    <input type="radio" class="form-check-input" :name="question.id" :id="question.id + option" :value="option" v-model="survey_results[answer_id].answers[question.id].answer" disabled/>
+                    <label class="form-check-label" :for="question.id + option">{{ option }}</label>
                 </div>
             </div>
         </div>
