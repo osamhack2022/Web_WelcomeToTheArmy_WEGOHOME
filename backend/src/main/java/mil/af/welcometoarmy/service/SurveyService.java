@@ -1,11 +1,13 @@
 package mil.af.welcometoarmy.service;
 
 import lombok.RequiredArgsConstructor;
+import mil.af.welcometoarmy.domain.Manager;
 import mil.af.welcometoarmy.domain.Schedule;
 import mil.af.welcometoarmy.domain.Soldier;
 import mil.af.welcometoarmy.domain.Survey;
 import mil.af.welcometoarmy.exception.EntityNotFoundException;
 import mil.af.welcometoarmy.exception.ExceptionMessage;
+import mil.af.welcometoarmy.repository.ManagerRepository;
 import mil.af.welcometoarmy.repository.SoldierRepository;
 import mil.af.welcometoarmy.repository.SurveyRepository;
 import mil.af.welcometoarmy.util.AuthChecker;
@@ -23,6 +25,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -35,14 +38,18 @@ public class SurveyService {
 
     private final SoldierRepository soldierRepository;
 
+    private final ManagerRepository managerRepository;
+
     private final AuthChecker authChecker;
 
     @Transactional
-    public void save(SurveyCreateDto surveyCreateDto) {
+    public void save(SurveyCreateDto surveyCreateDto, UserDetails userDetails) {
         Survey survey = surveyCreateDto.toEntity();
-        survey.setTotal(calculateTotal(survey.getBelong(), survey.getGeneration()));
         if (survey.getStartDate().isAfter(survey.getEndDate()))
             throw new IllegalArgumentException("조사 마감일보다 조사 시작일이 빨라야 합니다");
+        Manager manager = managerRepository.findByManagerId(userDetails.getUsername()).orElseThrow(() -> new
+                EntityNotFoundException(ExceptionMessage.NONE_MANAGER_MESSAGE));
+        survey.setManager(manager);
         surveyRepository.save(survey);
     }
 
@@ -51,14 +58,17 @@ public class SurveyService {
         Survey survey = surveyRepository.findById(id).orElseThrow(() -> new
                 EntityNotFoundException(ExceptionMessage.NONE_SURVEY_MESSAGE));
         survey.update(surveyUpdateDto.toEntity());
-        survey.setTotal(calculateTotal(survey.getBelong(), survey.getGeneration()));
     }
 
+    @Transactional
     public SurveyResponseDto getOne(Long id) {
-        return surveyRepository.findById(id).orElseThrow(() -> new
-                EntityNotFoundException(ExceptionMessage.NONE_SURVEY_MESSAGE)).toDto();
+        Survey survey = surveyRepository.findById(id).orElseThrow(() -> new
+                EntityNotFoundException(ExceptionMessage.NONE_SURVEY_MESSAGE));
+        survey.setTotal(calculateTotal(survey.getBelong(), survey.getGeneration()));
+        return survey.toDto();
     }
 
+    @Transactional
     public List<SurveyResponseDto> getAll(boolean loadCompleted, UserDetails userDetails) {
         String belong = authChecker.getBelong(userDetails);
         int generation = authChecker.getGeneration(userDetails);
@@ -83,11 +93,12 @@ public class SurveyService {
                 }
             }
         }
-
+        surveys.forEach(s -> s.setTotal(calculateTotal(s.getBelong(), s.getGeneration())));
         if (loadCompleted) return getDtoList(surveys);
         else {
             LocalDateTime targetDate = LocalDateTime.now();
-            return getDtoList(surveys.stream().filter(s -> !s.getStartDate().isAfter(targetDate) && !s.getEndDate().isBefore(targetDate)).collect(Collectors.toList()));
+            return getDtoList(surveys.stream().filter(s -> s.getStartDate().compareTo(targetDate) != 1)
+                    .filter(s -> s.getEndDate().compareTo(targetDate) != -1).collect(Collectors.toList()));
         }
     }
 

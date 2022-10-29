@@ -68,6 +68,11 @@ public class GalleryService {
                 EntityNotFoundException(ExceptionMessage.NONE_GALLERY_MESSAGE)).toDto();
     }
 
+    public String getPath(Long id) {
+        return imageRepository.findById(id).orElseThrow(() -> new
+                EntityNotFoundException(ExceptionMessage.NONE_IMAGE_MESSAGE)).getFilePath();
+    }
+
     public List<GalleryResponseDto> getAll(UserDetails userDetails) {
         String belong = authChecker.getBelong(userDetails);
         int generation = authChecker.getGeneration(userDetails);

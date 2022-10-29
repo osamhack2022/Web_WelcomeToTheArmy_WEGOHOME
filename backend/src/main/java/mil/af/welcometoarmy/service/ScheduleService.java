@@ -63,8 +63,8 @@ public class ScheduleService {
         String platoon = belong.substring(2, 3);
 
         List<Schedule> schedules;
-        if (generation == 0) schedules = scheduleRepository.findAll(Sort.by(Sort.Direction.DESC, "startDate"));
-        else schedules = scheduleRepository.findAllByGeneration(generation, Sort.by(Sort.Direction.DESC, "startDate"));
+        if (generation == 0) schedules = scheduleRepository.findAll(Sort.by(Sort.Direction.ASC, "startTime"));
+        else schedules = scheduleRepository.findAllByGeneration(generation, Sort.by(Sort.Direction.ASC, "startTime"));
         if (!battalion.equals("0")) {
             schedules = schedules.stream().filter(s -> s.getBelong().substring(0, 1).equals(battalion)).collect(Collectors.toList());
 

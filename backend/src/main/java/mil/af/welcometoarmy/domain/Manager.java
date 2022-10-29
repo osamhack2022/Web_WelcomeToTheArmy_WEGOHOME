@@ -55,20 +55,10 @@ public class Manager extends BaseTimeEntity {
     )
     private List<Qna> qnaList = new ArrayList<>();
 
-    @OneToMany(
-            mappedBy = "manager",
-            fetch = FetchType.LAZY,
-            orphanRemoval = true
-    )
-    private List<Notice> noticeList = new ArrayList<>();
-
     public void setQnaList(List<Qna> qnaList) {
         this.qnaList = qnaList;
     }
 
-    public void setNoticeList(List<Notice> noticeList) {
-        this.noticeList = noticeList;
-    }
 
     public void setAuthority(Authority authority) {
         this.authority = authority;

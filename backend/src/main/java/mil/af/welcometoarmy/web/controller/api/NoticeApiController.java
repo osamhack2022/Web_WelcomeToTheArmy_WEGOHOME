@@ -10,9 +10,12 @@ import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
 
@@ -34,13 +37,14 @@ public class NoticeApiController {
     @PostMapping()
     @Secured({"ROLE_MANAGER", "ROLE_ADMINISTRATOR"})
     @ApiOperation(value = "공지사항 생성")
-    public ResponseEntity<BasicResponse> createNotice(@RequestBody @Valid NoticeCreateDto noticeCreateDto, BindingResult bindingResult) {
+    public ResponseEntity<BasicResponse> createNotice(@RequestBody @Valid NoticeCreateDto noticeCreateDto,
+                                                      @ApiIgnore @AuthenticationPrincipal UserDetails userDetails, BindingResult bindingResult) {
 
         if(bindingResult.hasErrors()) {throw new
                 IllegalArgumentException(bindingResult.getAllErrors().get(0).getDefaultMessage());
         }
 
-        noticeService.save(noticeCreateDto);
+        noticeService.save(noticeCreateDto, userDetails);
 
         return new ResponseEntity<>(
                 BasicResponse.builder()
