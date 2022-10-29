@@ -93,14 +93,14 @@ public class SurveyAnswerApiController {
 
     @PutMapping("/{id}")
     @ApiOperation(value = "조사전달 답변 수정")
-    public ResponseEntity<BasicResponse> updateSurveyAnswer(@PathVariable Long id, @RequestBody @Valid SurveyAnswerUpdateDto surveyAnswerUpdateDto,
+    public ResponseEntity<BasicResponse> updateSurveyAnswer(@PathVariable Long id, @RequestBody @Valid SurveyAnswerCreateDto surveyAnswerCreateDto,
                                                             BindingResult bindingResult) {
 
         if(bindingResult.hasErrors()) {throw new
                 IllegalArgumentException(bindingResult.getAllErrors().get(0).getDefaultMessage());
         }
 
-        surveyAnswerService.update(id, surveyAnswerUpdateDto);
+        surveyAnswerService.update(id, surveyAnswerCreateDto);
 
         return new ResponseEntity<>(
                 BasicResponse.builder()
