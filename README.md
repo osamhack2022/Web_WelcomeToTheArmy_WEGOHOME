@@ -7,10 +7,10 @@
 고되고 힘든 훈련소 생활을 스마트하게 개선해주는 WELCOME TO ARMY와 함께라면 훈련소 생활이 한층 더 스마트해집니다.
 
 ## 💻프로젝트 데모
-<div style="text-align:center">
+<p align="center">
 <a href="https://youtu.be/WVfTsbIJDVE" target="_blank"><img src="docs/buttons/시연영상버튼.png"></a>
 <a href="https://vue.giopaik.me/" target="_blank"><img src="docs/buttons/데모페이지버튼.png"></a>
-</div>
+</p>
 
 <p align="center">
 	<span>데모 관리자 ID : <code>admin</code></span><br/>
