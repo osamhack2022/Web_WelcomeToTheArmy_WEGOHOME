@@ -6,6 +6,22 @@
 
 고되고 힘든 훈련소 생활을 스마트하게 개선해주는 WELCOME TO ARMY와 함께라면 훈련소 생활이 한층 더 스마트해집니다.
 
+## 💻프로젝트 데모
+<div style="text-align:center">
+<a href="https://youtu.be/WVfTsbIJDVE" target="_blank"><img src="docs/buttons/시연영상버튼.png"></a>
+<a href="https://vue.giopaik.me/" target="_blank"><img src="docs/buttons/데모페이지버튼.png"></a>
+</div>
+
+<p align="center">
+	<span>데모 관리자 ID : <code>admin</code></span><br/>
+	<span>데모 관리자 비밀번호 : <code>1q2w1q2w!</code></span>
+</p>
+<p align="center">
+	<span>데모 로그인 ID : <code>11101</code></span><br/>
+	<span>데모 로그인 비밀번호 : <code>000101</code></span>
+</p><br/>
+
+
 ## 📌프로젝트 소개
 매월 최소 1천여명에서 만여명의 훈련병이 민간인에서 군인으로 거듭나기 위해 훈련소를 거쳐 갑니다.    
 군대라는 조직을 처음 경험한 훈련병들에게 훈련소에서의 시간은 바깥세상과는 완전히 다른, 그야말로 혼란과 적응의 시간입니다.
