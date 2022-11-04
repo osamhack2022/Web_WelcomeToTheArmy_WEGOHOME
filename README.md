@@ -11,6 +11,7 @@
 <a href="https://youtu.be/WVfTsbIJDVE" target="_blank"><img src="docs/buttons/시연영상버튼.png"></a>
 <a href="https://vue.giopaik.me/" target="_blank"><img src="docs/buttons/데모페이지버튼.png"></a>
 <a href="https://github.com/osamhack2022/Web_WelcomeToTheArmy_WEGOHOME/blob/main/docs/%EB%B0%9C%ED%91%9C%EC%9E%90%EB%A3%8C/WELCOMETOARMY%20%EC%B5%9C%EC%A2%85%20%EB%B0%9C%ED%91%9C%EC%9E%90%EB%A3%8C.pdf" target="_blank"><img src="docs/buttons/발표자료버튼.png"></a>
+<a href="https://www.figma.com/file/SZYEOMajGj3f6EH3rbWlGP/WELCOME-TO-ARMY?node-id=0%3A1" target="_blank"><img style="width: 176px;" src="docs/buttons/와이어프레임버튼.png"></a>
 </p>
 
 <p align="center">
